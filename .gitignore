@@ -3,6 +3,8 @@
 /public/hot
 /public/storage
 /public/bower_components
+/public/css
+/public/js
 /storage/*.key
 /vendor
 .env
