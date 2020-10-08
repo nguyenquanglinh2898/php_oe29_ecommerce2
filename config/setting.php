@@ -8,4 +8,7 @@ return [
     'vietnamese_flag' => 'storage/images/vietnamese-flag.png',
     'published_year' => '2020',
     'version' => '1.0',
+    'max_rating' => '5',
+    'date_format' => 'd/m/Y',
+    'image_folder' => 'storage/images/',
 ];
