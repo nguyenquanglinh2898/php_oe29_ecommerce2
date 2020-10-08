@@ -19,3 +19,7 @@ Route::get('/', function () {
 
 Route::get('change-language/{language}', 'LanguageController@index')
     ->name('change_language');
+
+Route::prefix('admin')->name('admin.')->group(function(){
+    Route::get('products', 'ProductController@index')->name('products.index');
+});
