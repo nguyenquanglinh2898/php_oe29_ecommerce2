@@ -1,12 +1,12 @@
 {
-  "name": "php_oe29_ecommerce2",
+  "name": "mystore",
   "description": "",
   "main": "",
   "authors": [
-    "nguyenquanglinh2898 <nguyenquanglinh2898@gmail.com>"
+    "tran khac nam <nam3061998@gmail.com>"
   ],
   "license": "MIT",
-  "homepage": "https://github.com/nguyenquanglinh2898/php_oe29_ecommerce2",
+  "homepage": "https://github.com/Tran-Khac-Nam/php_oe29_ecommerce2",
   "ignore": [
     "**/.*",
     "node_modules",
