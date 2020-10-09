@@ -35,3 +35,10 @@ Route::prefix('supplier')->name('supplier.')->namespace('Supplier')->group(funct
     Route::get('products/get-child-categories/{rootCategory_id}', 'ProductController@getChildCategories')
         ->name('products.get_child_categories');
 });
+Route::namespace('Supplier')->prefix('supplier')->group(function () {
+    Route::get('/orders', 'OrderController@index')->name('orders.index');
+
+    Route::get('/order-items/{id}', 'OrderController@show')->name('orders.show');
+
+    Route::get('/change-status/{id}/{status}', 'OrderController@changeStatusOrder')->name('orders.change_status');
+});

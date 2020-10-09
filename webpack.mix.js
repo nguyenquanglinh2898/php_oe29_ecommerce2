@@ -13,10 +13,10 @@ const mix = require('laravel-mix');
 
 mix.copy('resources/js', 'public/js');
 mix.copy('resources/sass', 'public/css');
+mix.copy('resources/css', 'public/css');
 
 mix.js('resources/js/app.js', 'public/js')
     .sass('resources/sass/app.scss', 'public/css');
-mix.copy('resources/images', 'public/images');
 
 mix.copyDirectory('node_modules/tinymce/icons', 'public/js/tinymce/icons');
 mix.copyDirectory('node_modules/tinymce/plugins', 'public/js/tinymce/plugins');
