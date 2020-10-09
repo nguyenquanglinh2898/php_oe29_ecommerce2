@@ -39,4 +39,5 @@ return [
     'vnd' => 'VND',
     'payment_method' => 2,
     'format' => 'd/m/Y',
+    'day_format' => 'H:i d/m/Y',
 ];

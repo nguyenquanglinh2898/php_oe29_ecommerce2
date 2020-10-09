@@ -25,9 +25,18 @@ Route::get('change-password', 'Authentication@changePassword')->name('change_pas
 
 Route::prefix('admin')->name('admin.')->namespace('Admin')->group(function(){
     Route::get('dashboard', 'DashboardController@index')->name('dashboard');
+
     Route::get('products', 'ProductController@index')->name('products.index');
-    Route::get('suppliers', 'SupplierController@index')->name('suppliers.index');
+
     Route::get('statistics', 'StatisticsController@index')->name('statistics.index');
+
+    Route::get('suppliers', 'SupplierController@index')->name('suppliers.index');
+
+    Route::get('suppliers-register', 'SupplierController@supplierRegister')->name('suppliers.register');
+
+    Route::get('suppliers-block', 'SupplierController@supplierBlock')->name('suppliers.block');
+
+    Route::get('suppliers/{id}', 'SupplierController@show')->name('suppliers.show');
 });
 
 Route::prefix('supplier')->name('supplier.')->namespace('Supplier')->group(function(){
