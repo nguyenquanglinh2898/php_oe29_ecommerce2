@@ -14,7 +14,7 @@
 
 @section('breadcrumb')
     <ol class="breadcrumb">
-        <li><a href=""><i class="fa fa-dashboard"></i> {{ trans('sentences.home') }}</a></li>
+        <li><a href="{{ route('supplier.dashboard') }}"><i class="fa fa-dashboard"></i> {{ trans('sentences.home') }}</a></li>
         <li class="active">{{ trans('sentences.manage_products') }}</li>
     </ol>
 @endsection
@@ -52,7 +52,7 @@
                             <th>{{ trans('sentences.rating') }}</th>
                             <th>{{ trans('sentences.category') }}</th>
                             <th>{{ trans('sentences.created_at') }}</th>
-                            <th>{{ trans('sentences.status') }}</th>
+                            <th>{{ trans('sentences.ramaining') }}</th>
                             <th>{{ trans('sentences.action') }}</th>
                         </tr>
                         </thead>
@@ -64,29 +64,17 @@
                                     <img src="{{ $product->thumbnail }}" alt="thumbnail">
                                 </td>
                                 <td>
-                                    <a class="text-left" href="" title="{{ $product->name }}">{{ $product->name }}</a>
+                                    <a class="text-left" href="{{ route('supplier.products.show', [$product->id]) }}" title="{{ $product->name }}">{{ $product->name }}</a>
                                 </td>
                                 <td>{{ $product->rate }}/{{ config('setting.max_rating') }}</td>
                                 <td>
-                                    <a class="text-left" href="" title="{{ $product->name }}">{{ $product->category->name }}</a>
+                                    <a class="text-left" title="{{ $product->name }}">{{ $product->category->name }}</a>
                                 </td>
                                 <td> {{ $product->created_at }}</td>
+                                <td> {{ $product->remaining }}</td>
                                 <td>
-                                    @if ($product->remaining)
-                                        <span class="label-success status-label">{{ trans('sentences.stocking') }}</span>
-                                    @else
-                                        <span class="label-danger status-label">{{ trans('sentences.out_of_stock') }}</span>
-                                    @endif
-                                </td>
-                                <td>
-                                    <a href="" class="btn btn-icon btn-sm btn-primary tip" title="{{ trans('sentences.detail') }}">
+                                    <a href="{{ route('supplier.products.show', [$product->id]) }}" class="btn btn-icon btn-sm btn-primary tip" title="{{ trans('sentences.detail') }}">
                                         <i class="fa fa-eye" aria-hidden="true"></i>
-                                    </a>
-                                    <a href="" class="btn btn-icon btn-sm btn-primary tip" title="{{ trans('sentences.edit') }}">
-                                        <i class="fa fa-pencil" aria-hidden="true"></i>
-                                    </a>
-                                    <a href="" data-id="" class="btn btn-icon btn-sm btn-danger deleteDialog tip" title="{{ trans('sentences.delete') }}" data-url="">
-                                        <i class="fa fa-trash"></i>
                                     </a>
                                 </td>
                             </tr>

@@ -4,7 +4,7 @@
 
         <div class="user-panel">
             <div class="pull-left image">
-                <img src=""<!-- user profile image url --> class="img-circle" alt="">
+                <img src="<!-- user profile image url -->" class="img-circle" alt="">
             </div>
             <div class="pull-left info">
                 <p><!-- username --></p>
@@ -27,13 +27,10 @@
 
         <!-- Sidebar Menu -->
         <ul class="sidebar-menu" data-widget="tree">
-            <li class=""><a href=""><i class="fa fa-dashboard"></i> <span>{{ trans('sentences.dashboard') }}</span></a></li>
-            <li class=""><a href=""><i class="fa fa-sliders" aria-hidden="true"></i> <span>{{ trans('sentences.manage_advertises')  }}</span></a></li>
-            <li class=""><a href=""><i class="fa fa-users"></i> <span>{{ trans('sentences.manage_accounts') }}</span></a></li>
-            <li class=""><a href=""><i class="fa fa-newspaper-o" aria-hidden="true"></i> <span>{{ trans('sentences.manage_posts') }}</span></a></li>
-            <li class=""><a href=""><i class="fa fa-product-hunt" aria-hidden="true"></i> <span>{{ trans('sentences.manage_products') }}</span></a></li>
-            <li class=""><a href=""><i class="fa fa-list-alt" aria-hidden="true"></i> <span>{{ trans('sentences.manage_suppliers') }}</span></a></li>
-            <li class=""><a href=""><i class="fa fa-line-chart" aria-hidden="true"></i> <span>{{ trans('sentences.revenue_statistic') }}</span></a></li>
+            <li><a href="{{ route('admin.dashboard') }}"><i class="fa fa-dashboard"></i> <span>{{ trans('sentences.dashboard') }}</span></a></li>
+            <li><a href="{{ route('admin.products.index') }}"><i class="fa fa-product-hunt" aria-hidden="true"></i> <span>{{ trans('sentences.manage_products') }}</span></a></li>
+            <li><a href="{{ route('admin.suppliers.index') }}"><i class="fa fa-list-alt" aria-hidden="true"></i> <span>{{ trans('sentences.manage_suppliers') }}</span></a></li>
+            <li><a href="{{ route('admin.statistics.index') }}"><i class="fa fa-line-chart" aria-hidden="true"></i> <span>{{ trans('sentences.revenue_statistic') }}</span></a></li>
         </ul>
         <!-- /.sidebar-menu -->
     </section>
