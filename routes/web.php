@@ -20,6 +20,18 @@ Route::get('/', function () {
 Route::get('change-language/{language}', 'LanguageController@index')
     ->name('change_language');
 
-Route::prefix('admin')->name('admin.')->group(function(){
+Route::prefix('admin')->name('admin.')->namespace('Admin')->group(function(){
     Route::get('products', 'ProductController@index')->name('products.index');
+});
+
+Route::prefix('supplier')->name('supplier.')->namespace('Supplier')->group(function(){
+    Route::get('dashboard', 'DashboardController@index')->name('dashboard');
+    Route::get('products', 'ProductController@index')->name('products.index');
+    Route::get('products/show/{product}', 'ProductController@show')->name('products.show');
+    Route::get('products/create', 'ProductController@create')->name('products.create');
+    Route::get('products/{product}/edit', 'ProductController@edit')->name('products.edit');
+    Route::post('products/{product}', 'ProductController@destroy')->name('products.destroy');
+    Route::post('products', 'ProductController@store')->name('products.store');
+    Route::get('products/get-child-categories/{rootCategory_id}', 'ProductController@getChildCategories')
+        ->name('products.get_child_categories');
 });
