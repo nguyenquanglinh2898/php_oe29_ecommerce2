@@ -20,8 +20,14 @@ Route::get('/', function () {
 Route::get('change-language/{language}', 'LanguageController@index')
     ->name('change_language');
 
+Route::get('logout', 'Authentication@logout')->name('logout');
+Route::get('change-password', 'Authentication@changePassword')->name('change_password');
+
 Route::prefix('admin')->name('admin.')->namespace('Admin')->group(function(){
+    Route::get('dashboard', 'DashboardController@index')->name('dashboard');
     Route::get('products', 'ProductController@index')->name('products.index');
+    Route::get('suppliers', 'SupplierController@index')->name('suppliers.index');
+    Route::get('statistics', 'StatisticsController@index')->name('statistics.index');
 });
 
 Route::prefix('supplier')->name('supplier.')->namespace('Supplier')->group(function(){

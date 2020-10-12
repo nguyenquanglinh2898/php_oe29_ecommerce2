@@ -1,7 +1,7 @@
 <header class="main-header">
 
     <!-- Logo -->
-    <a href="" class="logo">
+    <a href="{{ route('admin.dashboard') }}" class="logo">
         <!-- logo for regular state and mobile devices -->
         <span class="logo-lg"><b>{{ trans('sentences.admin') }}</b> {{ config('app.name') }}</span>
     </a>
@@ -71,8 +71,8 @@
                             </ul>
                         </li>
                         <li class="footer">
-                            <a href="">{{ trans('sentences.logout') }}</a>
-                            <a href="">{{ trans('sentences.change_password') }}</a>
+                            <a href="{{ route('logout') }}">{{ trans('sentences.logout') }}</a>
+                            <a href="{{ route('change_password') }}">{{ trans('sentences.change_password') }}</a>
                         </li>
                     </ul>
                 </li>
