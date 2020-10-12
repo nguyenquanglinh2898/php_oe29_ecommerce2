@@ -28,7 +28,7 @@ tinymce.init({
             var file = this.files[0];
 
             var reader = new FileReader();
-                reader.onload = function () {
+            reader.onload = function () {
                 var id = 'blobid' + (new Date()).getTime();
                 var blobCache =  tinymce.activeEditor.editorUpload.blobCache;
                 var base64 = reader.result.split(',')[1];
@@ -115,17 +115,17 @@ $(function() {
         template: "#product-detail",
         afterAdd:function () {
             $(".product-detail-images").fileinput({
-            theme: "explorer-fa",
-            required: false,
-            showUpload: false,
-            showCaption: false,
-            showClose: false,
-            maxFileCount: 8,
-            allowedFileExtensions: ['jpg', 'png', 'gif'],
-            initialPreviewAsData: true,
-            maxFileSize: 1000,
-            overwriteInitial: false,
-            removeFromPreviewOnError: true,
+                theme: "explorer-fa",
+                required: false,
+                showUpload: false,
+                showCaption: false,
+                showClose: false,
+                maxFileCount: 8,
+                allowedFileExtensions: ['jpg', 'png', 'gif'],
+                initialPreviewAsData: true,
+                maxFileSize: 1000,
+                overwriteInitial: false,
+                removeFromPreviewOnError: true,
             });
             $('.reservation').daterangepicker({
                 autoApply: true,
@@ -241,10 +241,12 @@ $(function () {
             url: $('#getChildCategoriesUrl').val() + rootCategoryId,
             data: rootCategoryId,
         }).done(function(res) {
+            childCategory.html(null);
             for (let i in res) {
                 childCategory.append("<option value='" +  res[i].id + "' class='category-item'>" +  res[i].name + "</option>");
-                childCategory.val(res[0].id);
             }
+            childCategory.val(res[0].id);
+            $('#category').val(res[0].id);
             childCategory.show();
         });
     });

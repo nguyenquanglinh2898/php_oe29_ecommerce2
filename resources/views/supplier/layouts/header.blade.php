@@ -43,8 +43,8 @@
                         <span class="label label-warning">{{ trans('supplier.lang') }}</span>
                     </a>
                     <ul class="dropdown-menu">
-                        <li class="footer"><a href="{{ route('change_language', ['language => en']) }}">{{ trans('supplier.english') }}</a></li>
-                        <li class="footer"><a href="{{ route('change_language', ['language => vi']) }}">{{ trans('supplier.vietnam') }}</a></li>
+                        <li class="footer"><a href="{{ route('change_language', ['en']) }}">{{ trans('supplier.english') }}</a></li>
+                        <li class="footer"><a href="{{ route('change_language', ['vi']) }}">{{ trans('supplier.vietnam') }}</a></li>
                     </ul>
                 </li>
                 <li class="dropdown user user-menu">
