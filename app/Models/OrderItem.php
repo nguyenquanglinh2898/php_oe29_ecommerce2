@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class OrderItem extends Model
 {
+    protected $table = 'order_items';
+
     protected $guarded = [];
 
     public function order()
@@ -15,6 +17,6 @@ class OrderItem extends Model
 
     public function productDeltail()
     {
-        return $this->belongsTo(ProductDetail::class);
+        return $this->belongsTo(ProductDetail::class, 'product_detail_id', 'id');
     }
 }
