@@ -2,10 +2,10 @@
     <section class="sidebar">
         <div class="user-panel">
             <div class="pull-left image">
-                <img src="{{ asset('images/no_avatar.jpg') }}" class="img-circle" alt="">
+                <img src="{{ config('setting.image_folder').Auth::user()->avatar }}" class="img-circle" alt="">
             </div>
             <div class="pull-left info">
-                <p></p>
+                <p>{{ Auth::user()->username }}</p>
                 <a href="#"><i class="fa fa-circle text-success"></i> {{ trans('supplier.online') }}</a>
             </div>
         </div>

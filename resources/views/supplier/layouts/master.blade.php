@@ -14,6 +14,7 @@
         @yield('embed-css')
         <link rel="stylesheet" href="{{ asset('bower_components/AdminLTE/dist/css/AdminLTE.min.css') }}">
         <link rel="stylesheet" href="{{ asset('bower_components/AdminLTE/dist/css/skins/skin-red.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/layout.scss') }}">
         @yield('custom-css')
         <script src="{{ asset('bower_components/html5shiv.min/index.js') }}"></script>
         <script src="{{ asset('bower_components/respond.min/index.js') }}"></script>

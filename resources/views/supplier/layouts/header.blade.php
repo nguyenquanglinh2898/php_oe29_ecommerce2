@@ -1,5 +1,5 @@
 <header class="main-header">
-    <a href="#" class="logo">
+    <a href="{{ route('supplier.dashboard') }}" class="logo">
         <span class="logo-mini"><b>{{ trans('supplier.a') }}</b>{{ trans('supplier.ps') }}</span>
         <span class="logo-lg"><b>{{ trans('supplier.supplier') }}</b> {{ config('config.name') }}</span>
     </a>
@@ -43,30 +43,23 @@
                         <span class="label label-warning">{{ trans('supplier.lang') }}</span>
                     </a>
                     <ul class="dropdown-menu">
-                        <li class="footer"><a href="{{ route('change_language', ['language => en']) }}">{{ trans('supplier.english') }}</a></li>
-                        <li class="footer"><a href="{{ route('change_language', ['language => vi']) }}">{{ trans('supplier.vietnam') }}</a></li>
+                        <li class="footer"><a href="{{ route('change_language', ['en']) }}">{{ trans('supplier.english') }}</a></li>
+                        <li class="footer"><a href="{{ route('change_language', ['vi']) }}">{{ trans('supplier.vietnam') }}</a></li>
                     </ul>
                 </li>
-                <li class="dropdown user user-menu">
-                    <a href="" class="dropdown-toggle" data-toggle="dropdown">
-                        <img src="{{ asset(config('config.avatar')) }}" class="user-image" alt="User Image">
-                        <span class="hidden-xs"></span>
+                <!-- User Account Menu -->
+                <li class="dropdown tasks-menu">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <img src="{{ config('setting.image_folder').Auth::user()->avatar }}" class="user-image" alt="{{ trans('sentences.profile_image') }}">
                     </a>
                     <ul class="dropdown-menu">
-                        <li class="user-header">
-                            <img src="{{ asset(config('config.avatar')) }}" class="img-circle" alt="User Image">
+                        <li class="header text-center"><b>{{ trans('sentences.hello') }} {{ Auth::user()->username }}</b></li>
+                        <li class="footer text-center">
+                            <form action="{{ route('logout') }}" method="POST" class="d-none">
+                                @csrf
+                                <button type="submit" id="logoutBtn">{{ trans('sentences.logout') }}</button>
+                            </form>
                         </li>
-                        <li class="user-footer">
-                            <div class="pull-left">
-                                <a href="#" class="btn btn-default btn-flat">{{ trans('supplier.profile') }}</a>
-                            </div>
-                            <div class="pull-right">
-                                <a id="logout" href="#" class="btn btn-default btn-flat">{{ trans('supplier.sign_out') }}</a>
-                            </div>
-                        </li>
-                        <form id="logout-form" action="" method="POST">
-                            @csrf
-                        </form>
                     </ul>
                 </li>
             </ul>

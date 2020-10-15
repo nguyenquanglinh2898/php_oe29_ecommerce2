@@ -4,10 +4,10 @@
 
         <div class="user-panel">
             <div class="pull-left image">
-                <img src="<!-- user profile image url -->" class="img-circle" alt="">
+                <img src="{{ config('setting.image_folder').Auth::user()->avatar }}" class="img-circle" alt="">
             </div>
             <div class="pull-left info">
-                <p><!-- username --></p>
+                <p>{{ Auth::user()->username }}</p>
                 <!-- Status -->
                 <a href="#"><i class="fa fa-circle text-success"></i> {{ trans('sentences.online') }}</a>
             </div>
