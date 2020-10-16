@@ -1,0 +1,18 @@
+.navbar-custom-menu > .navbar-nav > li {
+    height: 50px;
+    position: relative;
+}
+
+.navbar-custom-menu > .navbar-nav > li > a {
+    height: 100%;
+}
+
+.navbar-custom-menu > .navbar-nav > li > a > img {
+    height: 100%;
+    border-radius: 50%;
+}
+
+#logoutBtn {
+    background: none;
+    border: none;
+}
