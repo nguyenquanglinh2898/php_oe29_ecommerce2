@@ -1,0 +1,181 @@
+@extends('layouts.master')
+@section('title', trans('customer.home'))
+@section('content')
+<div class="site-home">
+    <section class="section-advertise">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="content-advertise">
+                    <div id="slide-advertise" class="owl-carousel">
+                        @foreach ($slides as $slide)
+                            <img src=" {{ asset(config('config.images_folder') . $slide->image) }}"  height="310px" class="slide-advertise-inner"  data-dot="<button>{{ $slide->title }}</button>">
+                        @endforeach
+                    </div>
+                    <div class="custom-dots-slide-advertises"></div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="new-posts">
+                    <div class="posts-header">
+                        <h3 class="posts-title">{{ trans('customer.new_voucher') }}</h3>
+                    </div>
+                    <div class="posts-content scroll">
+                        @foreach ($newVouchers as $voucher)
+                            <div class="post-item">
+                                <a href="" title="{{ $voucher->name }}">
+                                    <div class="row">
+                                        <div class="col-md-4 col-sm-3 col-xs-3 col-xs-responsive">
+                                            <img src="{{ asset(config('config.images_folder') . $voucher->supplier->avatar) }}" class="img-fluid" height="55px">
+                                        </div>
+                                        <div class="col-md-8 col-sm-9 col-xs-9 col-xs-responsive">
+                                            <div class="post-item-content">
+                                                <h4 class="post-content-title">{{ $voucher->description }}</h4>
+                                                <p class="post-content-date">{{ date_format($voucher->created_at, config('config.day_format')) }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="section-favorite-products">
+        <div class="section-header">
+            <h2 class="section-title">{{ trans('customer.product_favorites') }}</h2>
+        </div>
+        <div class="section-content">
+            <div id="slide-favorite" class="owl-carousel">
+                @foreach ($favoriteProducts as $product)
+                    <div class="item-product">
+                        <a href="" title="{{ $product->name }}">
+                            <div class="image-product" >
+                                <img src=" {{ asset(config('images_folder') . $product->thumbnail) }}" class="img-fluid">
+                            </div>
+                            <div class="content-product">
+                                <h3 class="title">{{ $product->name }}</h3>
+                                <div class="start-vote">
+                                    @for ($i = 1; $i <= config('config.vote_star'); $i++)
+                                        @if ($product->rate > $i )
+                                            <i class="fas fa-star"></i>
+                                        @elseif ($product->rate = $i + 1 && $product->rate - (int) $product->rate > 0)
+                                            <i class="fas fa-star-half-alt"></i>
+                                        @else
+                                            <i class="far fa-star"></i>
+                                        @endif
+                                    @endfor
+                                </div>
+                                <div class="price">
+                                    {{ trans('customer.category') }}: <strong>{{ $product->catname }}</strong>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+    </section>
+    <section class="section-products">
+        <div class="section-header">
+            <div class="section-header-left">
+                <h2 class="section-title">{{ trans('customer.product_news') }}</h2>
+            </div>
+            <div class="section-header-right">
+                <ul>
+                    @foreach ($categories as $category)
+                        <li><a href="" title="{{ $category->name }}">{{ $category->name }}</a></li>
+                    @endforeach
+                </ul>
+            </div>
+        </div>
+        <div class="section-content">
+            <div class="row">
+                @foreach ($newProducts as $key => $product)
+                    @if ($key == 0)
+                        <div class="col-md-2 col-md-40">
+                            <div class="item-product">
+                                <a href="" title="{{ $product->name }}">
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-6 col-xs-6">
+                                            <div class="image-product">
+                                                <img src=" {{ asset(config('images_folder') . $product->thumbnail) }}" class="img-fluid" width="225px" >
+                                            </div>
+                                            <div class="content-product">
+                                                <h3 class="title">{{ $product->name }}</h3>
+                                                <div class="start-vote">
+                                                    @for ($i = 1; $i <= config('config.vote_star'); $i++)
+                                                        @if ($product->rate > $i )
+                                                            <i class="fas fa-star"></i>
+                                                        @elseif ($product->rate = $i + 1 && $product->rate - (int) $product->rate > 0)
+                                                            <i class="fas fa-star-half-alt"></i>
+                                                        @else
+                                                            <i class="far fa-star"></i>
+                                                        @endif
+                                                    @endfor
+                                                </div>
+                                                <div class="price">
+                                                    {{ trans('customer.category') }}: <strong>{{ $product->catname }}</strong>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 col-xs-6" >
+                                            <div class="product-details">
+                                                <div class="product-details">
+                                                    {!! $product->detail_info !!}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    @else
+                        <div class="col-md-2 col-md-20">
+                            <div class="item-product">
+                                <a href="" title="{{ $product->name }}">
+                                    <div class="row">
+                                        <div class="col-md-12 col-sm-12 col-xs-12">
+                                            <div class="image-product" >
+                                                <img src=" {{ asset(config('images_folder') . $product->thumbnail) }}" class="img-fluid" width="225px">
+                                            </div>
+                                            <div class="content-product">
+                                                <h3 class="title">{{ $product->name }}</h3>
+                                                <div class="start-vote">
+                                                    @for ($i = 1; $i <= config('config.vote_star'); $i++)
+                                                        @if ($product->rate > $i )
+                                                            <i class="fas fa-star"></i>
+                                                        @elseif ($product->rate = $i + 1 && $product->rate - (int) $product->rate > 0)
+                                                            <i class="fas fa-star-half-alt"></i>
+                                                        @else
+                                                            <i class="far fa-star"></i>
+                                                        @endif
+                                                    @endfor
+                                                </div>
+                                                <div class="price">
+                                                    {{ trans('customer.category') }}: <strong>{{ $product->catname }}</strong>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 col-sm-12 col-xs-12 animate">
+                                            <div class="product-details">
+                                                {!! $product->detail_info !!}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    @endif
+                @endforeach
+            </div>
+        </div>
+    </section>
+</div>
+@endsection
+@section('css')
+@endsection
+@section('js')
+    <script src="{{ asset('js/customer/pages/home.js') }}"></script>
+@endsection
