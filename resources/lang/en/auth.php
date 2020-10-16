@@ -15,5 +15,7 @@ return [
 
     'failed' => 'These credentials do not match our records.',
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
-
+    'login_successfully' => 'Login successfully',
+    'inactive_account' => 'Your account has not been active',
+    'register_successfully' => 'Register successfully',
 ];
