@@ -241,10 +241,11 @@ $(function () {
             url: $('#getChildCategoriesUrl').val() + rootCategoryId,
             data: rootCategoryId,
         }).done(function(res) {
+            childCategory.html(null);
             for (let i in res) {
                 childCategory.append("<option value='" +  res[i].id + "' class='category-item'>" +  res[i].name + "</option>");
-                childCategory.val(res[0].id);
             }
+            childCategory.val(res[0].id);
             childCategory.show();
         });
     });

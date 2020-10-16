@@ -59,20 +59,15 @@
                 <!-- User Account Menu -->
                 <li class="dropdown tasks-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <img src="" class="user-image" alt="{{ trans('sentences.profile_image') }}">
-                        <span class="hidden-xs"><!-- username --></span>
+                        <img src="{{ config('setting.image_folder').Auth::user()->avatar }}" class="user-image" alt="{{ trans('sentences.profile_image') }}">
                     </a>
                     <ul class="dropdown-menu">
-                        <li class="header"><!-- username --></li>
-                        <li>
-                            <!-- Inner menu: contains the tasks -->
-                            <ul class="menu">
-                                <!-- task item -->
-                            </ul>
-                        </li>
-                        <li class="footer">
-                            <a href="{{ route('logout') }}">{{ trans('sentences.logout') }}</a>
-                            <a href="{{ route('change_password') }}">{{ trans('sentences.change_password') }}</a>
+                        <li class="header text-center"><b>{{ trans('sentences.hello') }} {{ Auth::user()->username }}</b></li>
+                        <li class="footer text-center">
+                            <form action="{{ route('logout') }}" method="POST" class="d-none">
+                                @csrf
+                                <button type="submit" id="logoutBtn">{{ trans('sentences.logout') }}</button>
+                            </form>
                         </li>
                     </ul>
                 </li>
