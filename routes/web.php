@@ -16,9 +16,13 @@ use Illuminate\Support\Facades\Route;
 Route::get('change-language/{language}', 'LanguageController@index')->name('change_language');
 
 Route::middleware(['auth', 'verified'])->group(function(){
+
     Route::prefix('admin')->name('admin.')->namespace('Admin')->group(function(){
         Route::get('dashboard', 'DashboardController@index')->name('dashboard');
         Route::get('products', 'ProductController@index')->name('products.index');
+        Route::get('products/show/{product}', 'ProductController@show')->name('products.show');
+        Route::post('products/active/{product}', 'ProductController@active')->name('products.active');
+        Route::post('products/block/{product}', 'ProductController@block')->name('products.block');
         Route::get('statistics', 'StatisticsController@index')->name('statistics.index');
         Route::get('suppliers', 'SupplierController@index')->name('suppliers.index');
         Route::get('suppliers-register', 'SupplierController@supplierRegister')->name('suppliers.register');
@@ -37,6 +41,7 @@ Route::middleware(['auth', 'verified'])->group(function(){
         Route::get('products/get-child-categories/{rootCategory_id}', 'ProductController@getChildCategories')
             ->name('products.get_child_categories');
     });
+
     Route::namespace('Supplier')->prefix('supplier')->group(function () {
         Route::get('/orders', 'OrderController@index')->name('orders.index');
         Route::get('/order-items/{id}', 'OrderController@show')->name('orders.show');

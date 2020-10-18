@@ -24,9 +24,9 @@ class Product extends Model
         return $this->hasMany(ProductDetail::class);
     }
 
-    public function users()
+    public function user()
     {
-        return $this->belongsToMany(User::class);
+        return $this->belongsTo(User::class);
     }
 
     public function category()
@@ -36,7 +36,11 @@ class Product extends Model
 
     public function getThumbnailAttribute($value)
     {
-        return asset(config('setting.image_folder').$value);
+        if ($value == null) {
+            return asset(config('setting.default_product_thumbnail'));
+        }
+
+        return asset(config('setting.image_folder') . $value);
     }
 
     public function getCreatedAtAttribute($value)
