@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Voucher;
+use App\Models\ProductDetail;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Arr;
 use DB;
 
 class HomeController extends Controller
@@ -35,5 +38,44 @@ class HomeController extends Controller
         $slides = DB::table('slides')->get();
 
         return view('pages.home', compact('favoriteProducts', 'newProducts', 'newVouchers', 'categories' , 'slides'));
+    }
+
+    public function show($id)
+    {
+        $listAttributes = collect();
+        $groupAtribute = [];
+
+        $product = Product::findOrFail($id);
+        $productDetails = $product->productDetails;
+
+        $suggestProducts = Product::where('category_id', $product->category_id)->get();
+
+        foreach ($productDetails as $detail) {
+            $listAttributes->push(json_decode($detail->list_attributes));
+        }
+
+        foreach ($listAttributes[config('config.default')] as $key => $value) {
+            $groupAtribute[$key] = array_unique(data_get($listAttributes, '*.' . $key));
+        }
+
+        $activeAttribute = (array) json_decode($productDetails[config('config.default')]->list_attributes);
+        $activeAttribute['price'] = $productDetails[config('config.default')]->price;
+        $activeAttribute['remaining'] = $productDetails[config('config.default')]->remaining;
+        $activeAttribute['id'] = $productDetails[config('config.default')]->id;
+
+        return view('pages.product', compact('product', 'groupAtribute', 'activeAttribute', 'suggestProducts'));
+    }
+
+    public function showDetail(Request $request)
+    {
+        $productDetails = ProductDetail::where('list_attributes', json_encode($request->except(['product_id'])))
+            ->where('product_id', $request->input('product_id'))
+            ->get();
+        if ($productDetails->isNotEmpty()) {
+
+           return json_encode($productDetails);
+        }
+
+        return json_encode(['msg' => trans('customer.no_result')]);
     }
 }

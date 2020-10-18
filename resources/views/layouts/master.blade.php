@@ -17,7 +17,7 @@
         <link rel="stylesheet" href="{{ asset('bower_components/common/css/sweetalert2.min.css') }}">
         <link rel="stylesheet" href="{{ asset('css/customer/style.css') }}">
         @if(Request::route()->getName() != 'show_cart')
-            <link rel="stylesheet" href="{{ asset('css/customer/minicart.css') }}">
+            <link rel="stylesheet" href="{{ asset('css/customer/layouts/minicart.css') }}">
         @endif
         @yield('css')
     </head>
@@ -28,17 +28,16 @@
                 @yield('content')
             </div>
         </div>
-        @if(Request::route()->getName() != 'show_cart')
-        @endif
+        <div class="cart">
+            @include('layouts.minicart')
+        </div>
         @include('layouts.footer')
         <script src="{{ asset('bower_components/common/js/jquery-3.3.1.js') }}"></script>
         <script src="{{ asset('bower_components/common/js/bootstrap.min.js') }}"></script>
         <script src="{{ asset('bower_components/common/js/owl.carousel.min.js') }}"></script>
         <script src="{{ asset('bower_components/common/js/sweetalert2.min.js') }}"></script>
         <script src="{{ asset('js/customer/custom.js') }}"></script>
-        @if(Request::route()->getName() != 'show_cart')
-            <script src="{{ asset('js/customer/minicart.js') }}"></script>
-        @endif
+        <script src="{{ asset('js/customer/pages/minicart.js') }}"></script>
         @yield('js')
     </body>
 </html>
