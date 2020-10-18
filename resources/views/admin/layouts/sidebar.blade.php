@@ -4,7 +4,7 @@
 
         <div class="user-panel">
             <div class="pull-left image">
-                <img src="{{ config('setting.image_folder').Auth::user()->avatar }}" class="img-circle" alt="">
+                <img src="{{ Auth::user()->avatar }}" class="img-circle" alt="">
             </div>
             <div class="pull-left info">
                 <p>{{ Auth::user()->username }}</p>

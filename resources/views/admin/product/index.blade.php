@@ -52,7 +52,8 @@
                             <th>{{ trans('sentences.rating') }}</th>
                             <th>{{ trans('sentences.category') }}</th>
                             <th>{{ trans('sentences.created_at') }}</th>
-                            <th>{{ trans('sentences.ramaining') }}</th>
+                            <th>{{ trans('sentences.remaining') }}</th>
+                            <th>{{ trans('sentences.status') }}</th>
                             <th>{{ trans('sentences.action') }}</th>
                         </tr>
                         </thead>
@@ -63,15 +64,20 @@
                                 <td class="thumbnail-col">
                                     <img src="{{ $product->thumbnail }}" alt="thumbnail">
                                 </td>
-                                <td>
-                                    <a class="text-left" href="{{ route('supplier.products.show', [$product->id]) }}" title="{{ $product->name }}">{{ $product->name }}</a>
-                                </td>
+                                <td>{{ $product->name }}</td>
                                 <td>{{ $product->rate }}/{{ config('setting.max_rating') }}</td>
+                                <td>{{ $product->category->name }}</td>
+                                <td>{{ $product->created_at }}</td>
+                                <td>{{ $product->remaining }}</td>
                                 <td>
-                                    <a class="text-left" title="{{ $product->name }}">{{ $product->category->name }}</a>
+                                    @if ($product->status == config('setting.pending_id'))
+                                        <span class="badge badge-pill btn btn-warning">{{ trans('sentences.pending') }}</span>
+                                    @elseif ($product->status == config('setting.active_id'))
+                                        <span class="badge badge-pill btn btn-success">{{ trans('sentences.active') }}</span>
+                                    @else
+                                        <span class="badge badge-pill btn btn-danger">{{ trans('sentences.blocked') }}</span>
+                                    @endif
                                 </td>
-                                <td> {{ $product->created_at }}</td>
-                                <td> {{ $product->remaining }}</td>
                                 <td>
                                     <a class="btn btn-show btn-icon btn-sm btn-primary tip" title="{{ trans('sentences.detail') }}" data-toggle="modal" data-url="{{ route('admin.products.show', [$product->id]) }}" data-target="#showModal">
                                         <i class="fa fa-eye" aria-hidden="true"></i>
