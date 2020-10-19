@@ -34,11 +34,9 @@
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }}
                                 </a>
-                                <a class="dropdown-item" href="{{ route('logout') }}">
-                                    {{ trans('sentences.logout') }}
-                                </a>
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="dropdown-item">
                                     @csrf
+                                    <button type="submit">{{ trans('sentences.logout') }}</button>
                                 </form>
                             </li>
                         @endguest
