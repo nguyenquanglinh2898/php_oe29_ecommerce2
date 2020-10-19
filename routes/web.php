@@ -21,8 +21,7 @@ Route::middleware(['auth', 'verified'])->group(function(){
         Route::get('dashboard', 'DashboardController@index')->name('dashboard');
         Route::get('products', 'ProductController@index')->name('products.index');
         Route::get('products/show/{product}', 'ProductController@show')->name('products.show');
-        Route::post('products/active/{product}', 'ProductController@active')->name('products.active');
-        Route::post('products/block/{product}', 'ProductController@block')->name('products.block');
+        Route::post('products/changeStatus/{product}/{status}', 'ProductController@changeStatus')->name('products.change_status');
         Route::get('statistics', 'StatisticsController@index')->name('statistics.index');
         Route::get('suppliers', 'SupplierController@index')->name('suppliers.index');
         Route::get('suppliers-register', 'SupplierController@supplierRegister')->name('suppliers.register');

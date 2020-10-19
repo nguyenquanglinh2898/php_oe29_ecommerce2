@@ -104,12 +104,12 @@
     </div>
     <div class="modal-footer">
         @if ($product->status == config('setting.active_id'))
-            <form action="{{ route('admin.products.block', [$product->id]) }}" method="post" class="change-status-btn">
+            <form action="{{ route('admin.products.change_status', ['product' => $product->id, 'status' => config('setting.blocked_id')]) }}" method="post" class="change-status-btn">
                 @csrf
                 <button type="submit" class="btn btn-danger">{{ trans('sentences.block') }}</button>
             </form>
         @else
-            <form action="{{ route('admin.products.active', [$product->id]) }}" method="post" class="change-status-btn">
+            <form action="{{ route('admin.products.change_status', ['product' => $product->id, 'status' => config('setting.active_id')]) }}" method="post" class="change-status-btn">
                 @csrf
                 <button type="submit" class="btn btn-success">{{ trans('sentences.active') }}</button>
             </form>
