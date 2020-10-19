@@ -28,11 +28,6 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->belongsTo(Role::class);
     }
 
-    public function notifications()
-    {
-        return $this->hasMany(Notification::class);
-    }
-
     public function ward()
     {
         return $this->belongsTo(Ward::class);

@@ -52,3 +52,14 @@ $(document).ready(function(){
         navText: ['<i class="fas fa-angle-left"></i>', '<i class="fas fa-angle-right"></i>']
     });
 });
+
+$('.close').click(function() {
+    var url = $(this).attr('data-url');
+    $.ajax({
+        url: url,
+        type: 'GET',
+        success: function(data) {
+            $('.num').html(data);
+        },
+    });
+});

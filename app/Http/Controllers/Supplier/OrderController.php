@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\OrderItem;
+use Carbon\Carbon;
+use App\Notifications\OrderNotification;
 
 class OrderController extends Controller
 {
@@ -20,8 +22,8 @@ class OrderController extends Controller
 
     public function show($id)
     {
-        $order = Order::with('orderItem')->findOrFail($id);
-        $orderItems = $order->orderItem;
+        $order = Order::with('orderItems')->findOrFail($id);
+        $orderItems = $order->orderItems;
 
         return view('supplier.order.show', compact('orderItems', 'order'));
     }
@@ -30,6 +32,15 @@ class OrderController extends Controller
     {
         $order = Order::findOrFail($id);
         $order->update(array('status' => $status));
+        $user = $order->user;
+        $data = [
+            'status' => statusOrder($order->status),
+            'class' => classOrder($order->status),
+            'icon' => iconOrder($order->status),
+            'created_at' =>Carbon::now()->toDateTimeString(),
+        ];
+
+        $user->notify(new OrderNotification($data));
 
         return redirect()->back()->with('message', trans('supplier.change_status_success'));
     }

@@ -9,6 +9,7 @@ use App\Models\Voucher;
 use App\Models\ProductDetail;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Arr;
+use App\Models\Notification;
 use DB;
 
 class HomeController extends Controller
@@ -77,5 +78,15 @@ class HomeController extends Controller
         }
 
         return json_encode(['msg' => trans('customer.no_result')]);
+    }
+
+    public function notification($id)
+    {
+        if (Auth::user()->unreadNotifications->where('id', $id)->markAsRead()) {
+
+            return count(Auth::user()->unreadNotifications);
+        }
+
+        return false;
     }
 }

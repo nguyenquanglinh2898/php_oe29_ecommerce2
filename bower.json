@@ -17,7 +17,7 @@
   "dependencies": {
     "common": "https://github.com/Tran-Khac-Nam/common.git",
     "AdminLTE": "https://github.com/Tran-Khac-Nam/AdminLTE.git",
-    "css": "https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic",
+    "css": "https://fonts.googleapis.com/css?family=Roboto:300,400,500,700",
     "html5shiv.min": "https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js",
     "respond.min": "https://oss.maxcdn.com/respond/1.4.2/respond.min.js",
     "date-euro": "https://cdn.datatables.net/plug-ins/1.10.20/sorting/date-euro.js",
@@ -25,6 +25,9 @@
     "bootstrap-theme": "https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.0.6/themes/explorer-fa/theme.css",
     "tinymce": "https://cdnjs.cloudflare.com/ajax/libs/tinymce/5.0.15/tinymce.min.js",
     "bootstrap-fileinput-js": "https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.0.6/js/fileinput.js",
-    "bootstrap-theme-js": "https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.0.6/themes/explorer-fa/theme.js"
+    "bootstrap-theme-js": "https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.0.6/themes/explorer-fa/theme.js",
+    "bootstrap-material-design": "https://unpkg.com/bootstrap-material-design@4.1.1/dist/js/bootstrap-material-design.js",
+    "demo-bower": "https://github.com/Tran-Khac-Nam/font.git",
+    "bootstrap-material-design.min": "https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css"
   }
 }
