@@ -37,12 +37,53 @@
     background-color: #e8f0fe;
     border-radius: 5px;
 }
-#refresh-btn{
+#refresh-btn {
     margin-right: 5px;
 }
-.thumbnail-col{
+.thumbnail-col {
     width: 200px;
 }
-.thumbnail-col img{
+.thumbnail-col img {
     height: 70px;
+}
+
+@media (min-width: 768px) {
+    .modal-dialog {
+        width: 780px;
+        margin: 30px auto;
+    }
+}
+
+.attr-name {
+    background-color: red;
+    color: white;
+    padding: 5px;
+    border-radius: 10px;
+}
+
+.mini-content {
+    float: right;
+    cursor: pointer;
+    color: #97a0b3;
+}
+
+.thumbnail-img {
+    height: 150px;
+}
+
+.other-pics {
+    margin: 10px 0 15px;
+}
+
+.other-pics img {
+    height: 160px;
+}
+
+.other-pics .image-div {
+    display: inline-block;
+    padding-right: 10px;
+}
+
+.change-status-btn {
+    display: inline-block;
 }

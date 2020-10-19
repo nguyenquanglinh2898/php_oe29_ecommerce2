@@ -38,3 +38,14 @@ $(function () {
         table.search(this.value).draw();
     });
 });
+
+$(".btn-show").click(function() {
+    let url = this.getAttribute('data-url');
+    $.ajax({
+        url : url,
+        type : "get",
+        success : function (data) {
+            $('#showModalBody').html(data);
+        }
+    })
+});

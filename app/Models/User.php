@@ -50,6 +50,15 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function products()
     {
-        return $this->belongsToMany(Product::class);
+        return $this->hasMany(Product::class);
+    }
+
+    public function getAvatarAttribute($value)
+    {
+        if ($value == null) {
+            return asset(config('setting.default_user_image'));
+        }
+
+        return asset(config('setting.image_folder') . $value);
     }
 }
