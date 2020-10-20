@@ -50,7 +50,7 @@
             <div id="slide-favorite" class="owl-carousel">
                 @foreach ($favoriteProducts as $product)
                     <div class="item-product">
-                        <a href="" title="{{ $product->name }}">
+                        <a href="{{ route('home.show', $product->id) }}" title="{{ $product->name }}">
                             <div class="image-product" >
                                 <img src=" {{ asset(config('images_folder') . $product->thumbnail) }}" class="img-fluid">
                             </div>
@@ -96,7 +96,7 @@
                     @if ($key == 0)
                         <div class="col-md-2 col-md-40">
                             <div class="item-product">
-                                <a href="" title="{{ $product->name }}">
+                                <a href="{{ route('home.show', $product->id) }}" title="{{ $product->name }}">
                                     <div class="row">
                                         <div class="col-md-6 col-sm-6 col-xs-6">
                                             <div class="image-product">
@@ -134,7 +134,7 @@
                     @else
                         <div class="col-md-2 col-md-20">
                             <div class="item-product">
-                                <a href="" title="{{ $product->name }}">
+                                <a href="{{ route('home.show', $product->id) }}" title="{{ $product->name }}">
                                     <div class="row">
                                         <div class="col-md-12 col-sm-12 col-xs-12">
                                             <div class="image-product" >

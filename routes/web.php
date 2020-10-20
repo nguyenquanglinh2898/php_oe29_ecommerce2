@@ -49,6 +49,17 @@ Route::middleware(['auth', 'verified'])->group(function(){
     });
 });
 
-Route::get('/', 'HomeController@index')->name('customer.home');
+Route::get('/', 'Customer\HomeController@index')->name('home.index');
 
+Route::namespace('Customer')->prefix('pages')->group(function () {
+    Route::get('product/{id}', 'HomeController@show')->name('home.show');
+});
+
+Route::namespace('Customer')->prefix('cart')->group(function () {
+    Route::get('/add/{id}', 'CartController@addCart')->name('cart.add');
+    Route::post('/update', 'CartController@updateCart')->name('cart.update');
+    Route::get('/show', 'CartController@showCart')->name('cart.show');
+    Route::post('/remove', 'CartController@removeCart')->name('cart.remove');
+    Route::post('/show-detail', 'HomeController@showDetail')->name('home.show_detail');
+});
 Auth::routes(['verify' => true]);

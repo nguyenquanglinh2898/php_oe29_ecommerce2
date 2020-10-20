@@ -14,6 +14,15 @@ body {
     color: #333;
     overflow-x: hidden;
 }
+.show-rate-header {
+    margin-left: 20px;
+}
+.loadmore {
+    display: none;
+}
+.hidemore{
+    display: none;
+}
 .flex {
     display: flex;
 }
@@ -52,7 +61,6 @@ body {
 .margin-auto {
     margin: auto;
 }
-/*pagination*/
 .pagination>.active>a,
 .pagination>.active>a:focus,
 .pagination>.active>a:hover,
@@ -63,7 +71,6 @@ body {
     border-color: #f30;
 }
 
-/*filter*/
 .section-filter {
     background-color: #fff;
     margin-top: 20px;
@@ -106,7 +113,6 @@ body {
     line-height: 20px;
     font-weight: 600;
 }
-/*empty search*/
 .empty-content {
     text-align: center;
     padding: 50px 0;
@@ -124,9 +130,6 @@ body {
     font-size: 20px;
     color: #000;
 }
-/*--------------------------------------------------------------
-# Footer
---------------------------------------------------------------*/
 .footer-top {
     padding: 30px 0 20px 0;
     background-color: #fff;
@@ -181,9 +184,6 @@ body {
     width: 100%;
     object-fit: cover;
 }
-/*--------------------------------------------------------------
-# Header
---------------------------------------------------------------*/
 .header {
     background: #f30;
     -webkit-box-shadow: 0px 5px 7px 0px rgba(50,50,50,0.33);
@@ -308,10 +308,6 @@ body {
     display: inline-block;
     width: 120px;
 }
-
-/*--------------------------------------------------------------
-# login page + Register page
---------------------------------------------------------------*/
 .site-register, .site-login {
     max-width: 400px;
     margin: 0 auto;
@@ -462,9 +458,6 @@ body {
 .site-login .sign-up-now {
     text-align: center;
 }
-/*--------------------------------------------------------------
-# home
---------------------------------------------------------------*/
 .site-content {
     padding: 20px 0;
 }
@@ -728,17 +721,6 @@ body {
     box-sizing: border-box;
     z-index: 1;
 }
-/*.section-products .section-content>.row>div:nth-child(4),
-.section-products .section-content>.row>div:nth-child(9) {
-border-right: none;
-}
-.section-products .section-content>.row>div:nth-child(5),
-.section-products .section-content>.row>div:nth-child(6),
-.section-products .section-content>.row>div:nth-child(7),
-.section-products .section-content>.row>div:nth-child(8),
-.section-products .section-content>.row>div:nth-child(9) {
-border-bottom: none;
-}*/
 .section-products .section-content .col-md-6,
 .section-products .section-content .col-md-12,
 .section-products .section-content .col-md-20,
@@ -865,7 +847,6 @@ border-bottom: none;
     transition: all 0.7s ease-in-out;
     -webkit-transition: all 0.7s ease-in-out;
 }
-/*About Page*/
 .site-about .section-about {
     background-color: #fff;
     margin-top: 20px;
@@ -1272,7 +1253,6 @@ border-bottom: none;
     font-size: 22px;
     font-weight: 600;
     color: #fff;
-    /*text-align: justify;*/
 }
 .site-post .section-post .section-left .section-content .header-post .info-post .desc-post {
     color: #fff;
@@ -1337,7 +1317,6 @@ border-bottom: none;
     border-bottom: none;
     margin-bottom: 30px;
 }
-/*Orders*/
 .section-user .online_support,
 .section-order .online_support,
 .section-orders .online_support {
@@ -1456,7 +1435,6 @@ border-bottom: none;
     text-decoration: none;
     color: #f30;
 }
-/*order*/
 .site-order .order-info .order-info-left,
 .site-order .order-info .order-info-right {
     padding: 15px;
@@ -1501,7 +1479,6 @@ border-bottom: none;
 .site-order .order-info .order-info-center .order-info-content>div>span:last-child {
     width: calc(100% - 300px);
 }
-/*user */
 .site-user .user-avatar {
     border: 1px solid #ededed;
     margin-bottom: 20px;
@@ -1604,7 +1581,6 @@ border-bottom: none;
     font-weight: 600;
     text-shadow: none;
 }
-/*Mobile*/
 #trigger-mobile {
     float: none;
     margin: 0;
@@ -1857,7 +1833,6 @@ border-bottom: none;
 .mobile-main-menu .mobile-main-menu-bottom .mobile-support .info-support:last-child {
     margin-bottom: unset;
 }
-/*Light Slider*/
 .lSSlideOuter .lightSlider, .lSSlideOuter .lSPager {
     display: flex;
 }
@@ -1869,7 +1844,6 @@ border-bottom: none;
 .section-product .section-infomation .image-product img {
     height: 100%;
 }
-/*Responsive*/
 @media only screen and (max-width: 1366px){
     .header .main-menu .menu-item .dropdown-menu {
         left: unset;
