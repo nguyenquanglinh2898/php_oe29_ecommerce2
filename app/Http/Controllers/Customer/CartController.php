@@ -61,20 +61,29 @@ class CartController extends Controller
         $item = ProductDetail::with('product')->findOrFail($request->input('id'))->toArray();
         $oldCart = Session::get('cart');
         $cart = new Cart($oldCart);
-
         if (!$cart->remove($item)) {
             $data['msg'] = trans('customer.remove_cart');
             $data['error'] = trans('customer.error');
 
             return response()->json($data, config('config.error'));
         }
-        else {
+        else if($cart->items) {
             Session::put('cart', $cart);
             $data['msg'] = trans('customer.success_remove_cart');
             $data['success'] = trans('customer.success');
             $data['totalPrice'] = $cart->totalPrice;
             $data['totalQty'] = $cart->totalQty;
             $data['key'] = $request->input('id');
+        } else {
+            Session::forget('cart');
+            $cart = null;
+            $data['msg'] = trans('customer.success_remove_cart');
+            $data['success'] = trans('customer.success');
+        }
+
+        if ($request->has('remove')) {
+
+            return view('layouts.cart_detail', compact('cart'));
         }
 
         return response()->json($data, config('config.success'));
@@ -83,5 +92,12 @@ class CartController extends Controller
     public function showCart()
     {
         return view('layouts.minicart');
+    }
+
+    public function showDetailCart()
+    {
+        $cart = Session::get('cart');
+
+        return view('pages.cart', compact('cart'));
     }
 }
