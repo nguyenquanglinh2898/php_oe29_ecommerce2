@@ -70,4 +70,10 @@ return [
     'no_review' => 'No reviews from users yet. Let us know your opinion.',
     'readmore' => 'Read more',
     'no_result' => 'No results were found',
+    'cart' => 'Cart',
+    'empty_cart' => 'Empty Shopping Cart',
+    'continue_shopping' => 'Continue Shopping',
+    'provisional' => 'Provisional',
+    'into_money' => 'Into Money',
+    'pay_now' => 'Pay Now',
 ];

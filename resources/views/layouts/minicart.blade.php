@@ -73,7 +73,7 @@
                         <a href="" class="btn btn-gray btn-checkout" data-url="">
                             <span >{{ trans('customer.pay') }}</span>
                         </a>
-                        <a href="" class="view-cart btn btn-white margin-left-5" title="Giỏ hàng">
+                        <a href="{{ route('cart.show_detail') }}" class="view-cart btn btn-white margin-left-5" title="Giỏ hàng">
                             <span>{{ trans('customer.cart') }}</span>
                         </a>
                     </div>

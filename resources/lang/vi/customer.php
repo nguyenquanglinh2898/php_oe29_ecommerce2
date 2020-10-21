@@ -70,4 +70,10 @@ return [
     'no_review' => 'Chưa có đánh giá từ người dùng. Hãy cho chúng tôi biết ý kiến ​​của bạn.',
     'readmore' => 'Đọc Thêm',
     'no_result' => 'Không có kết quả nào được tìm thấy',
+    'cart' => 'Giỏ Hàng',
+    'empty_cart' => 'Giỏ Hàng Trống',
+    'continue_shopping' => 'Tiếp Tục Mua Sắm',
+    'provisional' => 'Tạm Tính',
+    'into_money' => 'Thành Tiền',
+    'pay_now' => 'Thanh Toán Ngay',
 ];
