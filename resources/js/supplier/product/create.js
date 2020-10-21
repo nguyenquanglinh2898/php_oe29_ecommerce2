@@ -107,63 +107,6 @@ function getImageURL(input) {
 
 // thao tác với thuộc tính phân loại
 $(function() {
-    $("#product-details").repeatable({
-        addTrigger: 'button.add',
-        deleteTrigger: 'button.delete',
-        max: 15,
-        min: 0,
-        template: "#product-detail",
-        afterAdd:function () {
-            $(".product-detail-images").fileinput({
-            theme: "explorer-fa",
-            required: false,
-            showUpload: false,
-            showCaption: false,
-            showClose: false,
-            maxFileCount: 8,
-            allowedFileExtensions: ['jpg', 'png', 'gif'],
-            initialPreviewAsData: true,
-            maxFileSize: 1000,
-            overwriteInitial: false,
-            removeFromPreviewOnError: true,
-            });
-            $('.reservation').daterangepicker({
-                autoApply: true,
-                autoUpdateInput: false,
-                minDate: moment(),
-                "locale": {
-                    "format": "DD/MM/YYYY",
-                }
-            });
-            $('.reservation').on('apply.daterangepicker', function(ev, picker) {
-                $(this).val(picker.startDate.format('DD/MM/YYYY') + ' - ' + picker.endDate.format('DD/MM/YYYY'));
-            });
-            $('.reservation').on('cancel.daterangepicker', function(ev, picker) {
-                $(this).val('');
-            });
-            $('input.currency').autoNumeric('init', {
-                aSep: '.',
-                aDec: ',',
-                aPad: false,
-                lZero: 'deny',
-                vMin: '0'
-            });
-            $('#product-details .box').boxWidget();
-            $('#product-details .field-group:not(:last-child) .box').boxWidget('collapse');
-            $('#product-details .field-group:last-child .box').boxWidget('expand');
-            $('input.color').on('keyup', function() {
-                var val = $(this).val().trim();
-                if(val !== '') val = ' - ' + val;
-                var name = $('input[name="name"]').val().trim();
-                $(this).closest('.box').find('.box-header .box-title span.name').text(name);
-                $(this).closest('.box').find('.box-header .box-title span.color').text(val);
-            });
-        },
-        beforeDelete: function(target) {
-            $(target).find('.product-detail-images').fileinput('destroy');
-        }
-    });
-
     $(".product-detail-images").fileinput({
         theme: "explorer-fa",
         required: false,
@@ -173,7 +116,7 @@ $(function() {
         maxFileCount: 8,
         allowedFileExtensions: ['jpg', 'png', 'gif'],
         initialPreviewAsData: true,
-        maxFileSize: 1000,
+        maxFileSize: 10000,
         overwriteInitial: false,
         removeFromPreviewOnError: true,
     });
@@ -246,10 +189,103 @@ $(function () {
                 childCategory.append("<option value='" +  res[i].id + "' class='category-item'>" +  res[i].name + "</option>");
             }
             childCategory.val(res[0].id);
+            $('#category').val(res[0].id);
             childCategory.show();
         });
     });
     childCategory.on('change', function(e) {
         $('#category').val($(this).val());
     });
+});
+
+// lấy ra thẻ thứ order có class = "className"
+function getClass(className, order) {
+    return $('.' + className + ':eq(' + order + ')');
+}
+
+function addNewAttrInput(){
+    $('#attributes').append(
+        '<div class="col-md-3">' +
+            '<div class="form-group attr-div">' +
+                '<label for="attr">' + $("#attrName").val() + '<span class="text-red">*</span></label>' +
+                '<input type="text" class="form-control attr" name="attr[]" placeholder="' + $("#attrName").val() + '">' +
+                '<button type="button" class="remove-attr-btn">&times;</button>' +
+            '</div>' +
+        '</div>'
+    );
+}
+
+function addTableHeader(){
+    let attributes = $('.attr');
+
+    for (let i = 0; i < attributes.length; i++) {
+        let attrName = getClass('attr', i).val();
+
+        $('#attrTableHeader').append(
+            '<th>' + attrName + '</th>'
+        );
+    }
+
+    $('#attrTableHeader').append(
+        '<th>' + $("#remainingCol").val() + '</th>' +
+        '<th>' + $("#priceCol").val() + '</th>' +
+        '<th>' + $("#actionCol").val() + '</th>'
+    );
+}
+
+function addRowToTableBody(){
+    //thêm dòng
+    let rowNumber = $('#attrTableBody').find('tr').length + 1;
+    $('#attrTableBody').append(
+        '<tr class="table-row" id="row' + rowNumber + '"></tr>'
+    );
+    $('#numOfRow').val(rowNumber);
+
+    // thêm input các cột thuộc tính phân loại
+    let attributes = $('.attr');
+    for (let i = 0; i < attributes.length; i++) {
+        let attrName = getClass('attr', i).val();
+        $('#row' + rowNumber).append(
+            '<td><input type="text" class="form-control" name="' + attrName + '[]"></td>'
+        );
+    }
+
+    // thêm 3 cột số lượng, giá bán và thao tác
+    $('#row' + rowNumber).append(
+        '<td><input type="number" min="1" name="remaining[]" class="form-control remaining" placeholder="' + $('#remainingCol').val() + '"></td>' +
+        '<td><input type="number" min="0" name="price[]" class="form-control price" placeholder="' + $('#priceCol').val() + '"></td>' +
+        '<td><button type="button" class="remove-row-btn btn btn-danger"><i class="fa fa-trash"></i></button></td>'
+    );
+}
+
+$('#updateBtn').hide();
+
+$('#addAttrBtn').on('click', function () {
+    $('#priceArea').remove();
+    $('#remainingArea').remove();
+    $('#updateBtn').show();
+    addNewAttrInput();
+});
+
+function clearTable(){
+    $('#attrTableHeader').html(null);
+    $('#attrTableBody').html(null);
+}
+
+$('#updateBtn').on('click', function () {
+    clearTable();
+    addTableHeader();
+    $('#addRowBtn').show();
+});
+
+$('#addRowBtn').on('click', function () {
+    addRowToTableBody();
+});
+
+$("#attributes").on( "click", ".remove-attr-btn", function() {
+    $(this).parent().parent().remove();
+});
+
+$("#attrTableBody").on( "click", ".remove-row-btn", function() {
+    $(this).parent().parent().remove();
 });

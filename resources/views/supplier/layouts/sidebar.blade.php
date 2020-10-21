@@ -2,7 +2,7 @@
     <section class="sidebar">
         <div class="user-panel">
             <div class="pull-left image">
-                <img src="{{ config('setting.image_folder').Auth::user()->avatar }}" class="img-circle" alt="">
+                <img src="{{ Auth::user()->avatar }}" class="img-circle" alt="">
             </div>
             <div class="pull-left info">
                 <p>{{ Auth::user()->username }}</p>
@@ -21,11 +21,11 @@
         <ul class="sidebar-menu" data-widget="tree">
             <li class="header">{{ trans('supplier.main_navigation') }}</li>
             <li class="active"><a href=""><i class="fa fa-dashboard"></i> <span>{{ trans('supplier.dashboard') }}</span></a></li>
-            <li class=""><a href=""><i class="fa fa-sliders" aria-hidden="true"></i> <span>{{ trans('supplier.manage_slide') }}</span></a></li>
+            <li class=""><a href="{{ route('supplier.dashboard') }}"><i class="fa fa-sliders" aria-hidden="true"></i> <span>{{ trans('supplier.manage_slide') }}</span></a></li>
             <li class=""><a href=""><i class="fa fa-users"></i> <span>{{ trans('supplier.manage_account') }}</span></a></li>
             <li class=""><a href=""><i class="fa fa-newspaper-o" aria-hidden="true"></i> <span>{{ trans('supplier.manager_voucher') }}</span></a></li>
             <li class=""><a href=""><i class="fa fa-list-alt" aria-hidden="true"></i> <span>{{ trans('supplier.manage_category') }}</span></a></li>
-            <li class=""><a href=""><i class="fa fa-product-hunt" aria-hidden="true"></i> <span>{{ trans('supplier.manage_product') }}</span></a></li>
+            <li class=""><a href="{{ route('supplier.products.index') }}"><i class="fa fa-product-hunt" aria-hidden="true"></i> <span>{{ trans('supplier.manage_product') }}</span></a></li>
             <li class=""><a href=""><i class="fa fa-list-alt" aria-hidden="true"></i> <span>{{ trans('supplier.manage_order') }}</span></a></li>
             <li class=""><a href=""><i class="fa fa-line-chart" aria-hidden="true"></i> <span>{{ trans('revenue_statistics') }}</span></a></li>
         </ul>

@@ -56,25 +56,45 @@
                             <label for="upload" class="btn btn-primary btn-sm"><i class="fa fa-folder-open"></i>{{ trans('sentences.choose_picture') }}</label>
                             <input type="file" accept="image/*" id="upload" name="thumbnail">
                         </div>
+                        <div class="text-center text-red">
+                            @error('thumbnail')
+                                {{ $message }}
+                            @enderror
+                        </div>
                     </div>
                     <div class="col-md-9">
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="name">{{ trans('sentences.product_name') }} <span class="text-red">*</span></label>
-                                    <input type="text" name="name" class="form-control" id="name" placeholder="{{ trans('sentences.product_name') }}" autocomplete="off" required>
+                                    <input type="text" name="name" class="form-control" id="name" placeholder="{{ trans('sentences.product_name') }}" autocomplete="off">
+                                    <div class="text-red">
+                                        @error('name')
+                                            {{ $message }}
+                                        @enderror
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="weight">{{ trans('sentences.weight') }} ({{ config('setting.weight_unit') }})<span class="text-red">*</span></label>
-                                    <input type="text" name="weight" class="form-control" id="sku_code" placeholder="{{ trans('sentences.weight') }}" autocomplete="off" required>
+                                    <input type="number" name="weight" min="0" class="form-control" placeholder="{{ trans('sentences.weight') }}" autocomplete="off">
+                                    <div class="text-red">
+                                        @error('weight')
+                                            {{ $message }}
+                                        @enderror
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="brand">{{ trans('sentences.brand') }} <span class="text-red">*</span></label>
+                                    <label for="brand">{{ trans('sentences.brand') }}</label>
                                     <input type="text" name="brand" class="form-control" id="monitor" placeholder="{{ trans('sentences.brand') }}" autocomplete="off">
+                                    <div class="text-red">
+                                        @error('brand')
+                                            {{ $message }}
+                                        @enderror
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -83,25 +103,30 @@
                                 <div class="form-group category">
                                     <label>{{ trans('sentences.category') }} <span class="text-red">*</span></label>
                                     <div class="list-category">
-                                        <select size="4" id="rootCategory" required>
+                                        <select size="4" id="rootCategory">
                                             @foreach ($rootCategories as $rootCategory)
                                                 <option class="category-item" value="{{ $rootCategory->id }}">
                                                     {{ $rootCategory->name }}
                                                 </option>
                                             @endforeach
                                         </select>
+                                        <div class="text-red">
+                                            @error('category_id')
+                                                {{ $message }}
+                                            @enderror
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group category childCategory">
                                     <div class="list-category">
-                                        <select size="4" id="childCategory" required>
+                                        <select size="4" id="childCategory">
                                             <!-- child categories of a root category -->
                                         </select>
                                     </div>
                                 </div>
-                                <input type="hidden" name="category" id="category">
+                                <input type="hidden" name="category_id" id="category">
                             </div>
                         </div>
                     </div>
@@ -123,8 +148,13 @@
                 <div class="row">
                     <div class="form-group">
                         <div class="col-md-12">
-                            <label for="title">{{ trans('sentences.detail_pictures') }} <span class="text-red">*</span></label>
-                            <input type="file" name="product_details[images][]" class="product-detail-images" multiple>
+                            <label for="title">{{ trans('sentences.detail_pictures') }}</label>
+                            <input type="file" name="images[]" accept="image/*" class="product-detail-images" multiple>
+                        </div>
+                        <div class="text-red">
+                            @error('images.*')
+                                {{ $message }}
+                            @enderror
                         </div>
                     </div>
                 </div>
@@ -142,10 +172,65 @@
                 </div>
             </div>
             <div class="box-body">
-                <div id="product-details"></div>
-            </div>
-            <div class="text-center box-footer">
-                <button class="add btn btn-success"><i class="fa fa-plus" aria-hidden="true"></i> {{ trans('sentences.add_classification_attribute') }}</button>
+                <div id="product-details">
+                    <div>
+                        <div class="row">
+                            <div class="col-md-4" id="remainingArea">
+                                <div class="form-group">
+                                    <label for="remaining">{{ trans('sentences.remaining') }}<span class="text-red">*</span></label>
+                                    <input type="number" name="remaining[]" min="0" class="form-control remaining" placeholder="{{ trans('sentences.remaining') }}" autocomplete="off">
+                                    <div class="text-red">
+                                        @error('remaining.*')
+                                            {{ $message }}
+                                        @enderror
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4" id="priceArea">
+                                <div class="form-group">
+                                    <label for="remaining">{{ trans('sentences.sale_price') }}<span class="text-red">*</span></label>
+                                    <input type="number" name="price[]" min="0" class="form-control price" placeholder="{{ trans('sentences.sale_price') }}" autocomplete="off">
+                                    <div class="text-red">
+                                        @error('price.*')
+                                            {{ $message }}
+                                        @enderror
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div id="attributes"></div>
+                        </div>
+                        <div class="row text-center col-md-12">
+                            <button type="button" id="addAttrBtn" class="btn btn-success">
+                                <i class="fa fa-plus" aria-hidden="true"></i>
+                                {{ trans('sentences.add_classification_attribute') }}
+                            </button>
+                            <button type="button" id="updateBtn" class="btn btn-primary">{{ trans('sentences.update') }}</button>
+                        </div>
+                    </div>
+                    <div class="text-red">
+                        @error('attr.*')
+                            {{ $message }}
+                        @enderror
+                    </div>
+                    <table class="table table-bordered" id="productDetailTable">
+                        <thead>
+                            <tr id="attrTableHeader"></tr>
+                        </thead>
+                        <tbody id="attrTableBody">
+                            <!-- phần supplier nhập thông tin -->
+                        </tbody>
+                    </table>
+
+                    <input type="hidden" id="numOfRow" name="numOfRow" value="0">
+
+                    <button type="button" id="addRowBtn" class="btn btn-success">
+                        <i class="fa fa-plus" aria-hidden="true"></i>
+                        {{ trans('sentences.add_more_row') }}
+                    </button>
+
+                </div>
             </div>
         </div><!-- Classification attribute area -->
         <!-- Detail infomation and Description area -->
@@ -157,9 +242,19 @@
             <div class="tab-content">
                 <div class="active tab-pane" id="product-information">
                     <textarea name="detail_info" rows="20"></textarea>
+                    <div class="text-red">
+                        @error('detail_info')
+                            {{ $message }}
+                        @enderror
+                    </div>
                 </div>
                 <div class="tab-pane" id="product-introduction">
                     <textarea name="description" rows="20"></textarea>
+                    <div class="text-red">
+                        @error('description')
+                            {{ $message }}
+                        @enderror
+                    </div>
                 </div>
             </div>
         </div><!-- Detail infomation and Description area -->
@@ -178,52 +273,14 @@
         </div><!-- Button Save and Cancel area -->
     </form>
 
-    <!-- Classification hidden template area -->
-    <div type="text/template" id="product-detail">
-        <div class="field-group">
-            <div class="box box-solid box-default">
-                <div class="box-header">
-                    <h3 class="box-title"><span class="name"></span><span class="color"></span></h3>
-                    <div class="box-tools">
-                        <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"><i class="fa fa-minus"></i></button>
-                        <button class="btn btn-box-tool delete"><i class="fa fa-times"></i></button>
-                    </div>
-                </div>
-                <div class="box-body">
-                    <div class="row">
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="key">{{ trans('sentences.classification_key') }} </label>
-                                <input type="text" name="product_details[key]" class="form-control key" id="key" placeholder="{{ trans('sentences.color') }}, {{ trans('sentences.size') }},..." autocomplete="off">
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="value">{{ trans('sentences.classification_value') }} </label>
-                                <input type="text" name="product_details[value]" class="form-control value" id="value" placeholder="{{ trans('sentences.white')  }}, {{ config('setting.l_size') }},..." autocomplete="off">
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="quantity">{{ trans('sentences.quantity') }} </label>
-                                <input type="number" min="1" name="product_details[quantity]" class="form-control" id="quantity" placeholder="{{ trans('sentences.quantity') }}" autocomplete="off">
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="sale_price">{{ trans('sentences.sale_price') }} </label>
-                                <input type="text" name="product_details[sale_price]" class="form-control currency" id="sale_price" placeholder="{{ trans('sentences.sale_price') }}" autocomplete="off">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div><!-- Classification hidden template area -->
-
     <!-- input linked value parse to javascript -->
     <div class="hidden">
         <input id="getChildCategoriesUrl" value="{{ config('setting.get_child_categories_url') }}">
+
+        <input id="remainingCol" value="{{ trans('sentences.remaining') }}">
+        <input id="priceCol" value="{{ trans('sentences.sale_price') }}">
+        <input id="actionCol" value="{{ trans('sentences.action') }}">
+        <input id="attrName" value="{{ trans('sentences.attribute_name') }}">
     </div>
 @endsection
 
