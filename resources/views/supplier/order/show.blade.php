@@ -174,7 +174,7 @@
                             <i class="fa fa-print"></i> {{ trans('supplier.refuse') }}
                         </button>
                     </a>
-                @elseif ($order->status == config('order_status_accept'))
+                @elseif ($order->status == config('config.order_status_accept'))
                     <a href="{{ route('orders.change_status', ['id' => $order->id, 'status' => config('config.order_status_finish') ]) }}">
                         <button class="btn btn-success btn-print pull-right">
                             <i class="fa fa-print"></i>{{ trans('supplier.finish') }}

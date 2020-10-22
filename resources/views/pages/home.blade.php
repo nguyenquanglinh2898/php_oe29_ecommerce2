@@ -25,7 +25,7 @@
                                 <a href="" title="{{ $voucher->name }}">
                                     <div class="row">
                                         <div class="col-md-4 col-sm-3 col-xs-3 col-xs-responsive">
-                                            <img src="{{ asset(config('config.images_folder') . $voucher->supplier->avatar) }}" class="img-fluid" height="55px">
+                                            <img src="{{ asset($voucher->user->avatar) }}" class="img-fluid" height="55px">
                                         </div>
                                         <div class="col-md-8 col-sm-9 col-xs-9 col-xs-responsive">
                                             <div class="post-item-content">
@@ -52,7 +52,7 @@
                     <div class="item-product">
                         <a href="{{ route('home.show', $product->id) }}" title="{{ $product->name }}">
                             <div class="image-product" >
-                                <img src=" {{ asset(config('images_folder') . $product->thumbnail) }}" class="img-fluid">
+                                <img src=" {{ asset(config('config.images_folder') . $product->thumbnail) }}" class="img-fluid">
                             </div>
                             <div class="content-product">
                                 <h3 class="title">{{ $product->name }}</h3>
@@ -122,9 +122,7 @@
                                         </div>
                                         <div class="col-md-6 col-sm-6 col-xs-6" >
                                             <div class="product-details">
-                                                <div class="product-details">
-                                                    {!! $product->detail_info !!}
-                                                </div>
+                                                <div class="product-details"></div>
                                             </div>
                                         </div>
                                     </div>
@@ -159,9 +157,7 @@
                                             </div>
                                         </div>
                                         <div class="col-md-12 col-sm-12 col-xs-12 animate">
-                                            <div class="product-details">
-                                                {!! $product->detail_info !!}
-                                            </div>
+                                            <div class="product-details"></div>
                                         </div>
                                     </div>
                                 </a>

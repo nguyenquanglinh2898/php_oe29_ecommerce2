@@ -252,15 +252,15 @@
                                             <a href="" title="">
                                                 <div class="product-content">
                                                     <div class="image">
-                                                        <img src=" {{ asset(config('images_folder') . $product->thumbnail) }}" class="img-fluid" width="225px" >
+                                                        <img src=" {{ asset(config('images_folder') . $suggestproduct->thumbnail) }}" class="img-fluid" width="225px" >
                                                     </div>
                                                     <div class="content">
-                                                        <h3 class="title">{{ $product->name }}</h3>
+                                                        <h3 class="title">{{ $suggestproduct->name }}</h3>
                                                         <div class="start-vote">
                                                             @for ($i = 1; $i <= config('config.star_vote'); $i++)
-                                                                @if ($comment->rate > $i )
+                                                                @if ($suggestproduct->rate > $i )
                                                                     <i class="fas fa-star"></i>
-                                                                @elseif ($comment->rate = $i + 1 && $comment->rate - (int) $comment->rate > 0)
+                                                                @elseif ($suggestproduct->rate = $i + 1 && $suggestproduct->rate - (int) $suggestproduct->rate > 0)
                                                                     <i class="fas fa-star-half-alt"></i>
                                                                 @else
                                                                     <i class="far fa-star"></i>

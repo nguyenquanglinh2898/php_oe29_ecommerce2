@@ -20,8 +20,8 @@ class OrderController extends Controller
 
     public function show($id)
     {
-        $order = Order::with('orderItem')->findOrFail($id);
-        $orderItems = $order->orderItem;
+        $order = Order::with('orderItems')->findOrFail($id);
+        $orderItems = $order->orderItems;
 
         return view('supplier.order.show', compact('orderItems', 'order'));
     }
