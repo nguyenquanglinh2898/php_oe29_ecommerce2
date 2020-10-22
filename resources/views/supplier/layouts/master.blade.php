@@ -38,6 +38,8 @@
             </div>
             @include('supplier.layouts.footer')
         </div>
+
+        @include('sweetalert::alert')
         <script src="{{ asset('bower_components/AdminLTE/jquery/dist/jquery.min.js') }}"></script>
         <script src="{{ asset('bower_components/AdminLTE/bootstrap/dist/js/bootstrap.min.js') }}"></script>
         <script src="{{ asset('bower_components/common/js/sweetalert2.min.js') }}"></script>

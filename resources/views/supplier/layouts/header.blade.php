@@ -50,7 +50,7 @@
                 <!-- User Account Menu -->
                 <li class="dropdown tasks-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <img src="{{ config('setting.image_folder').Auth::user()->avatar }}" class="user-image" alt="{{ trans('sentences.profile_image') }}">
+                        <img src="{{ Auth::user()->avatar }}" class="user-image" alt="{{ trans('sentences.profile_image') }}">
                     </a>
                     <ul class="dropdown-menu">
                         <li class="header text-center"><b>{{ trans('sentences.hello') }} {{ Auth::user()->username }}</b></li>

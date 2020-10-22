@@ -66,3 +66,25 @@ input.error, select.error {
 #saveBtn {
     margin-right: 5px;
 }
+
+#attrTableBody input[type=text] {
+    width: 100%;
+}
+
+#addRowBtn {
+    display: none;
+}
+
+.remove-attr-btn {
+    position: absolute;
+    top: 42%;
+    right: 8%;
+    background: #fff;
+    border: none;
+    outline: none;
+}
+
+#productDetailTable {
+    display: inline-table;
+    margin-top: 18px;
+}
