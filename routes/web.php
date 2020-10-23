@@ -54,6 +54,7 @@ Route::get('/', 'Customer\HomeController@index')->name('home.index');
 Route::namespace('Customer')->prefix('pages')->group(function () {
     Route::get('product/{id}', 'HomeController@show')->name('home.show');
     Route::post('/show-detail', 'HomeController@showDetail')->name('home.show_detail');
+    Route::get('/notification/{id}', 'Customer\HomeController@notification')->name('home.notification');
 });
 
 Route::namespace('Customer')->prefix('cart')->group(function () {
@@ -63,4 +64,5 @@ Route::namespace('Customer')->prefix('cart')->group(function () {
     Route::post('/remove', 'CartController@removeCart')->name('cart.remove');
     Route::get('/show-detail', 'CartController@showDetailCart')->name('cart.show_detail');
 });
+
 Auth::routes(['verify' => true]);

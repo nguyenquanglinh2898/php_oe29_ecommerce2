@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use App\Models\Category;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\Auth;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -27,6 +28,11 @@ class AppServiceProvider extends ServiceProvider
     {
         view()->composer('layouts.header', function($view) {
             $categories = Category::where('parent_id', null)->get();
+            if (Auth::check()) {
+                $notifications = Auth::user()->unreadNotifications;
+
+                $view->with('notifications', $notifications);
+            }
 
             $view->with('categories', $categories);
         });
