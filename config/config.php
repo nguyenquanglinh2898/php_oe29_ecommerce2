@@ -69,4 +69,5 @@ return [
     'success' => 200,
     'vnd2' => 'đ',
     'empty_cart' => 'images/empty-cart.png',
+    'default_one' => 1,
 ];
