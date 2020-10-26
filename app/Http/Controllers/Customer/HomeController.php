@@ -116,4 +116,25 @@ class HomeController extends Controller
 
         return redirect()->route('home.index');
     }
+
+    public function category($id)
+    {
+        $category = Category::findOrFail($id);
+        $products = $category->products()->paginate(config('config.paginate'));
+
+        return view('pages.category', compact('category', 'products'));
+    }
+
+    public function filter(Request $request)
+    {
+        $category = Category::findOrFail($request->category_id);
+        $products = Product::query()
+            ->name($request)
+            ->category($request)
+            ->price($request)
+            ->type($request)
+            ->paginate(config('config.paginate'));
+
+        return view('pages.category', compact('category', 'products'));
+    }
 }

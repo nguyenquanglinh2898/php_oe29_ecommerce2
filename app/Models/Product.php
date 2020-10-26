@@ -47,4 +47,57 @@ class Product extends Model
     {
         return Carbon::parse($value)->format(config('setting.date_format'));
     }
+
+    public function scopeName($query, $request)
+    {
+        if ($request->has('name') && $request->name != null) {
+            $query->where('name', 'LIKE', '%' . $request->name . '%');
+        }
+
+        return $query;
+    }
+
+    public function scopePrice($query, $request)
+    {
+        if ($request->has('price_range') && $request->price_range != null) {
+            $query->leftJoin('product_details', 'products.id', '=', 'product_details.product_id')
+                ->groupBy('products.id')
+                ->selectRaw('products.*, avg(product_details.price) AS `avg`')
+                ->orderBy('avg', $request->price_range);
+        }
+
+        return $query;
+    }
+    public function scopeCategory($query, $request)
+    {
+        if ($request->has('category_id') && $request->category_id != null) {
+            $query->where('category_id', $request->category_id);
+        }
+
+        return $query;
+    }
+
+    public function scopeType($query, $request)
+    {
+        if ($request->has('type') && $request->type != null) {
+            if ($request->type == config('config.rate')) {
+                $query->orderBy('rate','DESC');
+            } else {
+                if ($request->has('price_range') && $request->price_range == null) {
+                    $query->leftJoin('product_details','products.id','=','product_details.product_id')
+                        ->leftJoin('order_items','product_details.id','=','order_items.product_detail_id')
+                        ->groupBy('products.id')
+                        ->selectRaw('products.*, count(order_items.product_detail_id) AS `count`')
+                        ->orderBy('count','DESC');
+                } else {
+                    $query->leftJoin('order_items','product_details.id','=','order_items.product_detail_id')
+                        ->groupBy('products.id')
+                        ->selectRaw('count(order_items.product_detail_id) AS `count`')
+                        ->orderBy('count','DESC');
+                }
+            }
+        }
+
+        return $query;
+    }
 }

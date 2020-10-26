@@ -4,9 +4,9 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use App\Models\Category;
-use Illuminate\View\View;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Slide;
+use Illuminate\Support\Facades\View;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -37,8 +37,9 @@ class AppServiceProvider extends ServiceProvider
 
             $view->with('categories', $categories);
         });
+
         view()->composer('*', function($view) {
-            $slides = Slide::All();
+            $slides = Slide::orderBy('created_at', 'DESC')->get();
 
             $view->with('slides', $slides);
         });
