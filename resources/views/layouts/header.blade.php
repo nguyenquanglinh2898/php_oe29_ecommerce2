@@ -14,11 +14,14 @@
             </div>
             <div class="col-md-3 margin-auto">
                 <div class="search">
-                    <form class="search-bar" action="" method="get" accept-charset="utf-8">
-                        <input class="input-search" type="search" name="search_key" placeholder="{{ trans('customer.search') }}" autocomplete="off">
+                    <form class="search-bar" action="{{ route('home.search_detail') }}" method="POST" accept-charset="utf-8">
+                        @csrf
+                        <input class="input-search" id="search-box" type="search"  placeholder="{{ trans('customer.search') }}" data-url="{{ route('home.search') }}" name="name" autocomplete="off">
                         <button type="submit"><i class="fas fa-search"></i></button>
                     </form>
+
                 </div>
+                <div class="search-data"></div>
             </div>
             <div class="col-md-7 hd-bg-white main-menu-responsive">
                 <div class="main-menu">
@@ -48,6 +51,7 @@
                             </li>
                             <li class="nav-item"><a href=""><span class="far fa-newspaper"></span>{{ trans('customer.voucher') }}</a></li>
                             <li class="nav-item "><a href=""><span class="fas fa-id-card"></span>{{ trans('customer.contact') }}</a></li>
+
                         </ul>
                     </div>
                     <div class="accout-menu">

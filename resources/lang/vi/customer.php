@@ -76,4 +76,13 @@ return [
     'provisional' => 'Tạm Tính',
     'into_money' => 'Thành Tiền',
     'pay_now' => 'Thanh Toán Ngay',
+    'no_item_cart' => 'Giỏ hàng của bạn đang trống.',
+    'no_review' => 'Chưa có đánh giá từ người dùng. Hãy cho chúng tôi biết ý kiến ​​của bạn.',
+    'readmore' => 'Đọc thêm',
+    'no_result' => 'Không tim thây kêt quả',
+    'Search' => 'Tìm kiếm',
+    'ops' => 'Oooops!',
+    'product_not_found' => 'Không tìm thấy sản phẩm',
+    'by_product_name' => 'Tìm kiếm theo sản phẩm',
+    'by_category_name' => 'Tìm kiếm theo danh mục',
 ];

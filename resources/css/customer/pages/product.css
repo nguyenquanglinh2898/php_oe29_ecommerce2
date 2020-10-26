@@ -1,14 +1,3 @@
-.slide-advertise-inner {
-    background-repeat: no-repeat;
-    background-size: cover;
-    padding-top: 21.25%;
-}
-#slide-advertise.owl-carousel .owl-item.active {
-    -webkit-animation-name: zoomIn;
-    animation-name: zoomIn;
-    -webkit-animation-duration: .6s;
-    animation-duration: .6s;
-}
 .section-product {
     background-color: #fff;
     margin-top: 20px;

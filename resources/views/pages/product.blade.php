@@ -12,6 +12,17 @@
         </nav>
     </section>
     <div class="site-product">
+        <section class="section-advertise">
+            <div class="content-advertise">
+                <div id="slide-advertise" class="owl-carousel">
+                    @foreach ($slides as $slide)
+                        <div class="slide-advertise-inner"  data-dot="<button>{{ $slide->title }}</button>">
+                            <img src="{{ asset(config('config.images_folder') . $slide->image) }}" alt="">
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        </section>
         <section class="section-product">
             <div class="section-header">
                 <h2 class="section-title">{{ $product->name }}</h2>

@@ -39,6 +39,7 @@
         <script src="{{ asset('bower_components/common/js/owl.carousel.min.js') }}"></script>
         <script src="{{ asset('bower_components/common/js/sweetalert2.min.js') }}"></script>
         <script src="{{ asset('js/customer/custom.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('js/customer/pages/search.js') }}"></script>
         @if (Request::route()->getName() != 'cart.show_detail')
             <script src="{{ asset('js/customer/pages/minicart.js') }}"></script>
         @endif
