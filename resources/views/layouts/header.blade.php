@@ -9,7 +9,7 @@
                 <span class="icon-bar"></span>
                 </button>
                 <div class="logo">
-                    <a class="logo-wrapper" href="" ><img src="{{ asset(config('config.logo')) }}" alt="{{ config('config.name') }}"></a>
+                    <a class="logo-wrapper" href="{{ route('home.index') }}" ><img src="{{ asset(config('config.logo')) }}" alt="{{ config('config.name') }}"></a>
                 </div>
             </div>
             <div class="col-md-3 margin-auto">
@@ -27,7 +27,7 @@
                 <div class="main-menu">
                     <div class="nav">
                         <ul>
-                            <li class="nav-item "><a href="" ><span class="fas fa-home"></span>{{ trans('customer.home') }}</a></li>
+                            <li class="nav-item "><a href="{{ route('home.index') }}" ><span class="fas fa-home"></span>{{ trans('customer.home') }}</a></li>
                             <li class="nav-item"><a href=""><span class="fas fa-info"></span>{{ trans('customer.about') }}</a></li>
                             <li class="nav-item dropdown ">
                                 <a href="" ><span class="fas fa-mobile-alt"></span>{{ trans('product') }}<i class="fas fa-angle-down"></i></a>
