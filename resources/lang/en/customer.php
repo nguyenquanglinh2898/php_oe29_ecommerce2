@@ -76,4 +76,13 @@ return [
     'provisional' => 'Provisional',
     'into_money' => 'Into Money',
     'pay_now' => 'Pay Now',
+    'no_item_cart' => 'Your shopping cart is empty.',
+    'no_review' => 'No reviews from users yet. Let us know your opinion.',
+    'readmore' => 'Read more',
+    'no_result' => 'No results were found',
+    'Search' => 'Search',
+    'ops' => 'Oooops!',
+    'product_not_found' => 'Product Item Not Found',
+    'by_product_name' => 'Search By Product',
+    'by_category_name' => 'Search By Category',
 ];

@@ -55,6 +55,8 @@ Route::namespace('Customer')->prefix('pages')->group(function () {
     Route::get('product/{id}', 'HomeController@show')->name('home.show');
     Route::post('/show-detail', 'HomeController@showDetail')->name('home.show_detail');
     Route::get('/notification/{id}', 'Customer\HomeController@notification')->name('home.notification');
+    Route::post('search', 'HomeController@search')->name('home.search');
+    Route::post('search-detail', 'HomeController@searchDetail')->name('home.search_detail');
 });
 
 Route::namespace('Customer')->prefix('cart')->group(function () {

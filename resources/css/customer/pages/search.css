@@ -1,0 +1,15 @@
+.search-strong{
+    color: #f30;
+}
+
+.slide-advertise-inner {
+background-repeat: no-repeat;
+background-size: cover;
+}
+
+#slide-advertise.owl-carousel .owl-item.active {
+-webkit-animation-name: zoomIn;
+animation-name: zoomIn;
+-webkit-animation-duration: .6s;
+animation-duration: .6s;
+}

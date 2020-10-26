@@ -10,6 +10,7 @@ use App\Models\ProductDetail;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Arr;
 use App\Models\Notification;
+use App\Models\Category;
 use DB;
 
 class HomeController extends Controller
@@ -88,5 +89,31 @@ class HomeController extends Controller
         }
 
         return false;
+    }
+
+    public function search(Request $request)
+    {
+        $keyword = $request->input('name');
+
+        if ($keyword != null) {
+            $products = Product::where('name', 'LIKE', "%$keyword%")->get();
+
+            return view('layouts.search', compact('products'));
+        }
+    }
+
+    public function searchDetail(Request $request)
+    {
+        $keyword = $request->input('name');
+
+        if ($keyword != null) {
+
+            $products = Product::where('name', 'LIKE', "%$keyword%")->get();
+            $categories = Category::with('products')->where('name', 'LIKE', "%$keyword%")->take(config('config.take'))->get();
+
+            return view('pages.search', compact('products', 'categories'));
+        }
+
+        return redirect()->route('home.index');
     }
 }
