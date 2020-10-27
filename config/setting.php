@@ -25,4 +25,5 @@ return [
     'blocked_id' => 2,
     'throttle_resend_mail_times' => 3,
     'throttle_resend_mail_minutes' => 1,
+    'currency_unit' => 'đ',
 ];

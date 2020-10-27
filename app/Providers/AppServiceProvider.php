@@ -6,6 +6,7 @@ use Illuminate\Support\ServiceProvider;
 use App\Models\Category;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Slide;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -35,6 +36,11 @@ class AppServiceProvider extends ServiceProvider
             }
 
             $view->with('categories', $categories);
+        });
+        view()->composer('*', function($view) {
+            $slides = Slide::All();
+
+            $view->with('slides', $slides);
         });
     }
 }
