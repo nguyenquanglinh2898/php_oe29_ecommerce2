@@ -51,7 +51,9 @@
                             </li>
                             <li class="nav-item"><a href=""><span class="far fa-newspaper"></span>{{ trans('customer.voucher') }}</a></li>
                             <li class="nav-item "><a href=""><span class="fas fa-id-card"></span>{{ trans('customer.contact') }}</a></li>
-
+                            @if (Auth::check())
+                                <li class="nav-item ">@include('layouts.notification')</li>
+                            @endif
                         </ul>
                     </div>
                     <div class="accout-menu">
@@ -76,7 +78,7 @@
                                     <li class="menu-item dropdown ">
                                         <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" title="{{ Auth::user()->name }}">
                                             <div class="avatar" >
-                                                <img src="{{ asset(config('config.images_folder') . Auth::user()->avatar) }}">
+                                                <img src="{{ asset(Auth::user()->avatar) }}" class="img-responsive img-circle avatar">
                                             </div>
                                         </a>
                                         <ul class="dropdown-menu">
@@ -87,7 +89,7 @@
                                                 </li>
                                             @else
                                                 <li class="">
-                                                    <a href=""><i class="fas fa-clipboard-list"></i> {{ trans('customer.manage_order') }}
+                                                    <a href="{{ route('home.order') }}"><i class="fas fa-clipboard-list"></i> {{ trans('customer.manage_order') }}
                                                     </a>
                                                 </li>
                                                 <li class="">

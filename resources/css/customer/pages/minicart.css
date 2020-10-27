@@ -133,6 +133,7 @@
 .noti {
     right: unset;
     bottom: unset;
+    max-width: 80%;
 }
 .noti > ul#cart-sidebar {
     padding: 10px;

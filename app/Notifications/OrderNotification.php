@@ -48,6 +48,7 @@ class OrderNotification extends Notification
             'status' => $this->data['status'],
             'icon' => $this->data['icon'],
             'created_at' => $this->data['created_at'],
+            'order_id' => $this->data['order_id'],
         ];
     }
 }

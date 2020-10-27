@@ -37,7 +37,8 @@ class OrderController extends Controller
             'status' => statusOrder($order->status),
             'class' => classOrder($order->status),
             'icon' => iconOrder($order->status),
-            'created_at' =>Carbon::now()->toDateTimeString(),
+            'created_at' => Carbon::now()->toDateTimeString(),
+            'order_id' => $order->id,
         ];
 
         $user->notify(new OrderNotification($data));

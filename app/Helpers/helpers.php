@@ -35,7 +35,7 @@ if (!function_exists('classOrder')) {
         }
         if ($status == config('config.order_status_refuse')) {
 
-            return config('config.order_status_refuse.class');
+            return config('config.order_status_refuse_class');
         }
         if ($status == config('config.order_status_pending')) {
 
