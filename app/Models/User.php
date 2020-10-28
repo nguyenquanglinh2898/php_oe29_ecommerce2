@@ -48,6 +48,11 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Product::class);
     }
 
+    public function vouchers()
+    {
+        return $this->hasMany(Voucher::class);
+    }
+
     public function getAvatarAttribute($value)
     {
         if ($value == null) {

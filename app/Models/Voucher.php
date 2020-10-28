@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -19,5 +20,10 @@ class Voucher extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function getEndDateAttribute($value)
+    {
+        return Carbon::parse($value)->format(config('setting.date_format'));
     }
 }

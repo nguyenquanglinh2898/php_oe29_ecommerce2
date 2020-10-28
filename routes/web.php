@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Session;
 
 /*
 |--------------------------------------------------------------------------
@@ -53,7 +54,10 @@ Route::middleware(['auth', 'verified'])->group(function(){
     });
 });
 
-Route::get('/', 'Customer\HomeController@index')->name('home.index');
+Route::namespace('Customer')->group(function(){
+    Route::get('/', 'HomeController@index')->name('home.index');
+    Route::get('checkout', 'CartController@checkout')->name('checkout');
+});
 
 Route::namespace('Customer')->prefix('pages')->group(function () {
     Route::get('product/{id}', 'HomeController@show')->name('home.show');
@@ -69,6 +73,10 @@ Route::namespace('Customer')->prefix('cart')->group(function () {
     Route::get('/show', 'CartController@showCart')->name('cart.show');
     Route::post('/remove', 'CartController@removeCart')->name('cart.remove');
     Route::get('/show-detail', 'CartController@showDetailCart')->name('cart.show_detail');
+    Route::get('/transporter-fee/{transporterId}', 'CartController@transporterFee')->name('cart.transporter_fee');
+    Route::get('/show-vouchers', 'CartController@showSupplierVouchers')->name('cart.show_supplier_vouchers');
+    Route::get('/check-voucher', 'CartController@checkVoucher')->name('cart.check_voucher');
+    Route::post('/pay', 'CartController@pay')->name('cart.pay');
 });
 
 Auth::routes(['verify' => true]);

@@ -9,6 +9,7 @@ class Cart
     private $items = [];
     private $totalQty = 0;
     private $totalPrice = 0;
+    private $totalWeight = 0;
 
     public function __construct($oldCart)
     {
@@ -16,6 +17,7 @@ class Cart
             $this->items = $oldCart->items;
             $this->totalQty = $oldCart->totalQty;
             $this->totalPrice = $oldCart->totalPrice;
+            $this->totalWeight = $oldCart->totalWeight;
         }
     }
 
@@ -31,6 +33,7 @@ class Cart
                 $this->items[$item['id']]['qty'] += 1;
                 $this->totalQty += 1;
                 $this->totalPrice += $item['price'];
+                $this->totalWeight += $item['product']['weight'];
 
                 return true;
             }
@@ -41,6 +44,7 @@ class Cart
             $this->items = Arr::add($this->items, $item['id'], $item);
             $this->totalQty += 1;
             $this->totalPrice += $item['price'];
+            $this->totalWeight += $item['product']['weight'];
 
             return true;
         }
@@ -51,7 +55,8 @@ class Cart
         if (Arr::exists($this->items, $item['id'])) {
             if ($qty <= $item['remaining'] && $qty >= 1 ) {
                 $this->totalQty += ($qty - $this->items[$item['id']]['qty']);
-                $this->totalPrice = $this->totalPrice + $qty * $item['price'] - $this->items[$item['id']]['qty'] * $item['price'];
+                $this->totalPrice += ($qty - $this->items[$item['id']]['qty']) * $item['price'];
+                $this->totalWeight += ($qty - $this->items[$item['id']]['qty']) * $item['product']['weight'];
                 $this->items[$item['id']]['qty'] = $qty;
 
                 return true;
@@ -65,7 +70,8 @@ class Cart
     {
         if (Arr::exists($this->items, $item['id'])) {
             $this->totalQty -= $this->items[$item['id']]['qty'];
-            $this->totalPrice -= $this->items[$item['id']]['qty']*$item['price'];
+            $this->totalPrice -= $this->items[$item['id']]['qty'] * $item['price'];
+            $this->totalWeight -= $this->items[$item['id']]['qty'] * $item['product']['weight'];
             Arr::forget($this->items, $item['id']);
 
             return true;

@@ -3,9 +3,15 @@
 namespace App\Http\Controllers\Customer;
 
 use App\Http\Controllers\Controller;
+use App\Models\PaymentMethod;
+use App\Models\Transporter;
+use App\Models\User;
+use App\Models\Voucher;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\ProductDetail;
 use App\Models\Cart;
+use Illuminate\Support\Arr;
 use Session;
 
 class CartController extends Controller
@@ -99,5 +105,83 @@ class CartController extends Controller
         $cart = Session::get('cart');
 
         return view('pages.cart', compact('cart'));
+    }
+
+    public function checkout()
+    {
+        $paymentMethods = PaymentMethod::all();
+        $transporters = Transporter::all();
+        $cart = Session::get('cart');
+
+        $checkout = [];
+        $checkout['suppliers'] = $this->groupOrderItem($cart);
+        $checkout['totalQuantity'] = $cart->totalQty;
+        $checkout['totalPrice'] = $cart->totalPrice;
+        $checkout['totalWeight'] = $cart->totalWeight;
+        Session::put('checkout', $checkout);
+
+        return view('pages.checkout', compact('checkout', 'paymentMethods', 'transporters'));
+    }
+
+    public function groupOrderItem($cart)
+    {
+        $listSupplierWithTheirItems = [];
+        foreach ($cart->items as $cartItem) {
+            $supplierId = $cartItem['product']['user_id'];
+            if (!Arr::exists($listSupplierWithTheirItems, $supplierId)) {
+                $supplier['id'] = $supplierId;
+                $supplier['name'] = User::findOrFail($supplierId)->name;
+                $supplier['items'] = [];
+                $supplier['totalWeight'] = $cartItem['product']['weight'] * $cartItem['qty'];
+                $supplier['totalPrice'] = $cartItem['price'] * $cartItem['qty'];
+                array_push($supplier['items'], $cartItem);
+
+                $listSupplierWithTheirItems = array_add($listSupplierWithTheirItems, $supplierId, $supplier);
+            } else {
+                $listSupplierWithTheirItems[$supplierId]['totalWeight'] += $cartItem['product']['weight'] * $cartItem['qty'];
+                $listSupplierWithTheirItems[$supplierId]['totalPrice'] += $cartItem['price'] * $cartItem['qty'];
+                array_push($listSupplierWithTheirItems[$supplierId]['items'], $cartItem);
+            }
+        }
+
+        return $listSupplierWithTheirItems;
+    }
+
+    public function transporterFee($transporterId)
+    {
+        $transporter = Transporter::findOrFail($transporterId);
+
+        return $transporter->fee;
+    }
+
+    public function showSupplierVouchers(Request $request)
+    {
+        $now = Carbon::now();
+        $vouchers = User::findOrFail($request->supplierId)->vouchers()
+            ->where([
+                ['end_date', '>=', $now],
+                ['quantity', '>', 0],
+                ['min_value', '<=', $request->totalPrice],
+            ])->get();
+        $currentVoucherId = $request->currentVoucherId;
+
+        return view('pages.vouchers', compact('vouchers', 'currentVoucherId'));
+    }
+
+    public function checkVoucher(Request $request)
+    {
+        $voucher = Voucher::findOrFail($request->voucherId);
+        $shipPrice = $request->shipPrice;
+        $totalPrice = $request->totalPrice;
+
+        if ($voucher->freeship) {
+            $totalPrice -= $shipPrice;
+            $shipPrice = 0;
+        }
+
+        $discount = ((float) $voucher->discount / 100) * $totalPrice;
+        $totalPrice -= $discount;
+
+        return compact('shipPrice', 'totalPrice');
     }
 }
