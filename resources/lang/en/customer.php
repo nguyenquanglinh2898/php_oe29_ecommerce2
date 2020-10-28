@@ -85,4 +85,12 @@ return [
     'product_not_found' => 'Product Item Not Found',
     'by_product_name' => 'Search By Product',
     'by_category_name' => 'Search By Category',
+    'category_children' => 'Category Children',
+    'product_price' => 'Product Price',
+    'price_low_hight' => 'Price from low to high',
+    'price_hight_low' => 'Price from hight to low',
+    'hight_rate' => 'Highly rated products',
+    'hight_order' => 'most purchased product',
+    'product_type' => 'Product Type',
+    'filter_products' => 'Filter Products',
 ];

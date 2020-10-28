@@ -39,7 +39,7 @@
                                                 @foreach ($categories as $category)
                                                     <div class="col-sm-6">
                                                         <li>
-                                                            <a href="" title="{{ $category->name }}">{{ $category->name }} <hr>
+                                                            <a href="{{ route('home.category', $category->id) }}" title="{{ $category->name }}">{{ $category->name }} <hr>
                                                             </a>
                                                         </li>
                                                     </div>
