@@ -124,4 +124,6 @@ return [
     'description' => 'Chi tiết',
     'expire_date' => 'Hạn sử dụng',
     'apply' => 'Áp dụng',
+    'order_successfully' => 'Đặt hàng thành công',
+    'order_fail' => 'Đặt hàng thất bại',
 ];

@@ -67,8 +67,8 @@
                         <div class="price totalPrice">{{ number_format($cart->totalPrice, config('config.default'), ',', '.') }}{{ config('config.vnd2') }}</div>
                     </div>
                     <div class="btn-action">
-                        <button title="Thanh Toán Ngay" data-url="">{{ trans('customer.pay_now') }}</button>
-                        <a href="" class="btn-btn-default" title="{{ trans('customer.continue_shopping') }}">{{ trans('customer.continue_shopping') }}</a>
+                        <a href="{{ route('checkout') }}" class="btn btn-danger">{{ trans('customer.pay_now') }}</a>
+                        <a href="{{ route('home.index') }}" class="btn-btn-default" title="{{ trans('customer.continue_shopping') }}">{{ trans('customer.continue_shopping') }}</a>
                     </div>
                 </div>
             </div>
