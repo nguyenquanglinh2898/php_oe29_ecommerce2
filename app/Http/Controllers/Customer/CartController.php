@@ -16,9 +16,9 @@ use Session;
 
 class CartController extends Controller
 {
-    public function addCart($id)
+    public function addCart(Request $request)
     {
-        $item = ProductDetail::with('product')->findOrFail($id)->toArray();
+        $item = ProductDetail::with('product')->findOrFail($request->product_detail_id)->toArray();
         $oldCart = Session::get('cart');
         $cart = new Cart($oldCart);
 

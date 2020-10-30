@@ -74,6 +74,7 @@
                                         <div class="select-color">
                                             <div class="row">
                                                 <form class = "select_form">
+                                                    @csrf
                                                     <input type="text" name="product_id" hidden="" value="{{ $product->id }}">
                                                     @foreach ($groupAtribute as $key => $atributes)
                                                         <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
@@ -101,6 +102,7 @@
                                     <div class="form-payment">
                                         <form action="" method="POST" accept-charset="utf-8" class="product_detail_form">
                                             @csrf
+                                            <input type="text" name="product_detail_id" id="product_detail_id" value="{{ $activeAttribute['id'] }}" hidden="">
                                             <div class="row">
                                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                                     <button type="submit" class="btn btn-lg btn-gray">
@@ -112,7 +114,7 @@
                                                 </div>
                                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                                     <button type="button" data-role="addtocart" class="btn btn-lg btn-gray btn-cart btn_buy add_to_cart"
-                                                    data-url="{{ route('cart.add', $activeAttribute['id'] ) }}" data-url2="{{ route('cart.show') }}">
+                                                    data-url="{{ route('cart.add') }}" data-url2="{{ route('cart.show') }}">
                                                         <span class="txt-main"><i class="fa fa-cart-arrow-down padding-right-10"></i>{{ trans('customer.add_cart') }}</span>
                                                     </button>
                                                 </div>

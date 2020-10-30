@@ -1,5 +1,5 @@
 <div class="support-cart mini-cart">
-    <a class="btn-support-cart" href="{{ route('cart.show') }}">
+    <a class="btn-support-cart" href="{{ route('cart.show_detail') }}">
         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" viewBox="0 0 435.104 435.104" xml:space="preserve" width="30px" height="30px">
             <g>
                 <circle cx="154.112" cy="377.684" r="52.736" data-original="#000000" class="active-path" data-old_color="#Ffffff" fill="#FFFFFF"></circle>
@@ -73,7 +73,7 @@
                         <a href="" class="btn btn-gray btn-checkout" data-url="">
                             <span >{{ trans('customer.pay') }}</span>
                         </a>
-                        <a href="{{ route('cart.show_detail') }}" class="view-cart btn btn-white margin-left-5" title="Giỏ hàng">
+                        <a href="{{ route('cart.show_detail') }}" class="view-cart btn btn-white margin-left-5" title="{{ trans('customer.cart') }}">
                             <span>{{ trans('customer.cart') }}</span>
                         </a>
                     </div>

@@ -70,7 +70,7 @@ Route::namespace('Customer')->prefix('pages')->group(function () {
 });
 
 Route::namespace('Customer')->prefix('cart')->group(function () {
-    Route::get('/add/{id}', 'CartController@addCart')->name('cart.add');
+    Route::get('/add', 'CartController@addCart')->name('cart.add');
     Route::post('/update', 'CartController@updateCart')->name('cart.update');
     Route::get('/show', 'CartController@showCart')->name('cart.show');
     Route::post('/remove', 'CartController@removeCart')->name('cart.remove');

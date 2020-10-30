@@ -70,7 +70,7 @@ class HomeController extends Controller
 
     public function showDetail(Request $request)
     {
-        $productDetails = ProductDetail::where('list_attributes', json_encode($request->except(['product_id'])))
+        $productDetails = ProductDetail::where('list_attributes', json_encode($request->except(['product_id', '_token'])))
             ->where('product_id', $request->input('product_id'))
             ->get();
         if ($productDetails->isNotEmpty()) {
