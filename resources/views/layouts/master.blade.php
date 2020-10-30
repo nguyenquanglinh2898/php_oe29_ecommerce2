@@ -34,6 +34,7 @@
             </div>
         @endif
         @include('layouts.footer')
+        @include('sweetalert::alert')
         <script src="{{ asset('bower_components/common/js/jquery-3.3.1.js') }}"></script>
         <script src="{{ asset('bower_components/common/js/bootstrap.min.js') }}"></script>
         <script src="{{ asset('bower_components/common/js/owl.carousel.min.js') }}"></script>

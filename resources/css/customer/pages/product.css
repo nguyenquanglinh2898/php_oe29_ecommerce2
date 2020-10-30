@@ -1,3 +1,23 @@
+.rate-edit-star {
+    display: none;
+}
+.start {
+    font-size: 20px;
+    line-height: 20px;
+    color: orange;
+    margin-bottom: 10px;
+}
+.remove-edit {
+    float: right;
+    color: red;
+}
+.edit-view-comment {
+    display: none;
+}
+.comment-user {
+    overflow: scroll;
+    max-height: 500px;
+}
 .section-product {
     background-color: #fff;
     margin-top: 20px;
