@@ -74,4 +74,5 @@ return [
     'desc' => 'DESC',
     'rate' => 'rate',
     'order' => 'order',
+    'cancel_date' => 24,
 ];

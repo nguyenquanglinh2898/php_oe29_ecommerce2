@@ -11,6 +11,9 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Arr;
 use App\Models\Notification;
 use App\Models\Category;
+use App\Models\Order;
+use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 use DB;
 
 class HomeController extends Controller
@@ -83,12 +86,9 @@ class HomeController extends Controller
 
     public function notification($id)
     {
-        if (Auth::user()->unreadNotifications->where('id', $id)->markAsRead()) {
+        Auth::user()->unreadNotifications->where('id', $id)->markAsRead();
 
-            return count(Auth::user()->unreadNotifications);
-        }
-
-        return false;
+        return Auth::user()->unreadNotifications()->count();
     }
 
     public function search(Request $request)
@@ -136,5 +136,36 @@ class HomeController extends Controller
             ->paginate(config('config.paginate'));
 
         return view('pages.category', compact('category', 'products'));
+    }
+
+    public function order()
+    {
+        $orders = Order::where('user_id', Auth::id())->orderBy('created_at', 'DESC')->paginate(config('config.paginate'));
+
+        return view('pages.orders', compact('orders'));
+    }
+
+    public function orderDetail($id)
+    {
+        $order = Order::with(['orderItems', 'user'])->findOrFail($id);
+
+        return view('pages.order', compact('order'));
+    }
+
+    public function orderCancel(Request $request)
+    {
+        $order = Order::findOrFail($request->id);
+        if (Carbon::now()->diffInHours($order->created_at) <= config('config.cancel_date') && $order->status == config('config.order_status_pending')) {
+            $order->update(['status' => config('config.order_status_cancel')]);
+            $data['success'] = trans('customer.success');
+            $data['msg'] = trans('customer.cancel_order_success');
+
+            return response()->json($data, config('config.success'));
+        }
+
+        $data['msg'] = trans('customer.cancel_order_error');
+        $data['error'] = trans('customer.error');
+
+        return response()->json($data, config('config.error'));
     }
 }

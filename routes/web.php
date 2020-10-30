@@ -67,6 +67,9 @@ Route::namespace('Customer')->prefix('pages')->group(function () {
     Route::post('search-detail', 'HomeController@searchDetail')->name('home.search_detail');
     Route::get('category/{id}', 'HomeController@category')->name('home.category');
     Route::get('filter', 'HomeController@filter')->name('home.filter');
+    Route::get('orders', 'HomeController@order')->name('home.order');
+    Route::get('order-detail/{id}', 'HomeController@orderDetail')->name('home.order_detail');
+    Route::post('cancel-orders', 'HomeController@orderCancel')->name('home.order_cancel');
 });
 
 Route::namespace('Customer')->prefix('cart')->group(function () {

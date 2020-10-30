@@ -17,6 +17,9 @@ body {
 .tab-pane {
     margin-left: 15px;
 }
+.cancel-form {
+    display: inline;
+}
 .show-rate-header {
     margin-left: 20px;
 }
@@ -276,8 +279,6 @@ body {
 }
 .header .main-menu .menu-item div.avatar {
     width: 45px;
-    padding-top: 100%;
-    background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
     border-radius: 50%;
@@ -289,7 +290,6 @@ body {
     padding: 5px 10px;
     font-weight: 600;
     display: block;
-    text-align: center;
 }
 .header .main-menu .dropdown-menu {
     margin: 0;

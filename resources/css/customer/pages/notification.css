@@ -90,7 +90,7 @@
 .num {
     position:absolute;
     top:0;
-    left:50px;
+    left: 62%;
     width:20px;
     height:24px;
     border-radius:50%;
@@ -99,4 +99,18 @@
     line-height:25px;
     font-family:sans-serif;
 }
-
+.alert-primary {
+    background-color: #33b5e5;
+}
+.alert-default {
+    background-color: #616161;
+}
+.alert-danger {
+    background-color: #ff3547;
+}
+.alert-success {
+    background-color: #00c851;
+}
+.alert-warning {
+    background-color: #ffbb33;
+}
