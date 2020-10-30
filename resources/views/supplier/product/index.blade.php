@@ -58,7 +58,7 @@
                             <th>{{ trans('sentences.rating') }}</th>
                             <th>{{ trans('sentences.category') }}</th>
                             <th>{{ trans('sentences.created_at') }}</th>
-                            <th>{{ trans('sentences.ramaining') }}</th>
+                            <th>{{ trans('sentences.remaining') }}</th>
                             <th>{{ trans('sentences.action') }}</th>
                         </tr>
                         </thead>
@@ -79,7 +79,7 @@
                                     <td> {{ $product->created_at }}</td>
                                     <td> {{ $product->remaining }}</td>
                                     <td>
-                                        <a href="{{ route('supplier.products.show', [$product->id]) }}" class="btn btn-icon btn-sm btn-primary tip" title="{{ trans('sentences.detail') }}">
+                                        <a class="btn btn-show btn-icon btn-sm btn-primary tip" title="{{ trans('sentences.detail') }}" data-toggle="modal" data-url="{{ route('supplier.products.show', [$product->id]) }}" data-target="#showModal">
                                             <i class="fa fa-eye" aria-hidden="true"></i>
                                         </a>
                                         <a href="{{ route('supplier.products.edit', [$product->id]) }}" class="btn btn-icon btn-sm btn-primary tip" title="{{ trans('sentences.edit') }}">
@@ -122,6 +122,22 @@
         <!-- /.col -->
     </div>
     <!-- /.row -->
+
+    <div class="modal fade" id="showModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span class="modal-title"><b>{{ trans('sentences.product_details') }}</b></span>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="{{ trans('sentences.close') }}">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="showModalBody">
+                    <!-- Detail information of a product -->
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- localization words parsed to javascript file throw hidden input-->
     <div class="hidden">

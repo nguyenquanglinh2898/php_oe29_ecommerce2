@@ -130,4 +130,12 @@ class ProductController extends Controller
 
         return ($minPrice == $maxPrice) ? $minPrice : $minPrice.' - '.$maxPrice;
     }
+
+    public function show($id)
+    {
+        $product = Product::findOrFail($id);
+        $product->load('user', 'category', 'images', 'productDetails');
+
+        return view('supplier.product.show', compact('product'));
+    }
 }
