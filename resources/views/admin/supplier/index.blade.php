@@ -61,7 +61,7 @@
                                     {{ $key + 1 }}
                                 </td>
                                 <td>
-                                    <img src="{{ asset($supplier->avatar) }}">
+                                    <img src="{{ asset($supplier->avatar) }}" class="img-responsive">
                                 </td>
                                 <td>
                                     <a class="text-left" href="" title="{{ $supplier->name }}">{{ $supplier->name }}</a>

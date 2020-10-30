@@ -24,10 +24,16 @@ Route::middleware(['auth', 'verified'])->group(function(){
         Route::get('products/show/{product}', 'ProductController@show')->name('products.show');
         Route::post('products/changeStatus/{product}/{status}', 'ProductController@changeStatus')->name('products.change_status');
         Route::get('statistics', 'StatisticsController@index')->name('statistics.index');
+    });
+
+    Route::namespace('Admin')->prefix('admin')->group(function(){
         Route::get('suppliers', 'SupplierController@index')->name('suppliers.index');
         Route::get('suppliers-register', 'SupplierController@supplierRegister')->name('suppliers.register');
         Route::get('suppliers-block', 'SupplierController@supplierBlock')->name('suppliers.block');
         Route::get('suppliers/{id}', 'SupplierController@show')->name('suppliers.show');
+        Route::get('suppliers/change-status/{id}/{status}', 'SupplierController@changeStatusSupplier')
+            ->name('supplier.change_status');
+
     });
 
     Route::prefix('supplier')->name('supplier.')->namespace('Supplier')->group(function(){
@@ -43,7 +49,7 @@ Route::middleware(['auth', 'verified'])->group(function(){
     });
 
     Route::namespace('Supplier')->prefix('supplier')->group(function () {
-        Route::get('/orders', 'OrderController@index')->name('orders.index');
+        Route::get('/orders/{status}', 'OrderController@index')->name('orders.index');
         Route::get('/order-items/{id}', 'OrderController@show')->name('orders.show');
         Route::get('/change-status/{id}/{status}', 'OrderController@changeStatusOrder')
             ->name('orders.change_status');

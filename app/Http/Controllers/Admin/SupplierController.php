@@ -1,11 +1,16 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Comment;
 use App\Models\Product;
+use App\Notifications\SupplierNotification;
+use RealRashid\SweetAlert\Facades\Alert;
+use Carbon\Carbon;
+use DB;
 
 class SupplierController extends Controller
 {
@@ -49,5 +54,34 @@ class SupplierController extends Controller
             ->paginate(config('config.paginate'));
 
         return view('admin.supplier.show', compact('supplier', 'comments', 'postProducts'));
+    }
+
+    public function changeStatusSupplier($id, $status)
+    {
+        DB::beginTransaction();
+        try {
+            $supplier = User::findOrFail($id);
+            $supplier->update(['status' => $status]);
+            $data = [
+                'status' => statusSupplier($supplier->status),
+                'class' => classSupplier($supplier->status),
+                'icon' => iconSupplier($supplier->status),
+                'created_at' =>Carbon::now()->toDateTimeString(),
+            ];
+            if ($status == config('config.status_block')) {
+                $supplier->products()->update(['block' => config('config.default_one')]);
+            } else {
+                $supplier->products()->update(['block' => config('config.default')]);
+            }
+            $supplier->notify(new SupplierNotification($data));
+
+            DB::commit();
+            Alert::success(trans('supplier.change_status_success'));
+        } catch (Exception $exception) {
+            DB::rollBack();
+            Alert::error(trans('supplier.change_status_false'));
+        }
+
+        return redirect()->back();
     }
 }

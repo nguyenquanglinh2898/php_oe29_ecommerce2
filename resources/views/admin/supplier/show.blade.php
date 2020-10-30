@@ -4,6 +4,7 @@
 @endsection
 @section('custom-css')
     <link rel="stylesheet" href="{{ asset('css/admin/supplier/show.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/admin/product/index.scss') }}">
 @endsection
 @section('breadcrumb')
     <ol class="breadcrumb">
@@ -40,11 +41,11 @@
                 <strong><i class="fa fa-map-marker margin-r-5"></i>{{ trans('admin.address') }}</strong>
                 <p class="text-muted">{{ $supplier->address }}</p>
                 @if ($supplier->status == config('config.status_active'))
-                    <a href="" class="btn btn-danger btn-block"><b>{{ trans('admin.block_account') }}</b></a>
+                    <a href="{{ route('supplier.change_status',['id' => $supplier->id, 'status' => config('config.status_block') ]) }}" class="btn btn-danger btn-block"><b>{{ trans('admin.block_account') }}</b></a>
                 @elseif ($supplier->status == config('config.status_block'))
-                    <a href="" class="btn btn-success btn-block"><b>{{ trans('admin.unblock_account') }}</b></a>
+                    <a href="{{ route('supplier.change_status',['id' => $supplier->id, 'status' => config('config.status_active') ]) }}" class="btn btn-success btn-block"><b>{{ trans('admin.unblock_account') }}</b></a>
                 @else
-                    <a href="" class="btn btn-warning btn-block"><b>{{ trans('admin.active_account') }}</b></a>
+                    <a href="{{ route('supplier.change_status',['id' => $supplier->id, 'status' => config('config.status_active') ]) }}" class="btn btn-warning btn-block"><b>{{ trans('admin.active_account') }}</b></a>
                 @endif
             </div>
         </div>
@@ -62,7 +63,7 @@
                             @foreach ($postProducts as $postProduct)
                                 <li class="time-label">
                                     <span class="bg-yellow">
-                                        <i class="fa fa-clock-o"></i> {{ date_format($postProduct->created_at, config('config.day_fomat')) }}
+                                        <i class="fa fa-clock-o"></i> {{ $postProduct->created_at }}
                                     </span>
                                 </li>
                                 <li>
@@ -84,7 +85,7 @@
                                                     <tbody>
                                                         <tr>
                                                             <td class="text-center show-middle" >{{ $postProduct->id }}</td>
-                                                            <td class="text-center show-middle" ><img class="profile-user-img img-responsive " src="{{ asset(config('config.images_folder') . $postProduct->thumbnail) }}" ></td>
+                                                            <td class="text-center show-middle" ><a href="{{ route('admin.products.show', [$postProduct->id]) }}"><img class="profile-user-img img-responsive " src="{{ asset($postProduct->thumbnail) }}" ></a></td>
                                                             <td class="text-center show-middle" >{{ $postProduct->name }}</td>
                                                             <td class="text-center show-middle" >{{ $postProduct->brand }}</td>
                                                             <td class="text-center show-middle" >{{ $postProduct->category->name }}</td>
@@ -94,7 +95,9 @@
                                             </div>
                                         </div>
                                         <div class="timeline-footer">
-                                            <span class="label label-success">{{ trans('admin.view_detail') }}</span>
+                                            <a class="btn btn-show btn-icon btn-sm btn-primary tip" title="{{ trans('sentences.detail') }}" data-toggle="modal" data-url="{{ route('admin.products.show', [$postProduct->id]) }}" data-target="#showModal">
+                                                <i class="fa fa-eye" aria-hidden="true"></i>
+                                            </a>
                                         </div>
                                     </div>
                                 </li>
@@ -105,6 +108,20 @@
                             <li>
                                 <i class="fa fa-clock-o bg-gray"></i>
                             </li>
+                            <div class="modal fade" id="showModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <span class="modal-title"><b>{{ trans('sentences.product_details') }}</b></span>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="{{ trans('sentences.close') }}">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body" id="showModalBody">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </ul>
                     @else
                         <div class="show-div-3">
@@ -155,4 +172,5 @@
 @section('embed-js')
 @endsection
 @section('custom-js')
+    <script src="{{ asset('js/admin/product/index.js') }}"></script>
 @endsection

@@ -98,4 +98,10 @@ return [
     'end_date_after' => 'end date must be greater than or equal to day',
     'save' => 'Save',
     'cancel' => 'Cancel',
+    'change_status_false' => 'Change Status False',
+    'order_pending' => 'Order Pending',
+    'order_accepted' => 'Order Accepted',
+    'order_finished' => 'Order Finished',
+    'order_resfused' => 'Order Resfused',
+    'order_canceled' => 'Order Canceled',
 ];

@@ -34,6 +34,6 @@ class ProductController extends Controller
             Alert::success(trans('supplier.change_status_fail'));
         }
 
-        return redirect()->route('admin.products.index');
+        return redirect()->back();
     }
 }

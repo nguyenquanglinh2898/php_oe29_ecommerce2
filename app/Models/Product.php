@@ -45,7 +45,7 @@ class Product extends Model
 
     public function getCreatedAtAttribute($value)
     {
-        return Carbon::parse($value)->format(config('setting.date_format'));
+        return Carbon::parse($value)->format(config('config.day_format'));
     }
 
     public function scopeName($query, $request)
@@ -97,6 +97,13 @@ class Product extends Model
                 }
             }
         }
+
+        return $query;
+    }
+
+    public function scopeActive($query)
+    {
+        $query->where('status', config('config.default_one'))->where('block', config('config.default'));
 
         return $query;
     }

@@ -8,16 +8,17 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use Carbon\Carbon;
 use App\Notifications\OrderNotification;
+use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
-    public function index()
+    public function index($status)
     {
-        $orders = Order::where('status', config('config.order_status_pending'))
+        $orders = Order::where('status', $status)->where('user_id', Auth::id())
             ->orderBy('created_at', 'DESC')
             ->get();
 
-        return view('supplier.order.index', compact('orders'));
+        return view('supplier.order.index', compact('orders', 'status'));
     }
 
     public function show($id)
