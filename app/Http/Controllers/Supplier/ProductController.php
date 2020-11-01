@@ -138,4 +138,24 @@ class ProductController extends Controller
 
         return view('supplier.product.show', compact('product'));
     }
+
+    public function destroy($id)
+    {
+        $product = Product::findOrFail($id);
+
+        DB::beginTransaction();
+        try {
+            $product->productDetails()->delete();
+            $product->images()->delete();
+            $product->delete();
+
+            DB::commit();
+            Alert::success(trans('sentences.delete_successfully'));
+        } catch (Exception $exception) {
+            DB::rollBack();
+            Alert::error(trans('sentences.delete_fail'));
+        }
+
+        return redirect()->route('supplier.products.index');
+    }
 }

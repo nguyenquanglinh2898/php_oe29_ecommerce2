@@ -126,4 +126,6 @@ return [
     'apply' => 'Apply',
     'order_successfully' => 'Order successfully',
     'order_fail' => 'Cannot order',
+    'delete_successfully' => 'Delete successfully',
+    'delete_fail' => 'Cannot delete',
 ];
