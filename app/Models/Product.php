@@ -38,15 +38,6 @@ class Product extends Model
         return $this->belongsTo(Category::class);
     }
 
-    public function getThumbnailAttribute($value)
-    {
-        if ($value == null) {
-            return asset(config('setting.default_product_thumbnail'));
-        }
-
-        return asset(config('setting.image_folder') . $value);
-    }
-
     public function getCreatedAtAttribute($value)
     {
         return Carbon::parse($value)->format(config('config.day_format'));

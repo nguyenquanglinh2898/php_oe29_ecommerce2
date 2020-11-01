@@ -128,4 +128,9 @@ return [
     'order_fail' => 'Đặt hàng thất bại',
     'delete_successfully' => 'Xóa thành công',
     'delete_fail' => 'Không thể xóa',
+    'old_detail_pictures' => 'Ảnh chi tiết đã có',
+    'new_detail_pictures' => 'Ảnh chi tiết mới',
+    'update_successfully' => 'Cập nhật thành công',
+    'update_fail' => 'Không thể cập nhật',
+    'none' => 'Không có voucher',
 ];

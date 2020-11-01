@@ -276,6 +276,7 @@ $('#updateBtn').on('click', function () {
     clearTable();
     addTableHeader();
     $('#addRowBtn').show();
+    addRowToTableBody();
 });
 
 $('#addRowBtn').on('click', function () {
@@ -289,3 +290,6 @@ $("#attributes").on( "click", ".remove-attr-btn", function() {
 $("#attrTableBody").on( "click", ".remove-row-btn", function() {
     $(this).parent().parent().remove();
 });
+
+addTableHeader();
+addRowToTableBody();

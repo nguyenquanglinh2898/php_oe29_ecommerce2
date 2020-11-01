@@ -128,4 +128,9 @@ return [
     'order_fail' => 'Cannot order',
     'delete_successfully' => 'Delete successfully',
     'delete_fail' => 'Cannot delete',
+    'old_detail_pictures' => 'Old detail pictures',
+    'new_detail_pictures' => 'New detail pictures',
+    'update_successfully' => 'Updated successfully',
+    'update_fail' => 'Cannot update',
+    'none' => 'none',
 ];
