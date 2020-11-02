@@ -63,9 +63,9 @@
                         </tr>
                         </thead>
                         <tbody>
-                            @foreach ($products as $product)
+                            @foreach ($products as $key => $product)
                                 <tr>
-                                    <td class="text-center">{{ $product->id }}</td>
+                                    <td class="text-center">{{ $key + 1 }}</td>
                                     <td class="thumbnail-col">
                                         <img src="{{ $product->thumbnail }}" alt="thumbnail">
                                     </td>

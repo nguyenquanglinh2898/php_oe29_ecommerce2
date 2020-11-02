@@ -126,4 +126,6 @@ return [
     'apply' => 'Áp dụng',
     'order_successfully' => 'Đặt hàng thành công',
     'order_fail' => 'Đặt hàng thất bại',
+    'delete_successfully' => 'Xóa thành công',
+    'delete_fail' => 'Không thể xóa',
 ];
