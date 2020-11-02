@@ -61,12 +61,12 @@
                             <div class="not-logged-menu">
                                 <ul>
                                     <li class="menu-item ">
-                                        <a href="" >
+                                        <a href="{{ route('login') }}" >
                                             <span class="fas fa-user"></span>{{ trans('customer.login') }}
                                         </a>
                                     </li>
                                     <li class="menu-item ">
-                                        <a href="">
+                                        <a href="{{ route('register') }}">
                                             <span class="fas fa-key"></span>{{ trans('customer.register') }}
                                         </a>
                                     </li>
@@ -98,13 +98,17 @@
                                                 </li>
                                             @endif
                                             <li>
-                                                <a id="logout" action="#"><i class="fas fa-power-off"></i> {{ trans('customer.logout') }}
+                                                <a href="">
+                                                    <form action="{{ route('logout') }}" method="POST" class="d-none">
+                                                        @csrf
+                                                        <button type="submit" id="logoutBtn">
+                                                            <i class="fas fa-power-off"></i>
+                                                            {{ trans('sentences.logout') }}
+                                                        </button>
+                                                    </form>
                                                 </a>
                                             </li>
                                         </ul>
-                                        <form id="logout-form" action="" method="POST" class="form" >
-                                            @csrf
-                                        </form>
                                     </li>
                                 </ul>
                             </div>

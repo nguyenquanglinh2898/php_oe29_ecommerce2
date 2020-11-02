@@ -9,12 +9,17 @@ use App\Models\OrderItem;
 use Carbon\Carbon;
 use App\Notifications\OrderNotification;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\Builder;
 
 class OrderController extends Controller
 {
     public function index($status)
     {
-        $orders = Order::where('status', $status)->where('user_id', Auth::id())
+        $orders = Order::where('status', $status)
+            ->whereHas('orderItems.productDeltail.product', function (Builder $query) {
+                $query->where('user_id', Auth::id());
+            })
+            ->with('orderItems.productDeltail.product')
             ->orderBy('created_at', 'DESC')
             ->get();
 

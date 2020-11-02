@@ -14,7 +14,7 @@ class LoginController extends Controller
 
     protected $redirectTo = RouteServiceProvider::HOME;
 
-    
+
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
@@ -29,7 +29,7 @@ class LoginController extends Controller
         } elseif ($user->role_id == config('setting.supplier_id')) {
             return redirect()->route('supplier.dashboard');
         }
-        
-        return redirect()->route('customer.home');
+
+        return redirect()->route('home.index');
     }
 }
