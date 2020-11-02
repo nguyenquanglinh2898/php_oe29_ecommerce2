@@ -173,5 +173,6 @@
 @section('css')
 @endsection
 @section('js')
+    @include('sweetalert::alert')
     <script src="{{ asset('js/customer/pages/home.js') }}"></script>
 @endsection

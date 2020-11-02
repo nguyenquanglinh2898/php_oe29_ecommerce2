@@ -124,4 +124,6 @@ return [
     'description' => 'Description',
     'expire_date' => 'Expire date',
     'apply' => 'Apply',
+    'order_successfully' => 'Order successfully',
+    'order_fail' => 'Cannot order',
 ];

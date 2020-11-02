@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Customer;
 
 use App\Http\Controllers\Controller;
+use App\Models\Order;
 use App\Models\PaymentMethod;
 use App\Models\Transporter;
 use App\Models\User;
@@ -12,7 +13,11 @@ use Illuminate\Http\Request;
 use App\Models\ProductDetail;
 use App\Models\Cart;
 use Illuminate\Support\Arr;
-use Session;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
+use RealRashid\SweetAlert\Facades\Alert;
+use Exception;
 
 class CartController extends Controller
 {
@@ -183,5 +188,107 @@ class CartController extends Controller
         $totalPrice -= $discount;
 
         return compact('shipPrice', 'totalPrice');
+    }
+
+    public function pay(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+            $checkout = Session::get('checkout');
+            $this->prepareOrders(count($checkout['suppliers']), $request->all());
+            $this->prepareOrderItems(Order::latest()->first()->id, $checkout['suppliers']);
+
+            DB::commit();
+
+            Session::forget(['cart', 'checkout']);
+            Alert::success(trans('sentences.order_successfully'));
+
+        } catch (Exception $exception) {
+            DB::rollBack();
+            Alert::error(trans('sentences.order_fail'));
+        }
+
+        return redirect()->route('home.index');
+    }
+
+    public function prepareOrders($orderQuantity, $data)
+    {
+        $orders = [];
+        for ($i = 0; $i < $orderQuantity; $i++) {
+            $orders[] = [
+                'transport_fee' => $data['transport_fee'][$i],
+                'total' => $data['total'][$i],
+                'status' => config('config.order_status_pending'),
+                'user_id' => Auth::user()->id,
+                'voucher_id' => $data['voucher_id'][$i],
+                'payment_method_id' => $data['payment_method'],
+                'transporter_id' => $data['transporter'],
+                'created_at' => Carbon::now(),
+            ];
+        }
+        DB::table('orders')->insert($orders);
+        DB::table('vouchers')->whereIn('id', $data['voucher_id'])->decrement('quantity');
+    }
+
+    public function prepareOrderItems($orders_id, $suppliers)
+    {
+        $orderItems = [];
+        foreach ($suppliers as $supplier) {
+            foreach ($supplier['items'] as $item) {
+                $orderItems[] = [
+                    'sale_price' => $item['price'],
+                    'quantity' => $item['qty'],
+                    'order_id' => $orders_id++,
+                    'product_detail_id' => $item['id'],
+                    'created_at' => Carbon::now(),
+                ];
+            }
+        }
+
+        DB::table('order_items')->insert($orderItems);
+        $this->decreaseProductRemaining($suppliers);
+    }
+
+    public function decreaseProductRemaining($suppliers)
+    {
+        $productDetail = [
+            'ids' => [],
+            'remains' => [],
+            'cases' => [],
+        ];
+
+        $product = [
+            'ids' => [],
+            'remains' => [],
+            'cases' => [],
+        ];
+
+        foreach ($suppliers as $supplier) {
+            foreach ($supplier['items'] as $item) {
+                $productDetail['ids'][] = $item['id'];
+                $productDetail['remains'][] = $item['remaining'] - $item['qty'];
+                $productDetail['cases'][] = "WHEN {$item['id']} then ?";
+
+                $position = array_search($item['product']['id'], $product['ids']);
+                if ($position) {
+                    $product['remains'][$position] -= $item['qty'];
+                } else {
+                    $product['ids'][] = $item['product']['id'];
+                    $product['remains'][] = $item['product']['remaining'] - $item['qty'];
+                    $product['cases'][] = "WHEN {$item['product']['id']} then ?";
+                }
+            }
+        }
+
+        $productDetail['ids'] = implode(',', $productDetail['ids']);
+        $productDetail['cases'] = implode(' ', $productDetail['cases']);
+        $product['ids'] = implode(',', $product['ids']);
+        $product['cases'] = implode(' ', $product['cases']);
+
+        $productDetailsUpdateQuery = "UPDATE product_details SET `remaining` = CASE `id` {$productDetail['cases']} END WHERE `id` in ({$productDetail['ids']})";
+        $productsUpdateQuery = "UPDATE products SET `remaining` = CASE `id` {$product['cases']} END WHERE `id` in ({$product['ids']})";
+
+        DB::update($productDetailsUpdateQuery, $productDetail['remains']);
+        DB::update($productsUpdateQuery, $product['remains']);
     }
 }

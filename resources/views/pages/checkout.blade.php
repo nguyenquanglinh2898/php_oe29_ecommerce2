@@ -66,14 +66,14 @@
                                             @if ($key == 0)
                                                 <li class="active">
                                                     <label>
-                                                        <input type="radio" value="{{ $paymentMethod->id }}" name="paymentMethod" checked>
+                                                        <input type="radio" value="{{ $paymentMethod->id }}" name="payment_method" checked>
                                                         {{ $paymentMethod->name }}
                                                     </label>
                                                 </li>
                                             @else
                                                 <li>
                                                     <label>
-                                                        <input type="radio" value="{{ $paymentMethod->id }}" name="paymentMethod">
+                                                        <input type="radio" value="{{ $paymentMethod->id }}" name="payment_method">
                                                         {{ $paymentMethod->name }}
                                                     </label>
                                                 </li>
