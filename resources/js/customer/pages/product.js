@@ -81,7 +81,7 @@ $(document).ready(function() {
         $.ajax({
             url: url,
             type: 'GET',
-            data: $('#product_detail_id').serialize(),
+            data: $('.product_detail_form').serialize(),
             success: function(data) {
                 $('.support-cart').remove();
                 $('.cart').load(url2);
@@ -108,18 +108,17 @@ $(document).ready(function() {
                 type: 'POST',
                 url: $(this).attr('data-url'),
                 data: $('.select_form').serialize(),
-
             }).done(function(res) {
                 var data = JSON.parse(res);
                 if (data[0]) {
                     $('.price').html(data[0].price);
                     $('.remaining').html(data[0].remaining);
-                    $("#product_detail_id").val(data[0].id);
+                    $('#product_detail_id').val(data[0].id);
                     $('.vnd').css('display', 'inline');
                 } else {
                     $('.remaining').html(data.msg);
                     $('.price').html(data.msg);
-                    $("#product_detail_id").val('');
+                    $('#product_detail_id').val(-1);
                     $('.vnd').css('display', 'none');
                 }
             });
