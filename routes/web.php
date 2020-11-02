@@ -42,10 +42,9 @@ Route::middleware(['auth', 'verified'])->group(function(){
         Route::get('products/show/{product}', 'ProductController@show')->name('products.show');
         Route::get('products/create', 'ProductController@create')->name('products.create');
         Route::get('products/{product}/edit', 'ProductController@edit')->name('products.edit');
+        Route::post('products/{product}/update', 'ProductController@update')->name('products.update');
         Route::post('products/{product}', 'ProductController@destroy')->name('products.destroy');
         Route::post('products', 'ProductController@store')->name('products.store');
-        Route::get('products/get-child-categories/{rootCategory_id}', 'ProductController@getChildCategories')
-            ->name('products.get_child_categories');
     });
 
     Route::namespace('Supplier')->prefix('supplier')->group(function () {
@@ -88,6 +87,11 @@ Route::namespace('Customer')->prefix('cart')->group(function () {
     Route::get('/show-vouchers', 'CartController@showSupplierVouchers')->name('cart.show_supplier_vouchers');
     Route::get('/check-voucher', 'CartController@checkVoucher')->name('cart.check_voucher');
     Route::post('/pay', 'CartController@pay')->name('cart.pay');
+});
+
+Route::namespace('Supplier')->group(function() {
+    Route::get('get-child-categories/{root_category_id}', 'ProductController@getChildCategories')
+        ->name('get_child_categories');
 });
 
 Auth::routes(['verify' => true]);

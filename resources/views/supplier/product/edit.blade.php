@@ -12,6 +12,7 @@
 
 @section('custom-css')
     <link rel="stylesheet" href="{{ asset('css/supplier/product/create.scss') }}">
+    <link rel="stylesheet" href="{{ asset('css/supplier/product/edit.scss') }}">
 @endsection
 
 @section('breadcrumb')
@@ -31,7 +32,8 @@
 @endsection
 
 @section('content')
-    <form id="productForm" action="{{ route('supplier.products.store') }}" method="POST" accept-charset="utf-8" enctype="multipart/form-data">
+    <form id="productForm" action="{{ route('supplier.products.update', [$product->id]) }}"
+          method="POST" accept-charset="utf-8" enctype="multipart/form-data">
         @csrf
         <!-- Product Infomation area -->
         <div class="box box-primary">
@@ -51,9 +53,10 @@
                         <div class="upload-image text-center">
                             <!-- Image will display in this area after user choose-->
                             <div class="image-preview">
-                                <img src="{{ asset(config('setting.default_image')) }}" id="imagePreview">
+                                <img src="{{ asset(config('setting.image_folder')) . '/' . $product->thumbnail }}" id="imagePreview">
                             </div>
-                            <label for="upload" class="btn btn-primary btn-sm"><i class="fa fa-folder-open"></i>{{ trans('sentences.choose_picture') }}</label>
+                            <label for="upload" class="btn btn-primary btn-sm"><i class="fa fa-folder-open"></i>
+                                {{ trans('sentences.choose_picture') }}</label>
                             <input type="file" accept="image/*" id="upload" name="thumbnail">
                         </div>
                         <div class="text-center text-red">
@@ -67,7 +70,8 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="name">{{ trans('sentences.product_name') }} <span class="text-red">*</span></label>
-                                    <input type="text" name="name" class="form-control" id="name" placeholder="{{ trans('sentences.product_name') }}" autocomplete="off">
+                                    <input type="text" name="name" class="form-control" id="name" autocomplete="off"
+                                           placeholder="{{ trans('sentences.product_name') }}" value="{{ $product->name }}">
                                     <div class="text-red">
                                         @error('name')
                                             {{ $message }}
@@ -77,8 +81,10 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="weight">{{ trans('sentences.weight') }} ({{ config('setting.weight_unit') }})<span class="text-red">*</span></label>
-                                    <input type="number" name="weight" min="0" class="form-control" placeholder="{{ trans('sentences.weight') }}" autocomplete="off">
+                                    <label for="weight">{{ trans('sentences.weight') }} ({{ config('setting.weight_unit') }})
+                                        <span class="text-red">*</span></label>
+                                    <input type="number" name="weight" min="0" class="form-control" autocomplete="off"
+                                           placeholder="{{ trans('sentences.weight') }}" value="{{ $product->weight }}">
                                     <div class="text-red">
                                         @error('weight')
                                             {{ $message }}
@@ -89,7 +95,8 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="brand">{{ trans('sentences.brand') }}</label>
-                                    <input type="text" name="brand" class="form-control" id="monitor" placeholder="{{ trans('sentences.brand') }}" autocomplete="off">
+                                    <input type="text" name="brand" class="form-control" id="monitor" placeholder="{{ trans('sentences.brand') }}"
+                                           autocomplete="off" value="{{ $product->brand }}">
                                     <div class="text-red">
                                         @error('brand')
                                             {{ $message }}
@@ -105,9 +112,15 @@
                                     <div class="list-category">
                                         <select size="4" id="rootCategory">
                                             @foreach ($rootCategories as $rootCategory)
-                                                <option class="category-item" value="{{ $rootCategory->id }}">
-                                                    {{ $rootCategory->name }}
-                                                </option>
+                                                @if ($rootCategory->id == $parentCategoryId)
+                                                    <option class="category-item" value="{{ $rootCategory->id }}" selected>
+                                                        {{ $rootCategory->name }}
+                                                    </option>
+                                                @else
+                                                    <option class="category-item" value="{{ $rootCategory->id }}">
+                                                        {{ $rootCategory->name }}
+                                                    </option>
+                                                @endif
                                             @endforeach
                                         </select>
                                         <div class="text-red">
@@ -122,11 +135,21 @@
                                 <div class="form-group category childCategory">
                                     <div class="list-category">
                                         <select size="4" id="childCategory">
-                                            <!-- child categories of a root category -->
+                                            @foreach ($childCategories as $childCategory)
+                                                @if ($childCategory->id == $product->category_id)
+                                                    <option class="category-item" value="{{ $childCategory->id }}" selected>
+                                                        {{ $childCategory->name }}
+                                                    </option>
+                                                @else
+                                                    <option class="category-item" value="{{ $childCategory->id }}">
+                                                        {{ $childCategory->name }}
+                                                    </option>
+                                                @endif
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
-                                <input type="hidden" name="category_id" id="category">
+                                <input type="hidden" name="category_id" id="category" value="{{ $product->category_id }}">
                             </div>
                         </div>
                     </div>
@@ -148,12 +171,34 @@
                 <div class="row">
                     <div class="form-group">
                         <div class="col-md-12">
-                            <label for="title">{{ trans('sentences.detail_pictures') }}</label>
-                            <input type="file" name="images[]" accept="image/*" class="product-detail-images" multiple>
+                            <label for="title">{{ trans('sentences.old_detail_pictures') }}</label>
+                            <div id="detailPictures">
+                                <div id="pictures-preview">
+                                    @foreach ($product->images as $image)
+                                        <div class="picture-preview">
+                                            <img src="{{ asset(config('setting.image_folder')) . '/' . $image->url }}">
+                                            <button type="button" class="remove-pic-btn" image-id="{{ $image->id }}">&times;</button>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
                         </div>
                         <div class="text-red">
                             @error('images.*')
                                 {{ $message }}
+                            @enderror
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <label for="title">{{ trans('sentences.new_detail_pictures') }}</label>
+                            <input type="file" name="images[]" accept="image/*" class="product-detail-images" multiple>
+                        </div>
+                        <div class="text-red">
+                            @error('images.*')
+                            {{ $message }}
                             @enderror
                         </div>
                     </div>
@@ -175,14 +220,19 @@
                 <div id="product-details">
                     <div>
                         <div class="row">
-                            <div id="attributes"></div>
-                        </div>
-                        <div class="row text-center col-md-12">
-                            <button type="button" id="addAttrBtn" class="btn btn-success">
-                                <i class="fa fa-plus" aria-hidden="true"></i>
-                                {{ trans('sentences.add_classification_attribute') }}
-                            </button>
-                            <button type="button" id="updateBtn" class="btn btn-primary">{{ trans('sentences.update') }}</button>
+                            <div id="attributes">
+                                @foreach ($attributeNames as $attributeName)
+                                    <div class="col-md-3 hidden">
+                                        <div class="form-group attr-div">
+                                            <label for="attr">{{ trans('sentences.attribute_name') }}
+                                                <span class="text-red">*</span>
+                                            </label>
+                                            <input type="text" class="form-control attr" name="attr[]"
+                                                   value="{{ $attributeName }}" readonly>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
                         </div>
                     </div>
                     <div class="text-red">
@@ -196,10 +246,35 @@
                         </thead>
                         <tbody id="attrTableBody">
                             <!-- phần supplier nhập thông tin -->
+                            @foreach ($product->productDetails as $key => $productDetail)
+                                <tr class="table-row">
+                                    @foreach ($attributeNames as $attributeName)
+                                        <td>
+                                            <input type="text" class="form-control" name="{{ $attributeName }}[]" readonly
+                                                   value="{{ json_decode($productDetail->list_attributes)->$attributeName }}">
+                                        </td>
+                                    @endforeach
+                                    <td>
+                                        <input type="number" min="1" name="remaining[]" class="form-control remaining"
+                                               placeholder="{{ trans('sentences.remaining') }}" value="{{ $productDetail->remaining }}">
+                                    </td>
+                                    <td>
+                                        <input type="number" min="0" name="price[]" class="form-control price"
+                                               placeholder="{{ trans('sentences.sale_price') }}" value="{{ $productDetail->price }}">
+                                    </td>
+                                    <td>
+                                        <input type="hidden" name="product_details_ids[]" value="{{ $productDetail->id }}">
+                                        <button type="button" class="remove-row-btn btn btn-danger" disabled>
+                                            <i class="fa fa-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            @endforeach
                         </tbody>
                     </table>
 
                     <input type="hidden" id="numOfRow" name="numOfRow" value="0">
+                    <input type="hidden" name="currentNumberOfProductDetails" value="{{ count($product->productDetails) }}">
 
                     <button type="button" id="addRowBtn" class="btn btn-success">
                         <i class="fa fa-plus" aria-hidden="true"></i>
@@ -217,7 +292,7 @@
             </ul>
             <div class="tab-content">
                 <div class="active tab-pane" id="product-information">
-                    <textarea name="detail_info" rows="20"></textarea>
+                    <textarea name="detail_info" rows="20">{{ $product->detail_info }}</textarea>
                     <div class="text-red">
                         @error('detail_info')
                             {{ $message }}
@@ -225,7 +300,7 @@
                     </div>
                 </div>
                 <div class="tab-pane" id="product-introduction">
-                    <textarea name="description" rows="20"></textarea>
+                    <textarea name="description" rows="20">{{ $product->description }}</textarea>
                     <div class="text-red">
                         @error('description')
                             {{ $message }}
@@ -273,4 +348,5 @@
 @section('custom-js')
     <script src="{{ asset('js/tinymce/tinymce.js') }}"></script>
     <script src="{{ asset('js/supplier/product/create.js') }}"></script>
+    <script src="{{ asset('js/supplier/product/edit.js') }}"></script>
 @endsection

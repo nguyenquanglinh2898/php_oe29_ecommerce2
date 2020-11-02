@@ -2176,3 +2176,9 @@ body {
         display: block;
     }
 }
+
+#logoutBtn {
+    border: none;
+    background: none;
+    padding: 0;
+}

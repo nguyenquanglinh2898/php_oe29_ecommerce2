@@ -11,7 +11,7 @@ return [
     'max_rating' => '5',
     'date_format' => 'd/m/Y',
     'image_folder' => '/storage/images/',
-    'get_child_categories_url' => 'get-child-categories/',
+    'get_child_categories_url' => '/get-child-categories/',
     'l_size' => 'L',
     'default_image' => 'images/no_image.png',
     'weight_unit' => 'gram',

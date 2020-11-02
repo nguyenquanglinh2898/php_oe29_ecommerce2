@@ -67,7 +67,7 @@
                                 <tr>
                                     <td class="text-center">{{ $key + 1 }}</td>
                                     <td class="thumbnail-col">
-                                        <img src="{{ $product->thumbnail }}" alt="thumbnail">
+                                        <img src="{{ asset(config('setting.image_folder')) . '/' . $product->thumbnail }}" alt="thumbnail">
                                     </td>
                                     <td>
                                         <a class="text-left" href="" title="{{ $product->name }}">{{ $product->name }}</a>

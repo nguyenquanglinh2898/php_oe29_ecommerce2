@@ -16,13 +16,4 @@ class Image extends Model
     {
         return $this->morphTo();
     }
-
-    public function getUrlAttribute($value)
-    {
-        if ($value != null) {
-            return asset(config('setting.image_folder') . $value);
-        }
-
-        return null;
-    }
 }
