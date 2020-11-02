@@ -11,7 +11,7 @@
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
-                <a class="navbar-brand" href="#">
+                <a class="navbar-brand" href="{{ route('home.index') }}">
                     {{ config('app.name') }}
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="">
@@ -31,12 +31,9 @@
                             @endif
                         @else
                             <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->name }}
-                                </a>
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="dropdown-item">
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST">
                                     @csrf
-                                    <button type="submit">{{ trans('sentences.logout') }}</button>
+                                    <button type="submit" class="btn btn-primary">{{ trans('sentences.logout') }}</button>
                                 </form>
                             </li>
                         @endguest

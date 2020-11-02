@@ -46,7 +46,7 @@ class RegisterController extends Controller
         if ($user->role_id == config('setting.supplier_id')) {
             return redirect()->route('supplier.dashboard');
         }
-            
-        return redirect()->route('customer.home');
+
+        return redirect()->route('home.index');
     }
 }

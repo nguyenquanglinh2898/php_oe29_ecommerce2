@@ -45,10 +45,16 @@
                                     <tbody>
                                         @foreach ($orders as $key => $order)
                                             <tr>
-                                                <td class="text-center"><a href="{{ route('home.order_detail', $order->id) }}" title="{{ trans('customer.order_detail') }}">{{ $key + config('config.default') }}</a></td>
+                                                <td class="text-center"><a href="{{ route('home.order_detail', $order->id) }}" title="{{ trans('customer.order_detail') }}">{{ $key + 1 }}</a></td>
                                                 <td class="text-center">{{ $order->paymentMethod->name }}</td>
                                                 <td class="text-center">{{ $order->orderItems->sum('quantity') }}</td>
-                                                <td class="text-center">{{ $order->voucher->name }}</td>
+                                                <td class="text-center">
+                                                    @if (isset($order->voucher))
+                                                        {{ $order->voucher->name }}
+                                                    @else
+                                                        <i class="label label-warning">{{ trans('sentences.none') }}</i>
+                                                    @endif
+                                                </td>
                                                 <td class="text-center search-strong">{{ number_format($order->total, config('config.default'), ',', '.') }}{{ config('config.vnd2') }}</td>
                                                 @if (config('config.order_status_refuse') == $order->status)
                                                     <td class="text-center"><a href="{{ route('home.order_detail', $order->id) }}"><span class="label label-{{ config('config.order_status_refuse_class') }}">{{ config('config.order_status_refuse_name') }}</span></a></td>
