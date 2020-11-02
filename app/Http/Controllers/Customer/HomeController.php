@@ -20,8 +20,7 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $favoriteProducts = DB::table('products')
-            ->join('comments', 'products.id', '=', 'comments.product_id')
+        $favoriteProducts = Product::join('comments', 'products.id', '=', 'comments.product_id')
             ->join('categories', 'products.category_id', '=', 'categories.id')
             ->select('products.*', 'categories.name as catname', DB::raw('SUM(comments.rate) as sumrate'))
             ->groupBy('product_id')
@@ -38,7 +37,7 @@ class HomeController extends Controller
             ->take(config('config.take'))
             ->get();
 
-        $newProducts = Product::orderBy('created_at', 'DESC')->paginate(config('config.paginate'));
+        $newProducts = Product::active()->orderBy('created_at', 'DESC')->paginate(config('config.paginate'));
         $newVouchers = Voucher::orderBy('created_at', 'DESC')->take(config('config.take'))->get();
         $slides = DB::table('slides')->get();
 
@@ -96,7 +95,7 @@ class HomeController extends Controller
         $keyword = $request->input('name');
 
         if ($keyword != null) {
-            $products = Product::where('name', 'LIKE', "%$keyword%")->get();
+            $products = Product::active()->where('name', 'LIKE', "%$keyword%")->get();
 
             return view('layouts.search', compact('products'));
         }
@@ -108,7 +107,7 @@ class HomeController extends Controller
 
         if ($keyword != null) {
 
-            $products = Product::where('name', 'LIKE', "%$keyword%")->get();
+            $products = Product::active()->where('name', 'LIKE', "%$keyword%")->get();
             $categories = Category::with('products')->where('name', 'LIKE', "%$keyword%")->take(config('config.take'))->get();
 
             return view('pages.search', compact('products', 'categories'));
@@ -120,7 +119,7 @@ class HomeController extends Controller
     public function category($id)
     {
         $category = Category::findOrFail($id);
-        $products = $category->products()->paginate(config('config.paginate'));
+        $products = $category->products()->active()->paginate(config('config.paginate'));
 
         return view('pages.category', compact('category', 'products'));
     }
@@ -129,6 +128,7 @@ class HomeController extends Controller
     {
         $category = Category::findOrFail($request->category_id);
         $products = Product::query()
+            ->active()
             ->name($request)
             ->category($request)
             ->price($request)

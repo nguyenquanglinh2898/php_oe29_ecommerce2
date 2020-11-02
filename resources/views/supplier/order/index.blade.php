@@ -1,21 +1,39 @@
 @extends('supplier.layouts.master')
 @section('title')
-{{ trans('supplier.Manage_Order') }}
+    {{ trans('supplier.manage_order') }}
+    @switch($status)
+        @case(config('config.order_status_refuse') == $status)
+            <span>{{ trans('supplier.status') }}   :</span><span class="label label-{{ config('config.order_status_refuse_class') }}">{{ config('config.order_status_refuse_name') }}</span>
+            @break
+        @case(config('config.order_status_cancel') == $status)
+           <span>{{ trans('supplier.status') }}   :</span><span class="label label-{{ config('config.order_status_cancel_class') }}">{{ config('config.order_status_cancel_name') }}</span>
+            @break
+        @case(config('config.order_status_pending') == $status)
+             <span>{{ trans('supplier.status') }}   :</span><span class="label label-{{ config('config.order_status_pending_class') }}">{{ config('config.order_status_pending_name') }}</span>
+            @break
+        @case(config('config.order_status_accept') == $status)
+            <span>{{ trans('supplier.status') }}   :</span><span class="label label-{{ config('config.order_status_accept_class') }}">{{ config('config.order_status_accept_name') }}</span>
+            @break
+        @case(config('config.order_status_finish') == $status)
+            <span>{{ trans('supplier.status') }}   :</span><span class="label label-{{ config('config.order_status_finish_class') }}">{{ config('config.order_status_finish_name') }}</span>
+            @break
+    @endswitch
+
 @endsection
 @section('title_content')
-/{{ trans('supplier.new_order') }}
+    /{{ trans('supplier.new_order') }}
 @endsection
 @section('embed-css')
-<link rel="stylesheet" href="{{ asset('bower_components/AdminLTE/datatables.net-bs/css/dataTables.bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('bower_components/AdminLTE/datatables.net-bs/css/dataTables.bootstrap.min.css') }}">
 @endsection
 @section('custom-css')
-<link rel="stylesheet" href="{{ asset('css/supplier/order/index.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/supplier/order/index.css') }}">
 @endsection
 @section('breadcrumb')
-<ol class="breadcrumb">
-    <li><a href=""><i class="fa fa-dashboard"></i> {{ trans('supplier.home') }}</a></li>
-    <li class="active">{{ trans('supplier.Manage_Order') }}</li>
-</ol>
+    <ol class="breadcrumb">
+        <li><a href=""><i class="fa fa-dashboard"></i> {{ trans('supplier.home') }}</a></li>
+        <li class="active">{{ trans('supplier.manage_order') }}</li>
+    </ol>
 @endsection
 @section('content')
 <div class="row">
@@ -31,8 +49,20 @@
                     </div>
                     <div class="col-md-7 col-sm-6 col-xs-6">
                         <div class="btn-group pull-right">
-                            <a href="" class="btn btn-flat btn-primary" >
-                                <i class="fa fa-refresh"></i><span class="hidden-xs"> {{ trans('supplier.refresh') }}</span>
+                            <a href="{{ route('orders.index', config('config.order_status_pending')) }}" class="btn btn-flat btn-warning index-btn"  >
+                                <i class="fa fa-refresh"></i><span class="hidden-xs"> {{ trans('supplier.order_pending') }}</span>
+                            </a>
+                            <a href="{{ route('orders.index', config('config.order_status_accept')) }}" class="btn btn-primary btn-flat" data-toggle="modal" >
+                                <i class="fa fa-refresh" aria-hidden="true"></i><span class="hidden-xs"> {{ trans('supplier.order_accepted') }}</span>
+                            </a>
+                             <a href="{{ route('orders.index', config('config.order_status_finish')) }}" class="btn btn-success btn-flat" data-toggle="modal" >
+                                <i class="fa fa-refresh" aria-hidden="true"></i><span class="hidden-xs"> {{ trans('supplier.order_finished') }}</span>
+                            </a>
+                            <a href="{{ route('orders.index', config('config.order_status_refuse')) }}" class="btn btn-danger btn-flat" data-toggle="modal" >
+                                <i class="fa fa-refresh" aria-hidden="true"></i><span class="hidden-xs"> {{ trans('supplier.order_resfused') }}</span>
+                            </a>
+                            <a href="{{ route('orders.index', config('config.order_status_cancel')) }}" class="btn btn-default btn-flat" data-toggle="modal" >
+                                <i class="fa fa-refresh" aria-hidden="true"></i><span class="hidden-xs"> {{ trans('supplier.order_canceled') }}</span>
                             </a>
                         </div>
                     </div>
