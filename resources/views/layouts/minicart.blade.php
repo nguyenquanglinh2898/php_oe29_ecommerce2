@@ -69,10 +69,7 @@
                     @endif
                 </div>
                 <div>
-                    <div class="actions clearfix">
-                        <a href="" class="btn btn-gray btn-checkout" data-url="">
-                            <span >{{ trans('customer.pay') }}</span>
-                        </a>
+                    <div class="actions clearfix text-right">
                         <a href="{{ route('cart.show_detail') }}" class="view-cart btn btn-white margin-left-5" title="{{ trans('customer.cart') }}">
                             <span>{{ trans('customer.cart') }}</span>
                         </a>
