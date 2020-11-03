@@ -30,9 +30,9 @@
                     <div class="sku-code">{{ trans('customer.category') }}: <i>{{ $product->category->name }}</i></div>
                     <div class="start-vote">
                         @for ($i = 1; $i <= config('config.star_vote'); $i++)
-                            @if ($product->rate > $i )
+                            @if ($product->rate >= $i )
                                 <i class="fas fa-star"></i>
-                            @elseif ($product->rate = $i + 1 && $product->rate - (int) $product->rate > 0)
+                            @elseif ( (int) $product->rate + 1 == $i && $product->rate - (int) $product->rate > 0)
                                 <i class="fas fa-star-half-alt"></i>
                             @else
                                 <i class="far fa-star"></i>
@@ -164,17 +164,17 @@
                                 </div>
                                 <div id="vote" class="tab-pane fade">
                                     <div class="content-vote">
-                                        @if (Auth::check())
+                                        @if (Auth::check() && $activeComment == null)
                                             <div class="section-rating">
                                                 <div class="rating-title">{{ trans('customer.review_product') }}</div>
                                                 <div class="rating-content">
                                                     <div class="rating-product"></div>
                                                     <div class="rating-form">
-                                                        <form action="" method="POST" accept-charset="utf-8">
+                                                        <form action="{{ route('home.comment') }}" method="POST" accept-charset="utf-8" class="comment-form">
                                                             @csrf
-                                                            <input type="hidden" name="user_id" value="">
+                                                            <input type="hidden" name="user_id" value="{{ Auth::id() }}">
                                                             <input type="hidden" name="product_id" value="{{ $product->id }}">
-                                                            <textarea name="content" placeholder="{{ trans('customer.content') }}" rows="3"></textarea>
+                                                            <textarea name="content" placeholder="{{ trans('customer.content') }}" rows="3" required=""></textarea>
                                                             <button type="submit" class="btn btn-default">{{ trans('customer.send_vote') }}</button>
                                                         </form>
                                                     </div>
@@ -187,13 +187,15 @@
                                             </div>
                                             <div class="show-rate-content">
                                                 <div class="total-rate">
-                                                    <div class="total-rate-left">{{ $product->rate }}</div>
+                                                    <div class="total-rate-left">
+                                                        {{ $product->rate }}
+                                                    </div>
                                                     <div class="total-rate-right">
                                                         <div class="start">
                                                             @for ($i = 1; $i <= config('config.star_vote'); $i++)
-                                                                @if ($product->rate > $i )
+                                                                @if ($product->rate >= $i )
                                                                     <i class="fas fa-star"></i>
-                                                                @elseif ($product->rate = $i + 1 && $product->rate - (int) $product->rate > 0)
+                                                                @elseif ( (int) $product->rate + 1 == $i && $product->rate - (int) $product->rate > 0)
                                                                     <i class="fas fa-star-half-alt"></i>
                                                                 @else
                                                                     <i class="far fa-star"></i>
@@ -204,33 +206,130 @@
                                                     </div>
                                                 </div>
                                                 @if ($product->comments->isNotEmpty())
-                                                    <div class="vote-inner">
-                                                        @foreach ($product->comments as $comment)
-                                                            <div class="vote-content">
+                                                    <div class="vote-inner comment-user">
+                                                        @if ($activeComment != null)
+                                                            <div class="vote-content bg-info">
                                                                 <div class="vote-content-left">
-                                                                    <img src="{{ asset($comment->user->avatar) }}">
+                                                                    <img src="{{ asset($activeComment->user->avatar) }}">
                                                                 </div>
                                                                 <div class="vote-content-right">
                                                                     <div class="name">
-                                                                        {{ $comment->user->name }}
+                                                                        {{ $activeComment->user->name }}
                                                                     </div>
                                                                     <div class="vote-start">
                                                                         <div class="star">
                                                                             @for ($i = 1; $i <= config('config.star_vote'); $i++)
-                                                                                @if ($comment->rate > $i )
+                                                                                @if ($activeComment->rate >= $i )
                                                                                     <i class="fas fa-star"></i>
-                                                                                @elseif ($comment->rate = $i + 1 && $comment->rate - (int) $comment->rate > 0)
+                                                                                @elseif ( (int) $activeComment->rate + 1 == $i  && $activeComment->rate - (int) $activeComment->rate > 0)
                                                                                     <i class="fas fa-star-half-alt"></i>
                                                                                 @else
                                                                                     <i class="far fa-star"></i>
                                                                                 @endif
                                                                             @endfor
                                                                         </div>
-                                                                        <div class="date">{{ date_format($comment->created_at, config('config.format')) }}</div>
+                                                                        <div class="date">{{ date_format($activeComment->created_at, config('config.format')) }}</div>
                                                                     </div>
-                                                                    <div class="content">{{ $comment->content }}</div>
+                                                                    <div class="content">{{ $activeComment->content }}</div>
+                                                                </div>
+                                                                <div class="edit-delete">
+                                                                    <a href="javascript:;"  class="edit-comment"><i class="fas fa-edit"></i></a>
+                                                                    <form action="{{ route('home.delete_comment') }}" method="POST" class="delete-comment-form">
+                                                                        @csrf
+                                                                        <input type="text" name="id"  value="{{ $activeComment->id }}" hidden="">
+                                                                        <input type="text" name="product_id"  value="{{ $activeComment->product_id }}" hidden="">
+                                                                        <a href="javascript:;" class="delete-comment"><i class="fas fa-trash-alt"></i></a>
+                                                                    </form>
                                                                 </div>
                                                             </div>
+                                                            <div class="vote-content">
+                                                                <div class="edit-section-rating section-rating container edit-view-comment" >
+                                                                    <div class="rating-title">{{ trans('customer.edit_comment') }}
+                                                                        <i class="fas fa-times remove-edit" ></i>
+                                                                    </div>
+                                                                    <div class="rating-content">
+                                                                        <div class="star">
+                                                                            @for ($i = 1; $i <= config('config.star_vote'); $i++)
+                                                                                @if ($activeComment->rate >= $i )
+                                                                                    <i class="fas fa-star"></i>
+                                                                                @elseif ( (int) $activeComment->rate + 1 == $i  && $activeComment->rate - (int) $activeComment->rate > 0)
+                                                                                    <i class="fas fa-star-half-alt"></i>
+                                                                                @else
+                                                                                    <i class="far fa-star"></i>
+                                                                                @endif
+                                                                            @endfor
+                                                                            <a href="javascript:;"  class="edit-comment-star"><i class="fas fa-edit"></i></a>
+                                                                        </div>
+                                                                        <div class="rate-edit-star"></div>
+                                                                        <div class="rating-form ">
+                                                                            <form action="{{ route('home.edit_comment') }}" method="POST" accept-charset="utf-8" class="edit-comment-rate-form">
+                                                                                @csrf
+                                                                                <input type="hidden" name="user_id" value="{{ Auth::id() }}">
+                                                                                <input type="hidden" name="product_id" value="{{ $product->id }}">
+                                                                                <input type="text" name="rate" class="input-rate-edit" value="{{ $activeComment->rate }}" hidden="">
+                                                                                <input type="text" name="id"  value="{{ $activeComment->id }}" hidden="">
+                                                                                <textarea name="content" placeholder="{{ trans('customer.content') }}" rows="3" required="">{{ $activeComment->content }}</textarea>
+                                                                                <button type="submit" class="btn btn-default btn-form-edit-rate">{{ trans('customer.send_vote') }}</button>
+                                                                            </form>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        @endif
+                                                        @foreach ($product->comments as $comment)
+                                                            @if ($activeComment == null )
+                                                                <div class="vote-content">
+                                                                    <div class="vote-content-left">
+                                                                        <img src="{{ asset($comment->user->avatar) }}">
+                                                                    </div>
+                                                                    <div class="vote-content-right">
+                                                                        <div class="name">
+                                                                            {{ $comment->user->name }}
+                                                                        </div>
+                                                                        <div class="vote-start">
+                                                                            <div class="star">
+                                                                                @for ($i = 1; $i <= config('config.star_vote'); $i++)
+                                                                                    @if ($comment->rate >= $i )
+                                                                                        <i class="fas fa-star"></i>
+                                                                                    @elseif ( (int) $comment->rate + 1 == $i && $comment->rate - (int) $comment->rate > 0)
+                                                                                        <i class="fas fa-star-half-alt"></i>
+                                                                                    @else
+                                                                                        <i class="far fa-star"></i>
+                                                                                    @endif
+                                                                                @endfor
+                                                                            </div>
+                                                                            <div class="date">{{ date_format($comment->created_at, config('config.format')) }}</div>
+                                                                        </div>
+                                                                        <div class="content">{{ $comment->content }}</div>
+                                                                    </div>
+                                                                </div>
+                                                            @elseif($comment->id != $activeComment->id)
+                                                                <div class="vote-content">
+                                                                    <div class="vote-content-left">
+                                                                        <img src="{{ asset($comment->user->avatar) }}">
+                                                                    </div>
+                                                                    <div class="vote-content-right">
+                                                                        <div class="name">
+                                                                            {{ $comment->user->name }}
+                                                                        </div>
+                                                                        <div class="vote-start">
+                                                                            <div class="star">
+                                                                                @for ($i = 1; $i <= config('config.star_vote'); $i++)
+                                                                                    @if ($comment->rate >= $i )
+                                                                                        <i class="fas fa-star"></i>
+                                                                                    @elseif ( (int) $comment->rate + 1 == $i && $comment->rate - (int) $comment->rate > 0)
+                                                                                        <i class="fas fa-star-half-alt"></i>
+                                                                                    @else
+                                                                                        <i class="far fa-star"></i>
+                                                                                    @endif
+                                                                                @endfor
+                                                                            </div>
+                                                                            <div class="date">{{ date_format($comment->created_at, config('config.format')) }}</div>
+                                                                        </div>
+                                                                        <div class="content">{{ $comment->content }}</div>
+                                                                    </div>
+                                                                </div>
+                                                            @endif
                                                         @endforeach
                                                     </div>
                                                 @else
@@ -240,6 +339,7 @@
                                         </div>
                                     </div>
                                 </div>
+
                             </div>
                         </div>
                     </div>
@@ -271,9 +371,9 @@
                                                         <h3 class="title">{{ $suggestproduct->name }}</h3>
                                                         <div class="start-vote">
                                                             @for ($i = 1; $i <= config('config.star_vote'); $i++)
-                                                                @if ($suggestproduct->rate > $i )
+                                                                @if ($suggestproduct->rate >= $i )
                                                                     <i class="fas fa-star"></i>
-                                                                @elseif ($suggestproduct->rate = $i + 1 && $suggestproduct->rate - (int) $suggestproduct->rate > 0)
+                                                                @elseif ( (int) $suggestproduct->rate + 1 == $i && $suggestproduct->rate - (int) $suggestproduct->rate > 0)
                                                                     <i class="fas fa-star-half-alt"></i>
                                                                 @else
                                                                     <i class="far fa-star"></i>

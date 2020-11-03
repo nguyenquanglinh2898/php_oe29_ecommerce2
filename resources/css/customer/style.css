@@ -14,6 +14,10 @@ body {
     color: #333;
     overflow-x: hidden;
 }
+.comment-user {
+    overflow: scroll;
+    max-height: 500px;
+}
 .tab-pane {
     margin-left: 15px;
 }

@@ -159,11 +159,43 @@ $(document).ready(function() {
       return slider;
     }
 
-    $(".section-rating .rating-form form").submit( function(eventObj) {
+    $(".comment-form").submit(function(eventObj) {
         $("<input />").attr("type", "hidden")
-          .attr("name", "rate")
-          .attr("value", $(".rating-product").rate("getValue"))
-          .appendTo(".section-rating .rating-form form");
-        return true;
+            .attr("name", "rate")
+            .attr("value", $(".rating-product").rate("getValue"))
+            .appendTo(".section-rating .rating-form form");
+
+            return true;
+    });
+
+    $('.btn-form-edit-rate').click(function() {
+        if ($(".rating-product").rate("getValue").length != 0) {
+            $('.input-rate-edit').val($(".rating-product").rate("getValue"));
+        }
+        $('.edit-comment-rate-form').submit();
+    });
+
+    $('.edit-comment').click(function() {
+        if ($('.edit-section-rating').css("display") == "none") {
+            $('.edit-section-rating').show();
+        } else $('.edit-section-rating').hide();
+    });
+
+    $('.remove-edit').click(function() {
+        $('.edit-section-rating').hide();
+    });
+
+    $('.delete-comment').click(function() {
+        $('.delete-comment-form').submit();
+    });
+    $('.edit-comment-star').click(function() {
+        if ($('.rate-edit-star').css("display") == "none") {
+            $('.rate-edit-star').show();
+            $('.rate-edit-star').addClass('rating-product rate-product ');
+            $(".rating-product").rate();
+        } else {
+            $('.rate-edit-star').hide();
+            $('.rate-edit-star').removeClass('rating-product rate-product ');
+        }
     });
 });

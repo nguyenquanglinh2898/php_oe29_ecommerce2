@@ -14,6 +14,11 @@ use App\Models\Category;
 use App\Models\Order;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use App\Models\Comment;
+use Exception;
+use RealRashid\SweetAlert\Facades\Alert;
+use App\Notifications\CommentNotification;
+use App\Models\User;
 use DB;
 
 class HomeController extends Controller
@@ -67,7 +72,12 @@ class HomeController extends Controller
         $activeAttribute['remaining'] = $productDetails[config('config.default')]->remaining;
         $activeAttribute['id'] = $productDetails[config('config.default')]->id;
 
-        return view('pages.product', compact('product', 'groupAtribute', 'activeAttribute', 'suggestProducts'));
+        $activeComment = null;
+        if (Auth::check()) {
+            $activeComment = Auth::user()->comments()->where('product_id', $product->id)->first();
+        }
+
+        return view('pages.product', compact('product', 'groupAtribute', 'activeAttribute', 'suggestProducts', 'activeComment'));
     }
 
     public function showDetail(Request $request)
@@ -167,5 +177,76 @@ class HomeController extends Controller
         $data['error'] = trans('customer.error');
 
         return response()->json($data, config('config.error'));
+    }
+
+    public function comment(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+            $comment = Comment::create($request->all());
+            $rate = Comment::where('product_id', $request->product_id)->avg('rate');
+            $product = Product::findOrFail($request->product_id);
+            $product->update(['rate' => $rate]);
+
+            $data = [
+                'user' => Auth::user()->name,
+                'product_name' => $product->name,
+                'comment_id' => $comment->id,
+                'product_id' => $request->product_id,
+                'rate' => $request->rate,
+                'class' => config('config.comment_class'),
+                'icon' => config('config.comment_icon'),
+                'status' => config('config.comment_status'),
+                'created_at' => Carbon::now()->toDateTimeString(),
+            ];
+            $user = User::findOrFail($product->user_id);
+            $user->notify(new CommentNotification($data));
+
+            DB::commit();
+            Alert::success(trans('customer.comment_success'));
+        } catch (Exception $exception) {
+            DB::rollBack();
+            Alert::error(trans('customer.comment_error'));
+        }
+
+        return redirect()->back();
+    }
+
+    public function editComment(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+            $comment = Comment::findOrFail($request->id)->update($request->except('id'));
+            $rate = Comment::where('product_id', $request->product_id)->avg('rate');
+            $product = Product::findOrFail($request->product_id);
+            $product->update(['rate' => $rate]);
+
+            DB::commit();
+            Alert::success(trans('customer.comment_success'));
+        } catch (Exception $exception) {
+            DB::rollBack();
+            Alert::error(trans('customer.comment_error'));
+        }
+
+        return redirect()->back();
+    }
+
+    public function deleteComment(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+            $comment = Comment::findOrFail($request->id)->delete();
+            $rate = Comment::where('product_id', $request->product_id)->avg('rate');
+            $product = Product::findOrFail($request->product_id);
+            $product->update(['rate' => $rate]);
+
+            DB::commit();
+            Alert::success(trans('customer.delete_comment_success'));
+        } catch (Exception $exception) {
+            DB::rollBack();
+            Alert::error(trans('customer.comment_error'));
+        }
+
+        return redirect()->back();
     }
 }

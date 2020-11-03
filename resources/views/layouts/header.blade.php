@@ -51,7 +51,7 @@
                             </li>
                             <li class="nav-item"><a href=""><span class="far fa-newspaper"></span>{{ trans('customer.voucher') }}</a></li>
                             <li class="nav-item "><a href=""><span class="fas fa-id-card"></span>{{ trans('customer.contact') }}</a></li>
-                            @if (Auth::check())
+                            @if (Auth::check() && Auth::user()->role_id == config('config.role_user'))
                                 <li class="nav-item ">@include('layouts.notification')</li>
                             @endif
                         </ul>

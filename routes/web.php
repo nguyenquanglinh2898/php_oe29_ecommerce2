@@ -86,7 +86,13 @@ Route::namespace('Customer')->prefix('pages')->group(function() {
     Route::post('cancel-orders', 'HomeController@orderCancel')->name('home.order_cancel');
 });
 
-Route::namespace('Customer')->prefix('cart')->group(function() {
+Route::namespace('Customer')->prefix('comment')->group(function () {
+    Route::post('comment', 'HomeController@comment')->name('home.comment');
+    Route::post('edit', 'HomeController@editComment')->name('home.edit_comment');
+    Route::post('delete', 'HomeController@deleteComment')->name('home.delete_comment');
+});
+
+Route::namespace('Customer')->prefix('cart')->group(function () {
     Route::get('/add', 'CartController@addCart')->name('cart.add');
     Route::post('/update', 'CartController@updateCart')->name('cart.update');
     Route::get('/show', 'CartController@showCart')->name('cart.show');

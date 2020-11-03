@@ -75,4 +75,7 @@ return [
     'rate' => 'rate',
     'order' => 'order',
     'cancel_date' => 24,
+    'comment_class' => 'info',
+    'comment_status' => 'Comment',
+    'comment_icon' => 'update',
 ];

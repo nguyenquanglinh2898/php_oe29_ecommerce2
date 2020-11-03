@@ -112,4 +112,9 @@ return [
     'cancel_order' => 'Cancel Order',
     'cancel_order_success' => 'cancel order successfully',
     'cancel_order_error' => 'Cancellation allowed time',
+    'comment_success' => 'Thank you for your contribution on this product. We always cherish in the people you contribute.',
+    'comment_error' => 'your comment has error',
+    'commented_error' => 'You have rated this product before',
+    'edit_comment' => 'Edit Comment',
+    'delete_comment_success', 'Your comment has been deleted',
 ];
