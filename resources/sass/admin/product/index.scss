@@ -1,8 +1,8 @@
-#product-table td,
-#product-table th {
+#admin-product-table td,
+#admin-product-table th {
     vertical-align: middle !important;
 }
-#product-table span.status-label {
+#admin-product-table span.status-label {
     display: block;
     width: 85px;
     text-align: center;
@@ -86,4 +86,8 @@
 
 .change-status-btn {
     display: inline-block;
+}
+
+#admin-product-table th:last-child {
+    width: 15%;
 }

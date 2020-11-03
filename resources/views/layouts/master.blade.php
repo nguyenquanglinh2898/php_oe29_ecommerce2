@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <title> @yield('title') - {{ config('config.name') }} </title>
-        <link rel="icon" href="{{ config('config.favicon') }}" type="image/png">
+        <link rel="icon" href="{{ config('setting.icon') }}" type="image/png">
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
         <link rel="stylesheet" href="{{ asset('bower_components/common/css/normalize.min.css') }}">
         <link rel="stylesheet" href="{{ asset('bower_components/common/css/bootstrap.min.css') }}">

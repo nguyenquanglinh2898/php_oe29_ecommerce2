@@ -135,7 +135,7 @@
                                         <div class="row">
                                             <div class="col-md-12 col-sm-12 col-xs-12">
                                                 <div class="image-product" >
-                                                    <img src="{{ asset($product->thumbnail) }}" class="img-responsive">
+                                                    <img src="{{ config('setting.image_folder') . $product->thumbnail }}" class="img-responsive">
                                                 </div>
                                                 <div class="content-product">
                                                     <h3 class="title">{{ $product->name }}</h3>
@@ -153,10 +153,6 @@
                                                     <div class="price">
                                                         {{ $product->price_range }}
                                                     </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-12 col-sm-12 col-xs-12 animate">
-                                                <div class="product-details">
                                                 </div>
                                             </div>
                                         </div>

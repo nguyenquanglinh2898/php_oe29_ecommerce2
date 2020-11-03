@@ -50,7 +50,7 @@
                                 <div class="col-md-6 col-sm-6">
                                     <div class="image-product">
                                         <div class="image-gallery-0">
-                                            <img src="{{ asset($product->thumbnail) }}">
+                                            <img src="{{ config('setting.image_folder') . $product->thumbnail }}">
                                         </div>
                                     </div>
                                 </div>
@@ -59,8 +59,8 @@
                                         <div class="product-1" >
                                             <div class="product-1">
                                                 <div class="sale-price">
-                                                    <span class="price">{{ $activeAttribute['price'] }}</span>
-                                                    <span class= 'vnd'>{{ config('config.vnd') }}</span>
+                                                    <span class="price">{{ number_format($activeAttribute['price']) }}</span>
+                                                    <span class="vnd">{{ config('config.vnd') }}</span>
                                                 </div>
                                                 <div class="status">
                                                     {{ trans('customer.remaining') }}:
@@ -127,7 +127,7 @@
                         <div class="col-md-3">
                             <div class="online_support">
                                 <h2 class="title">{{ trans('customer.ready') }}<br>{{ trans('customer.help_you') }}</h2>
-                                <img src="{{ asset(config('config.suport_online')) }}">
+                                <img src="{{ asset(config('config.support_online')) }}">
                                 <h3 class="sub_title">{{ trans('customer.call_to_support') }}</h3>
                                 <div class="phone">
                                     <a href="" >{{ config('config.phone') }}</a>
@@ -365,7 +365,7 @@
                                             <a href="" title="">
                                                 <div class="product-content">
                                                     <div class="image">
-                                                        <img src=" {{ asset(config('images_folder') . $suggestproduct->thumbnail) }}" class="img-fluid" width="225px" >
+                                                        <img src=" {{ config('setting.image_folder') . $suggestproduct->thumbnail }}" class="img-fluid" width="225px" >
                                                     </div>
                                                     <div class="content">
                                                         <h3 class="title">{{ $suggestproduct->name }}</h3>

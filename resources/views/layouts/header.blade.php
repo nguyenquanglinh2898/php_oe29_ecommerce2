@@ -9,7 +9,7 @@
                 <span class="icon-bar"></span>
                 </button>
                 <div class="logo">
-                    <a class="logo-wrapper" href="{{ route('home.index') }}" ><img src="{{ asset(config('config.logo')) }}" alt="{{ config('config.name') }}"></a>
+                    <a class="logo-wrapper" href="{{ route('home.index') }}" ><img src="{{ asset(config('setting.logo')) }}" alt="{{ config('config.name') }}"></a>
                 </div>
             </div>
             <div class="col-md-3 margin-auto">
@@ -84,7 +84,12 @@
                                         <ul class="dropdown-menu">
                                             @if (Auth::user()->role_id == config('config.role_admin'))
                                                 <li>
-                                                    <a href=""><i class="fas fa-tachometer-alt"></i> {{ trans('customer.manage_website') }}
+                                                    <a href="{{ route('admin.products.index') }}"><i class="fas fa-tachometer-alt"></i> {{ trans('customer.manage_website') }}
+                                                    </a>
+                                                </li>
+                                            @elseif (Auth::user()->role_id == config('setting.supplier_id'))
+                                                <li>
+                                                    <a href="{{ route('supplier.products.index') }}"><i class="fas fa-tachometer-alt"></i> {{ trans('customer.manage_website') }}
                                                     </a>
                                                 </li>
                                             @else
