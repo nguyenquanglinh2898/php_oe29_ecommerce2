@@ -96,6 +96,10 @@ Route::namespace('Customer')->prefix('comment')->group(function () {
     Route::post('comment', 'HomeController@comment')->name('home.comment');
     Route::post('edit', 'HomeController@editComment')->name('home.edit_comment');
     Route::post('delete', 'HomeController@deleteComment')->name('home.delete_comment');
+    Route::get('/show-comment/{id}/{productId}', 'HomeController@showComment')->name('comment.show');
+    Route::post('reply', 'HomeController@replyComment')->name('home.reply');
+    Route::post('edit-reply', 'HomeController@editReplyComment')->name('home.edit_reply');
+    Route::post('delete-reply', 'HomeController@deleteReplyComment')->name('home.delete_reply');
 });
 
 Route::namespace('Customer')->prefix('cart')->group(function () {

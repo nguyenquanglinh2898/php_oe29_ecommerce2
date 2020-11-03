@@ -1,3 +1,20 @@
+.ative-reply {
+    margin-left: 30px;
+    margin-bottom: 15px;
+}
+.reply {
+    margin-left: 30px;
+    background-color: aliceblue;
+}
+.delete-reply-icon {
+    color: #333;
+}
+.dialog-comment {
+    top: 150px;
+}
+.textarea-reply {
+    width: 100%;
+}
 .rate-edit-star {
     display: none;
 }
