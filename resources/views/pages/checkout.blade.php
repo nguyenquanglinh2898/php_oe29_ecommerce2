@@ -145,7 +145,7 @@
                                             @foreach ($supplier['items'] as $key => $item)
                                                 <tr>
                                                     <td>{{ $key + 1 }}</td>
-                                                    <td class="thumbnail-col"><img src="{{ $item['product']['thumbnail'] }}"></td>
+                                                    <td class="thumbnail-col"><img src="{{ config('setting.image_folder') . $item['product']['thumbnail'] }}"></td>
                                                     <td>{{ $item['product']['name'] }}</td>
                                                     <td>
                                                         @foreach (json_decode($item['list_attributes']) as $attr => $value)

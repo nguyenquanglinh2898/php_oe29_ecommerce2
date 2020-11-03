@@ -96,7 +96,7 @@
                                 <tr>
                                     <td class="show-th">{{ $key + 1 }}</td>
                                     <td>
-                                        <img src="{{ asset($item->productDeltail->product->thumbnail) }}" class="show-td-img">
+                                        <img src="{{ config('setting.image_folder') . $item->productDeltail->product->thumbnail }}" class="show-td-img">
                                     </td>
                                     <td>{{ $item->productDeltail->product->name }}</td>
                                     <td>{{ str_replace('"', " ", $item->productDeltail->list_attributes ) }}</td>
@@ -125,7 +125,7 @@
                         </div>
                     @endif
                     <p class="text-muted well well-sm no-shadow show-p" >
-                        <b>{{ $order->paymentMethod->name. ':' }}</b><br>
+                        <b>{{ $order->paymentMethod->name }}</b><br>
                     </p>
                 </div>
                 <div class="col-xs-6">

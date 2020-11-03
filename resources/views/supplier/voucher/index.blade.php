@@ -1,5 +1,5 @@
-@extends('admin.layouts.master')
-@section('title', 'Quản Lý Quảng Cáo')
+@extends('supplier.layouts.master')
+@section('title', trans('supplier.manager_voucher'))
 @section('embed-css')
     <link rel="stylesheet" href="{{ asset('bower_components/AdminLTE/datatables.net-bs/css/dataTables.bootstrap.min.css') }}">
 @endsection

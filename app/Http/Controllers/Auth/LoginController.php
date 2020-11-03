@@ -25,9 +25,9 @@ class LoginController extends Controller
         Alert::success(trans('auth.login_successfully'));
 
         if ($user->role_id == config('setting.admin_id')) {
-            return redirect()->route('admin.dashboard');
+            return redirect()->route('admin.products.index');
         } elseif ($user->role_id == config('setting.supplier_id')) {
-            return redirect()->route('supplier.dashboard');
+            return redirect()->route('supplier.products.index');
         }
 
         return redirect()->route('home.index');

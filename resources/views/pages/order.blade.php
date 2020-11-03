@@ -108,7 +108,7 @@
                                     <tbody>
                                         @foreach ($order->orderItems as $key => $orderItem)
                                             <tr>
-                                                <td class="text-center">{{ $key + config('config.default') }}</td>
+                                                <td class="text-center">{{ $key + 1 }}</td>
                                                 <td class="text-center"><a href="" ><img src="{{ asset($orderItem->productDeltail->product->thumbnail) }}" alt=""  height="55px"></a></td>
                                                 <td class="text-center">{{ $orderItem->productDeltail->product->name }}</td>
                                                 <td class="text-center">{{ str_replace(['{', '}', '"'], " ", $orderItem->productDeltail->list_attributes) }}</td>

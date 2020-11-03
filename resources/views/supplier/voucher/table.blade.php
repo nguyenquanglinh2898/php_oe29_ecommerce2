@@ -39,7 +39,7 @@
                 <td>{{ $voucher->start_date }}</td>
                 <td>{{ $voucher->end_date }}</td>
                 <td>
-                    @if ($voucher->start_date <= date('Y-m-d') && $voucher->end_date >= date('Y-m-d'))
+                    @if ($voucher->start_date <= \Carbon\Carbon::now() && $voucher->end_date >= \Carbon\Carbon::now())
                         <span class="label-success status-label">{{ trans('supplier.active') }}</span>
                     @else
                         <span class="label-danger status-label">{{ trans('supplier.out_of_time') }}</span>
