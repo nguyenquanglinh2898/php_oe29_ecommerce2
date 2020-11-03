@@ -41,13 +41,13 @@
         <div class="box">
             <div class="box-header with-border">
                 <div class="row">
-                    <div class="col-md-5 col-sm-6 col-xs-6">
+                    <div class="col-md-3 col-sm-3 col-xs-3">
                         <div id="search-input" class="input-group">
                             <span class="input-group-addon"><i class="fa fa-search" aria-hidden="true"></i></span>
                             <input type="text" class="form-control" placeholder="{{ trans('supplier.search') }}">
                         </div>
                     </div>
-                    <div class="col-md-7 col-sm-6 col-xs-6">
+                    <div class="col-md-9 col-sm-9 col-xs-9">
                         <div class="btn-group pull-right">
                             <a href="{{ route('orders.index', config('config.order_status_pending')) }}" class="btn btn-flat btn-warning index-btn"  >
                                 <i class="fa fa-refresh"></i><span class="hidden-xs"> {{ trans('supplier.order_pending') }}</span>

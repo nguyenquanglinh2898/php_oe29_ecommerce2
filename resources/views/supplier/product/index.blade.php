@@ -49,7 +49,7 @@
                     </div>
                 </div>
                 <div class="box-body">
-                    <table id="product-table" class="table table-hover">
+                    <table id="supplier-product-table" class="table table-hover">
                         <thead>
                         <tr>
                             <th>#</th>
