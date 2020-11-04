@@ -100,4 +100,11 @@ return [
     'order_finished' => 'Order Finished',
     'order_resfused' => 'Order Resfused',
     'order_canceled' => 'Order Canceled',
+    'cant_find_voucher' => 'Cant find voucher',
+    'success_add_voucher' => 'Voucher add successfuly',
+    'success_edit_voucher' => 'Voucher edit successfuly',
+    'error_edit_voucher' => 'Error edit voucher',
+    'error_add_voucher' => 'Error add voucher',
+    'discount_freeship' => 'discount and freeship',
+    'edit_voucher' => 'Edit voucher',
 ];

@@ -78,4 +78,8 @@ return [
     'comment_class' => 'info',
     'comment_status' => 'Comment',
     'comment_icon' => 'update',
+    'voucher_freeship' => 0,
+    'voucher_discount' => 1,
+    'voucher_freeship_discount' => 2,
+    'format_year' => 'Y-m-d',
 ];

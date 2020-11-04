@@ -30,7 +30,9 @@
                     {{ $voucher->quantity }}
                 </td>
                 <td> {{ $voucher->min_value }}</td>
-                <td> {{ $voucher->discount }}</td>
+                <td> @if ($voucher->discount != config('config.default'))
+                    {{ $voucher->discount }}
+                @endif</td>
                 <td>
                     @if ($voucher->freeship != null)
                         {{ trans('supplier.freeship') }}
@@ -46,9 +48,10 @@
                     @endif
                 </td>
                 <td>
+                    <a href="{{ route('voucher.edit', $voucher->id) }}" class="btn btn-icon btn-sm btn-info"><i class="fa fa-edit"></i></a>
                     <a href="javascript:void(0);" data-id="{{ $voucher->id }}" class="btn btn-icon btn-sm btn-danger deleteDialog tip"  data-url="{{ route('vouchers.destroy')}}" data-noti="{{ trans('supplier.notification') }}" data-mess="{{ trans('supplier.mess') }}">
-                            <i class="fa fa-trash"></i>
-                        </a>
+                        <i class="fa fa-trash"></i>
+                    </a>
                     <form class="remove_form" hidden="">
                         @csrf
                         <input type="text" name="id" hidden="" value="{{ $voucher->id }}">

@@ -97,7 +97,7 @@
                                                     </a>
                                                 </li>
                                                 <li class="">
-                                                    <a href=""><i class="fas fa-user-cog"></i> {{ trans('customer.manage_account') }}
+                                                    <a href="{{ route('home.user') }}"><i class="fas fa-user-cog"></i> {{ trans('customer.manage_account') }}
                                                     </a>
                                                 </li>
                                             @endif

@@ -87,6 +87,9 @@ Route::namespace('Customer')->prefix('pages')->group(function() {
     Route::get('orders', 'HomeController@order')->name('home.order');
     Route::get('order-detail/{id}', 'HomeController@orderDetail')->name('home.order_detail');
     Route::post('cancel-orders', 'HomeController@orderCancel')->name('home.order_cancel');
+    Route::get('user', 'HomeController@user')->name('home.user');
+    Route::get('user/edit', 'HomeController@editUser')->name('home.edit_user');
+    Route::post('user/save', 'HomeController@saveUser')->name('home.save_user');
 });
 
 Route::namespace('Customer')->prefix('comment')->group(function () {
