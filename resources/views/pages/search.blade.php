@@ -41,7 +41,7 @@
                                         <div class="row">
                                             <div class="col-md-12 col-sm-12 col-xs-12">
                                                 <div class="image-product">
-                                                    <img src="{{ asset($product->thumbnail) }}" class="img-responsive">
+                                                    <img src="{{ asset(config('config.images_folder') . $product->thumbnail) }}" class="img-responsive">
                                                 </div>
                                                 <div class="content-product">
                                                     <h3 class="title">{{ $product->name }}</h3>
@@ -57,7 +57,7 @@
                                                         @endfor
                                                     </div>
                                                     <div class="price">
-                                                        <strong>{{ number_format($product->price_range, config('config.default'), ',', '.') }} {{ config('config.vnd2') }}</strong>
+                                                        <strong>{{ $product->price_range }} {{ config('config.vnd2') }}</strong>
                                                     </div>
                                                 </div>
                                             </div>
@@ -89,7 +89,7 @@
                                             <div class="row">
                                                 <div class="col-md-12 col-sm-12 col-xs-12">
                                                     <div class="image-product">
-                                                        <img src="{{ asset($product->thumbnail) }}" class="img-responsive">
+                                                        <img src="{{ asset( config('config.images_folder') . $product->thumbnail) }}" class="img-responsive">
                                                     </div>
                                                     <div class="content-product">
                                                         <h3 class="title">{{ $product->name }}</h3>
@@ -105,7 +105,7 @@
                                                             @endfor
                                                         </div>
                                                         <div class="price">
-                                                            <strong>{{ number_format($product->price_range, config('config.default'), ',', '.') }} {{ config('config.vnd2') }}</strong>
+                                                            <strong>{{ $product->price_range }} {{ config('config.vnd2') }}</strong>
                                                         </div>
                                                     </div>
                                                 </div>

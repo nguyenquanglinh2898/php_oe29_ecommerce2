@@ -8,7 +8,7 @@
                     <div class="content-advertise">
                         <div id="slide-advertise" class="owl-carousel">
                             @foreach ($slides as $slide)
-                                <img src=" {{ asset(config('config.images_folder') . $slide->image) }}"  height="310px" class="slide-advertise-inner"  data-dot="<button>{{ $slide->title }}</button>">
+                                <img src="{{ asset(config('config.images_folder') . $slide->image) }}"  height="310px" class="slide-advertise-inner"  data-dot="<button>{{ $slide->title }}</button>">
                             @endforeach
                         </div>
                         <div class="custom-dots-slide-advertises"></div>
@@ -25,7 +25,7 @@
                                     <a href="" title="{{ $voucher->name }}">
                                         <div class="row">
                                             <div class="col-md-4 col-sm-3 col-xs-3 col-xs-responsive">
-                                                <img src="{{ asset($voucher->user->avatar) }}" class="img-responsive" height="55px">
+                                                <img src="{{ asset($voucher->user->avatar) }}" class="img-fluid" height="55px">
                                             </div>
                                             <div class="col-md-8 col-sm-9 col-xs-9 col-xs-responsive">
                                                 <div class="post-item-content">
@@ -52,7 +52,7 @@
                         <div class="item-product">
                             <a href="{{ route('home.show', $product->id) }}" title="{{ $product->name }}">
                                 <div class="image-product" >
-                                    <img src=" {{ config('setting.image_folder') . $product->thumbnail }}" class="img-responsive">
+                                    <img src="{{ asset(config('config.images_folder') . $product->thumbnail) }}" height="200px">
                                 </div>
                                 <div class="content-product">
                                     <h3 class="title">{{ $product->name }}</h3>
@@ -67,8 +67,8 @@
                                             @endif
                                         @endfor
                                     </div>
-                                    <div class="price">
-                                        {{ trans('customer.category') }}: <strong>{{ $product->catname }}</strong>
+                                    <div class="price" style="color: red;">
+                                         {{ $product->price_range }} {{ config('config.vnd2') }}
                                     </div>
                                 </div>
                             </a>
@@ -99,7 +99,7 @@
                                     <div class="row">
                                         <div class="col-md-12 col-sm-12 col-xs-12">
                                             <div class="image-product" >
-                                                <img src=" {{ config('setting.image_folder') . $product->thumbnail }}" class="img-responsive" width="225px">
+                                                <img src="{{ asset(config('config.images_folder') . $product->thumbnail) }}" class="img-responsive" width="225px">
                                             </div>
                                             <div class="content-product">
                                                 <h3 class="title">{{ $product->name }}</h3>
@@ -114,8 +114,8 @@
                                                         @endif
                                                     @endfor
                                                 </div>
-                                                <div class="price">
-                                                    {{ trans('customer.category') }}: <strong>{{ $product->catname }}</strong>
+                                                <div class="price" style="color: red;">
+                                                   {{ $product->price_range }} {{ config('config.vnd2') }}
                                                 </div>
                                             </div>
                                         </div>
@@ -125,6 +125,7 @@
                         </div>
                     @endforeach
                 </div>
+                {{ $newProducts->links() }}
             </div>
         </section>
     </div>

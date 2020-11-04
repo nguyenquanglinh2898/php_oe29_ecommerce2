@@ -135,7 +135,7 @@
                                         <div class="row">
                                             <div class="col-md-12 col-sm-12 col-xs-12">
                                                 <div class="image-product" >
-                                                    <img src="{{ config('setting.image_folder') . $product->thumbnail }}" class="img-responsive">
+                                                    <img src="{{ asset(config('config.images_folder') . $product->thumbnail) }}" class="img-responsive">
                                                 </div>
                                                 <div class="content-product">
                                                     <h3 class="title">{{ $product->name }}</h3>

@@ -35,22 +35,42 @@
                         <div class="form-checkout">
                             <div class="form-group">
                                 <label for="email">{{ trans('sentences.email_address') }}</label>
-                                <input name="email" type="email" class="form-control" id="email" value="{{ Auth::user()->email }}">
+                                <input name="email" type="email" class="form-control" id="email" value="{{ old('email') }}">
+                                <div class="text-danger">
+                                    @error('email')
+                                        {{ $message }}
+                                    @enderror
+                                </div>
                             </div>
 
                             <div class="form-group">
                                 <label for="name">{{ trans('sentences.full_name') }}</label>
-                                <input name="name" type="text" class="form-control" id="name" value="{{Auth::user()->name }}">
+                                <input name="name" type="text" class="form-control" id="name" value="{{ old('name')  }}">
+                                <div class="text-danger">
+                                    @error('name')
+                                        {{ $message }}
+                                    @enderror
+                                </div>
                             </div>
 
                             <div class="form-group">
                                 <label for="phone">{{ trans('sentences.phone_number') }}</label>
-                                <input name="phone" type="tel" class="form-control" id="phone" value="{{ Auth::user()->phone }}">
+                                <input name="phone" type="tel" class="form-control" id="phone" value="{{ old('phone') }}">
+                                <div class="text-danger">
+                                    @error('phone')
+                                        {{ $message }}
+                                    @enderror
+                                </div>
                             </div>
 
                             <div class="form-group">
                                 <label for="address">{{ trans('sentences.address') }}</label>
-                                <input name="address" type="text" class="form-control" id="address" value="{{ Auth::user()->address }}">
+                                <input name="address" type="text" class="form-control" id="address" value="{{ old('address') }}">
+                                <div class="text-danger">
+                                    @error('address')
+                                        {{ $message }}
+                                    @enderror
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -145,7 +165,7 @@
                                             @foreach ($supplier['items'] as $key => $item)
                                                 <tr>
                                                     <td>{{ $key + 1 }}</td>
-                                                    <td class="thumbnail-col"><img src="{{ config('setting.image_folder') . $item['product']['thumbnail'] }}"></td>
+                                                    <td class="thumbnail-col"><img src="{{ asset(config('config.images_folder') . $item['product']['thumbnail']) }}"></td>
                                                     <td>{{ $item['product']['name'] }}</td>
                                                     <td>
                                                         @foreach (json_decode($item['list_attributes']) as $attr => $value)

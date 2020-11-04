@@ -2,19 +2,22 @@
 @section('title')
     {{ trans('supplier.manage_order') }}
     @switch($status)
-        @case(config('config.order_status_refuse') == $status)
+        @case (config('config.order_status_refuse'))
             <span>{{ trans('supplier.status') }}   :</span><span class="label label-{{ config('config.order_status_refuse_class') }}">{{ config('config.order_status_refuse_name') }}</span>
+           
             @break
-        @case(config('config.order_status_cancel') == $status)
+
+        @case (config('config.order_status_cancel'))
            <span>{{ trans('supplier.status') }}   :</span><span class="label label-{{ config('config.order_status_cancel_class') }}">{{ config('config.order_status_cancel_name') }}</span>
+          
             @break
-        @case(config('config.order_status_pending') == $status)
+        @case (config('config.order_status_pending'))
              <span>{{ trans('supplier.status') }}   :</span><span class="label label-{{ config('config.order_status_pending_class') }}">{{ config('config.order_status_pending_name') }}</span>
             @break
-        @case(config('config.order_status_accept') == $status)
+        @case (config('config.order_status_accept'))
             <span>{{ trans('supplier.status') }}   :</span><span class="label label-{{ config('config.order_status_accept_class') }}">{{ config('config.order_status_accept_name') }}</span>
             @break
-        @case(config('config.order_status_finish') == $status)
+        @case (config('config.order_status_finish'))
             <span>{{ trans('supplier.status') }}   :</span><span class="label label-{{ config('config.order_status_finish_class') }}">{{ config('config.order_status_finish_name') }}</span>
             @break
     @endswitch

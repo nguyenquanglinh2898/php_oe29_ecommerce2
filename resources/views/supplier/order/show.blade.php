@@ -1,6 +1,6 @@
 @extends('supplier.layouts.master')
 @section('title')
-    {{ trans('supplier.Manage_Order') }}
+    {{ trans('supplier.manage_order') }}
 @endsection
 @section('title_content')
     /{{ trans('supplier.order') }}.#{{ $order->id }}
@@ -13,7 +13,7 @@
 @section('breadcrumb')
     <ol class="breadcrumb">
         <li><a href=""><i class="fa fa-dashboard"></i> {{ trans('supplier.home') }}</a></li>
-        <li><a href=""><i class="fa fa-list-alt" aria-hidden="true"></i> {{ trans('supplier.Manage_Order') }}</a></li>
+        <li><a href=""><i class="fa fa-list-alt" aria-hidden="true"></i> {{ trans('supplier.manage_order') }}</a></li>
         <li class="active">{{ trans('supplier.order') }}#.{{ $order->id }}</li>
     </ol>
 @endsection
@@ -96,10 +96,10 @@
                                 <tr>
                                     <td class="show-th">{{ $key + 1 }}</td>
                                     <td>
-                                        <img src="{{ config('setting.image_folder') . $item->productDeltail->product->thumbnail }}" class="show-td-img">
+                                        <img src="{{ asset(config('config.images_folder') . $item->productDeltail->product->thumbnail) }}" class="show-td-img">
                                     </td>
                                     <td>{{ $item->productDeltail->product->name }}</td>
-                                    <td>{{ str_replace('"', " ", $item->productDeltail->list_attributes ) }}</td>
+                                    <td>{{ str_replace(['{', '}', '"'], " ", $item->productDeltail->list_attributes ) }}</td>
                                     <td class="show-th">{{ $item->quantity }}</td>
                                     <td><span class="show-color">{{ number_format($item->sale_price, 0, ',', '.') }}</span></td>
                                     <td><span class="show-color">{{ number_format($item->sale_price * $item->quantity, 0, ',', '.') }}</span></td>
@@ -133,7 +133,7 @@
                     <div class="table-responsive">
                         <table class="table">
                             <tr>
-                                <th >{{ trans('supplier.total') }}:</th>
+                                <th>{{ trans('supplier.total') }}:</th>
                                 <td><span class="show-color">{{ number_format($price, 0, ',', '.') }}</span></td>
                             </tr>
                             <tr>
@@ -149,7 +149,7 @@
                                 <td><span class="show-color"></span></td>
                             </tr>
                             <tr>
-                                <th>{{ trans('supplier.total_money_payable') }}:</th>
+                                <th>{{ trans('supplier.total_price') }}:</th>
                                 @if ($order->paymentMethod->id == config('config.payment_method'))
                                     <td><span class="show-color"></span></td>
                                 @else

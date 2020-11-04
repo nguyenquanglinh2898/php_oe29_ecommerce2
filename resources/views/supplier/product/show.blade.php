@@ -21,7 +21,7 @@
     <div class="row">
         <label class="attr-name">{{ trans('sentences.thumbnail') }}:</label>
         <span>
-            <img src="{{ config('setting.image_folder') . $product->thumbnail }}" class="thumbnail-img">
+            <img src="{{ asset(config('config.images_folder') . $product->thumbnail) }}" class="thumbnail-img">
         </span>
     </div>
     <div class="row">
@@ -68,7 +68,7 @@
         <div class="other-pics">
             @foreach ($product->images as $image)
                 <div class="image-div">
-                    <img src="{{ config('setting.image_folder') . $image->url }}">
+                    <img src="{{ asset(config('config.images_folder') . $image->url) }}">
                 </div>
             @endforeach
         </div>

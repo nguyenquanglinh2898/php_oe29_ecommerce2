@@ -3,12 +3,15 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class OrderItem extends Model
 {
-    protected $table = 'order_items';
+    use SoftDeletes;
 
+    protected $table = 'order_items';
     protected $guarded = [];
+    protected $dates = ['deleted_at'];
 
     public function order()
     {
@@ -17,6 +20,6 @@ class OrderItem extends Model
 
     public function productDeltail()
     {
-        return $this->belongsTo(ProductDetail::class, 'product_detail_id', 'id');
+        return $this->belongsTo(ProductDetail::class, 'product_detail_id', 'id')->withTrashed();
     }
 }

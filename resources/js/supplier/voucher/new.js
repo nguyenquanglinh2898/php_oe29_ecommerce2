@@ -1,11 +1,23 @@
 $(document).ready(function() {
+    if ($('.select-apply-for').val() == 1 ) {
+        $('.discount').css("display","inline");
+    } else if ($('.select-apply-for').val() == 2) {
+        $('.discount').css("display","inline");
+    } else {
+        $('.discount').css("display","none");
+    }
+
     $('.select-apply-for').on('change', function() {
         if (this.value == 1 ) {
             $('.discount').css("display","inline");
             $('.freeship-input').val(null);
+        } else if (this.value == 2) {
+            $('.discount').css("display","inline");
+            $('.freeship-input').val(1);
         } else {
             $('.discount').css("display","none");
             $('.freeship-input').val(1);
+            $('.discount-input').val(0);
         }
     });
     $('button.voucher-btn').click(function() {

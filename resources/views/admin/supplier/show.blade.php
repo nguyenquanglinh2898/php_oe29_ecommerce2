@@ -85,7 +85,7 @@
                                                     <tbody>
                                                         <tr>
                                                             <td class="text-center show-middle" >{{ $postProduct->id }}</td>
-                                                            <td class="text-center show-middle" ><a href="{{ route('admin.products.show', [$postProduct->id]) }}"><img class="profile-user-img img-responsive " src="{{ config('setting.image_folder') . $postProduct->thumbnail }}" ></a></td>
+                                                            <td class="text-center show-middle" ><a href="{{ route('admin.products.show', [$postProduct->id]) }}"><img class="profile-user-img img-responsive " src="{{ asset(config('config.images_folder') . $postProduct->thumbnail) }}" ></a></td>
                                                             <td class="text-center show-middle" >{{ $postProduct->name }}</td>
                                                             <td class="text-center show-middle" >{{ $postProduct->brand }}</td>
                                                             <td class="text-center show-middle" >{{ $postProduct->category->name }}</td>

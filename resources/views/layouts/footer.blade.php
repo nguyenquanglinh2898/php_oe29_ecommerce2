@@ -69,7 +69,7 @@
                 <div class="col-md-3 col-sm-4 hidden-xs">
                     <div class="footer-widget">
                         <div class="widget-title">
-                            <h3>{{ trans('customer.followus') }}</h3>
+                            <h3>{{ trans('customer.follow_us') }}</h3>
                         </div>
                         <div class="widget-content">
                             <iframe src="{{ asset(config('config.img_footer')) }}" width="270" height="130" class="fb" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media"></iframe>

@@ -25,12 +25,12 @@
                         <div class="item product-{{ $key }}">
                             <div class="image-product">
                                 <a href="{{ route('home.show', $item['id']) }}" target="_blank" title="{{ $item['product']['name'] . ' - ' . str_replace('"', " ", $item['list_attributes']) }}">
-                                    <img src="{{ config('setting.image_folder') . $item['product']['thumbnail'] }}">
+                                    <img src="{{ asset(config('config.images_folder') . $item['product']['thumbnail']) }}">
                                 </a>
                             </div>
                             <div class="info-product">
-                                <div class="name"><a href="{{ route('home.show', $item['id']) }}" target="_blank" title="{{ $item['product']['name'] . ' - ' . str_replace('"', " ", $item['list_attributes']) }}">{{ $item['product']['name'] }}</a></div>
-                                <div class="name"><a href="{{ route('home.show', $item['id']) }}" target="_blank" title="{{ $item['product']['name'] . ' - ' . str_replace('"', " ", $item['list_attributes']) }}">{{ str_replace('"', " ", $item['list_attributes']) }}</a></div>
+                                <div class="name"><a href="{{ route('home.show', $item['id']) }}" target="_blank" title="{{ $item['product']['name'] . ' - ' . str_replace(['{', '}', '"'], " ", $item['list_attributes']) }}">{{ $item['product']['name'] }}</a></div>
+                                <div class="name"><a href="{{ route('home.show', $item['id']) }}" target="_blank" title="{{ $item['product']['name'] . ' - ' . str_replace(['{', '}', '"'], " ", $item['list_attributes']) }}">{{ str_replace(['{', '}', '"'], " ", $item['list_attributes']) }}</a></div>
                                 <div class="price total-item-price-{{ $key }}">{{ number_format($item['price'], config('config.default'), ',', '.') }} {{ config('config.vnd2') }}</div>
                                 <div >
                                     <form id= "quantity_form" class="quantity-block">

@@ -15,7 +15,8 @@ class OrderController extends Controller
 {
     public function index($status)
     {
-        $orders = Order::where('status', $status)
+        $orders = Order::withTrashed()
+            ->where('status', $status)
             ->whereHas('orderItems.productDeltail.product', function (Builder $query) {
                 $query->where('user_id', Auth::id());
             })

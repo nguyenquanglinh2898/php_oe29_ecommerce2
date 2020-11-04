@@ -32,4 +32,5 @@ return [
     'address' => 'Address',
     'all_supplier' => 'All Supplier',
     'block_supplier' => 'Block Supplier',
+    'user_profile' => 'User Profile',
 ];

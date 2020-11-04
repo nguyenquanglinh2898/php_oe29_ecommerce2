@@ -1,0 +1,6 @@
+.navbar-nav > .notifications-menu > .dropdown-menu, .navbar-nav > .messages-menu > .dropdown-menu, .navbar-nav > .tasks-menu > .dropdown-menu .notifi {
+    width: 500px;
+    max-height: 400px;
+    overflow: scroll;
+    padding: 10px;
+}

@@ -58,7 +58,9 @@ Route::middleware(['auth', 'verified'])->group(function() {
             Route::get('/vouchers', 'VoucherController@index')->name('voucher.index');
             Route::post('vouchers/destroy', 'VoucherController@destroy')->name('vouchers.destroy');
             Route::get('/vouchers/create', 'VoucherController@create')->name('voucher.create');
+            Route::get('/vouchers/edit/{id}', 'VoucherController@edit')->name('voucher.edit');
             Route::post('vouchers', 'VoucherController@store')->name('voucher.store');
+            Route::post('vouchers/update', 'VoucherController@update')->name('voucher.update');
         });
     });
 
@@ -85,12 +87,21 @@ Route::namespace('Customer')->prefix('pages')->group(function() {
     Route::get('orders', 'HomeController@order')->name('home.order');
     Route::get('order-detail/{id}', 'HomeController@orderDetail')->name('home.order_detail');
     Route::post('cancel-orders', 'HomeController@orderCancel')->name('home.order_cancel');
+    Route::get('/changePassword','HomeController@showChangePasswordForm')->name('home.password');
+    Route::post('/changePassword','HomeController@changePassword')->name('changePassword');
+    Route::get('user', 'HomeController@user')->name('home.user');
+    Route::get('user/edit', 'HomeController@editUser')->name('home.edit_user');
+    Route::post('user/save', 'HomeController@saveUser')->name('home.save_user');
 });
 
 Route::namespace('Customer')->prefix('comment')->group(function () {
     Route::post('comment', 'HomeController@comment')->name('home.comment');
     Route::post('edit', 'HomeController@editComment')->name('home.edit_comment');
     Route::post('delete', 'HomeController@deleteComment')->name('home.delete_comment');
+    Route::get('/show-comment/{id}/{productId}', 'HomeController@showComment')->name('comment.show');
+    Route::post('reply', 'HomeController@replyComment')->name('home.reply');
+    Route::post('edit-reply', 'HomeController@editReplyComment')->name('home.edit_reply');
+    Route::post('delete-reply', 'HomeController@deleteReplyComment')->name('home.delete_reply');
 });
 
 Route::namespace('Customer')->prefix('cart')->group(function () {

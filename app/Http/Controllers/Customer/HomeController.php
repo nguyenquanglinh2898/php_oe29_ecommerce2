@@ -19,7 +19,10 @@ use Exception;
 use RealRashid\SweetAlert\Facades\Alert;
 use App\Notifications\CommentNotification;
 use App\Models\User;
+use App\Http\Requests\UserRequest;
+use Illuminate\Support\Facades\Storage;
 use DB;
+use Illuminate\Support\Facades\Hash;
 
 class HomeController extends Controller
 {
@@ -73,11 +76,12 @@ class HomeController extends Controller
         $activeAttribute['id'] = $productDetails[config('config.default')]->id;
 
         $activeComment = null;
+        $comments = $product->comments()->where('parent_id', null)->get();
         if (Auth::check()) {
-            $activeComment = Auth::user()->comments()->where('product_id', $product->id)->first();
+            $activeComment = Auth::user()->comments()->where('product_id', $product->id)->where('parent_id', null)->first();
         }
 
-        return view('pages.product', compact('product', 'groupAtribute', 'activeAttribute', 'suggestProducts', 'activeComment'));
+        return view('pages.product', compact('product', 'groupAtribute', 'activeAttribute', 'suggestProducts', 'activeComment', 'comments'));
     }
 
     public function showDetail(Request $request)
@@ -184,7 +188,7 @@ class HomeController extends Controller
         DB::beginTransaction();
         try {
             $comment = Comment::create($request->all());
-            $rate = Comment::where('product_id', $request->product_id)->avg('rate');
+            $rate = Comment::where('product_id', $request->product_id)->where('parent_id', null)->avg('rate');
             $product = Product::findOrFail($request->product_id);
             $product->update(['rate' => $rate]);
 
@@ -217,7 +221,7 @@ class HomeController extends Controller
         DB::beginTransaction();
         try {
             $comment = Comment::findOrFail($request->id)->update($request->except('id'));
-            $rate = Comment::where('product_id', $request->product_id)->avg('rate');
+            $rate = Comment::where('product_id', $request->product_id)->where('parent_id', null)->avg('rate');
             $product = Product::findOrFail($request->product_id);
             $product->update(['rate' => $rate]);
 
@@ -248,5 +252,106 @@ class HomeController extends Controller
         }
 
         return redirect()->back();
+    }
+
+    public function showChangePasswordForm(){
+        return view('auth.changepassword');
+    }
+
+    public function changePassword(ChangePasswordRequest $request){
+
+        if (!(Hash::check($request->get('current-password'), Auth::user()->password))) {
+
+            return redirect()->back()->with("error", trans('customer.current_password_error'));
+        }
+
+        if(strcmp($request->get('current-password'), $request->get('new-password')) == 0){
+
+            return redirect()->back()->with("error", trans('customer.new_password_error'));
+        }
+
+        $user = Auth::user();
+        $user->password = bcrypt($request->get('new-password'));
+        $user->save();
+
+        return redirect()->back()->with("success", trans('customer.password_success'));
+    }
+
+    public function user()
+    {
+        return view('pages.show_user');
+    }
+
+    public function editUser()
+    {
+       return view('pages.edit_user');
+    }
+
+    public function saveUser(UserRequest $request)
+    {
+        $user = User::where('id', $request->user_id)->first();
+        $user->name = $request->name;
+        $user->phone = $request->phone;
+        $user->address = $request->address;
+
+        if ($request->hasFile('avatar_image')) {
+            $image = $request->file('avatar_image');
+            $image_name = time().'_'.$image->getClientOriginalName();
+            $image->storeAs('images',$image_name,'public');
+
+            if ($user->avatar != NULL) {
+                Storage::disk('public')->delete('images/'.$user->avatar_image);
+            }
+
+            $user->avatar = $image_name;
+        }
+
+        $user->save();
+        Alert::success(trans('customer.change_infomation_success'));
+
+        return redirect()->back();
+    }
+
+    public function showComment($id, $productId)
+    {
+        $activeComment = Comment::find($id);
+
+        if ($activeComment) {
+            return redirect()->route('home.show', $productId)->with('activeComment', $activeComment);
+        }
+
+        Alert::error(trans('customer.comment_has_delete'));
+
+        return redirect()->back();
+    }
+
+    public function replyComment(Request $request)
+    {
+        $comment = Comment::create($request->all());
+        $product = Product::findOrFail($request->product_id);
+        $comments = $product->comments()->where('parent_id', null)->get();
+        $activeComment = null;
+
+        return view('layouts.comment', compact('product', 'activeComment', 'comments'));
+    }
+
+    public function editReplyComment(Request $request)
+    {
+        $comment = Comment::findOrFail($request->id)->update($request->except('id'));
+        $product = Product::findOrFail($request->product_id);
+        $comments = $product->comments()->where('parent_id', null)->get();
+        $activeComment = null;
+
+        return view('layouts.comment', compact('product', 'activeComment', 'comments'));
+    }
+
+    public function deleteReplyComment(Request $request)
+    {
+        $comment = Comment::findOrFail($request->id)->delete();
+        $product = Product::findOrFail($request->product_id);
+        $comments = $product->comments()->where('parent_id', null)->get();
+        $activeComment = null;
+
+        return view('layouts.comment', compact('product', 'activeComment', 'comments'));
     }
 }

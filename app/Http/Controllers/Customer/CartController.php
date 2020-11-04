@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Customer;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CheckOutFormRequest;
 use App\Models\Order;
 use App\Models\PaymentMethod;
 use App\Models\Transporter;
@@ -17,6 +18,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use RealRashid\SweetAlert\Facades\Alert;
+use App\Notifications\OrderNotification;
 use Exception;
 
 class CartController extends Controller
@@ -190,7 +192,7 @@ class CartController extends Controller
         return compact('shipPrice', 'totalPrice');
     }
 
-    public function pay(Request $request)
+    public function pay(CheckOutFormRequest $request)
     {
         DB::beginTransaction();
         try {
@@ -201,6 +203,15 @@ class CartController extends Controller
             DB::commit();
 
             Session::forget(['cart', 'checkout']);
+            $data = [
+                'status' => config('config.order_status_pending_name'),
+                'class' => config('config.order_status_pending_class'),
+                'icon' => config('config.order_status_pending_icon'),
+                'created_at' => Carbon::now()->toDateTimeString(),
+                'order_id' => '',
+            ];
+
+            Auth::user()->notify(new OrderNotification($data));
             Alert::success(trans('sentences.order_successfully'));
 
         } catch (Exception $exception) {

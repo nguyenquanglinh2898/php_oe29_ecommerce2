@@ -4,7 +4,7 @@ return [
     'name' => 'MyStore',
     'avatar' => 'images/no_avatar.jpg',
     'default' => 0,
-    'paginate' => 8,
+    'paginate' => 10,
     'images_folder' => 'storage/images/',
     'role_supplier' => 2,
     'role_supplier_name' => 'Supplier',
@@ -78,4 +78,7 @@ return [
     'comment_class' => 'info',
     'comment_status' => 'Comment',
     'comment_icon' => 'update',
+    'default_two' => 2,
+    'format_year' => 'Y-m-d',
+    'clear' => 'clear',
 ];
