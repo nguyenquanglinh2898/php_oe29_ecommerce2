@@ -35,6 +35,7 @@ class RegisterController extends Controller
         return User::create([
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
+            'avatar' => config('setting.default_user_avatar'),
             'status' => config('setting.active_id'),
         ]);
     }

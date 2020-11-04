@@ -26,4 +26,5 @@ return [
     'throttle_resend_mail_times' => 3,
     'throttle_resend_mail_minutes' => 1,
     'currency_unit' => 'đ',
+    'default_user_avatar' => 'default_user_image.jpg',
 ];

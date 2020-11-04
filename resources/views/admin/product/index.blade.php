@@ -62,7 +62,7 @@
                             <tr>
                                 <td class="text-center">{{ $product->id }}</td>
                                 <td class="thumbnail-col">
-                                    <img src="{{ $product->thumbnail }}" alt="thumbnail">
+                                    <img src="{{ config('setting.image_folder') . $product->thumbnail }}" alt="thumbnail">
                                 </td>
                                 <td>{{ $product->name }}</td>
                                 <td>{{ $product->rate }}/{{ config('setting.max_rating') }}</td>

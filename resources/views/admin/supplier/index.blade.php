@@ -45,7 +45,7 @@
                         <tr>
                             <th data-width="10px">STT</th>
                             <th data-orderable="false" data-width="60px">{{ trans('admin.images') }}</th>
-                            <th data-orderable="false" data-width="100px">{{ trans('admin.user_name') }}</th>
+                            <th data-orderable="false" data-width="100px">{{ trans('admin.name') }}</th>
                             <th data-orderable="false">{{ trans('admin.email') }}</th>
                             <th data-orderable="false" data-width="85px">{{ trans('admin.phone') }}</th>
                             <th data-orderable="false">{{ trans('admin.address') }}</th>

@@ -970,6 +970,7 @@
                 "reflection",
                 "static"
             ],
+            "abandoned": "roave/better-reflection",
             "time": "2020-10-27T21:46:55+00:00"
         },
         {
@@ -1455,16 +1456,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v7.29.2",
+            "version": "v7.29.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "0fb15ae253c3a043f2c5cbf9641427a7646ea77a"
+                "reference": "93f6d565a07045baa0e4b941ae1f733cd5984d65"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/0fb15ae253c3a043f2c5cbf9641427a7646ea77a",
-                "reference": "0fb15ae253c3a043f2c5cbf9641427a7646ea77a",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/93f6d565a07045baa0e4b941ae1f733cd5984d65",
+                "reference": "93f6d565a07045baa0e4b941ae1f733cd5984d65",
                 "shasum": ""
             },
             "require": {
@@ -1609,25 +1610,25 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2020-10-29T18:57:35+00:00"
+            "time": "2020-11-03T14:12:58+00:00"
         },
         {
             "name": "laravel/helpers",
-            "version": "v1.3.0",
+            "version": "v1.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/helpers.git",
-                "reference": "b4b8d6e84a6306fc88870f61a244d8c537779f2d"
+                "reference": "cde8ea2427db4f37d67729846b70452499210a21"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/helpers/zipball/b4b8d6e84a6306fc88870f61a244d8c537779f2d",
-                "reference": "b4b8d6e84a6306fc88870f61a244d8c537779f2d",
+                "url": "https://api.github.com/repos/laravel/helpers/zipball/cde8ea2427db4f37d67729846b70452499210a21",
+                "reference": "cde8ea2427db4f37d67729846b70452499210a21",
                 "shasum": ""
             },
             "require": {
                 "illuminate/support": "~5.8.0|^6.0|^7.0|^8.0",
-                "php": ">=7.1.3"
+                "php": "^7.1.3|^8.0"
             },
             "require-dev": {
                 "phpunit/phpunit": "^7.0|^8.0|^9.0"
@@ -1662,7 +1663,7 @@
                 "helpers",
                 "laravel"
             ],
-            "time": "2020-08-25T17:54:37+00:00"
+            "time": "2020-11-03T16:38:41+00:00"
         },
         {
             "name": "laravel/tinker",
@@ -6210,6 +6211,7 @@
                 "faker",
                 "fixtures"
             ],
+            "abandoned": true,
             "time": "2019-12-12T13:22:17+00:00"
         },
         {

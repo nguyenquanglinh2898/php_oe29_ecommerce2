@@ -1,5 +1,5 @@
 @extends('admin.layouts.master')
-@section('title', trans('admin.user_profile'))
+@section('title', trans('sentences.detail'))
 @section('embed-css')
 @endsection
 @section('custom-css')
@@ -18,7 +18,7 @@
     <div class="col-md-3">
         <div class="box box-primary">
             <div class="box-body box-profile">
-                <img class="profile-user-img img-responsive img-circle" src="{{ asset(config('config.images_folder') . $supplier->avatar) }}" >
+                <img class="profile-user-img img-responsive img-circle" src="{{ $supplier->avatar }}" >
                 <h3 class="profile-username text-center">{{ $supplier->name }}</h3>
                 @if (config('config.status_block') == $supplier->status)
                     <p class="text-center"><span class="label label-{{ config('config.status_block_class') }}">{{ config('config.status_block_name') }}</span></p>
@@ -85,7 +85,7 @@
                                                     <tbody>
                                                         <tr>
                                                             <td class="text-center show-middle" >{{ $postProduct->id }}</td>
-                                                            <td class="text-center show-middle" ><a href="{{ route('admin.products.show', [$postProduct->id]) }}"><img class="profile-user-img img-responsive " src="{{ asset($postProduct->thumbnail) }}" ></a></td>
+                                                            <td class="text-center show-middle" ><a href="{{ route('admin.products.show', [$postProduct->id]) }}"><img class="profile-user-img img-responsive " src="{{ config('setting.image_folder') . $postProduct->thumbnail }}" ></a></td>
                                                             <td class="text-center show-middle" >{{ $postProduct->name }}</td>
                                                             <td class="text-center show-middle" >{{ $postProduct->brand }}</td>
                                                             <td class="text-center show-middle" >{{ $postProduct->category->name }}</td>
