@@ -24,13 +24,20 @@
                                 <div class="post-item">
                                     <a href="" title="{{ $voucher->name }}">
                                         <div class="row">
-                                            <div class="col-md-4 col-sm-3 col-xs-3 col-xs-responsive">
-                                                <img src="{{ asset($voucher->user->avatar) }}" class="img-responsive" height="55px">
+                                            <div class="col-md-4 col-sm-3 col-xs-3 col-xs-responsive text-center">
+                                                <img src="{{ asset($voucher->user->avatar) }}" class="img-fluid" height="55px">
                                             </div>
                                             <div class="col-md-8 col-sm-9 col-xs-9 col-xs-responsive">
                                                 <div class="post-item-content">
                                                     <h4 class="post-content-title">{{ $voucher->description }}</h4>
-                                                    <p class="post-content-date">{{ date_format($voucher->created_at, config('config.day_format')) }}</p>
+                                                    <b class="voucher-item">
+                                                        <span>{{ trans('sentences.remaining') }}: </span>
+                                                        <span>{{ $voucher->quantity }}</span>
+                                                    </b>
+                                                    <p class="post-content-date">
+                                                        <span>{{ trans('sentences.expire_date') }}: </span>
+                                                        <span>{{ $voucher->start_date }} - {{ $voucher->end_date }}</span>
+                                                    </p>
                                                 </div>
                                             </div>
                                         </div>
@@ -51,9 +58,7 @@
                     @foreach ($favoriteProducts as $product)
                         <div class="item-product">
                             <a href="{{ route('home.show', $product->id) }}" title="{{ $product->name }}">
-                                <div class="image-product" >
-                                    <img src=" {{ config('setting.image_folder') . $product->thumbnail }}" class="img-responsive">
-                                </div>
+                                <div class="image-product product-thumbnail" data-url="{{ asset(config('config.images_folder') . $product->thumbnail) }}"></div>
                                 <div class="content-product">
                                     <h3 class="title">{{ $product->name }}</h3>
                                     <div class="start-vote">
@@ -98,9 +103,7 @@
                                 <a href="{{ route('home.show', $product->id) }}" title="{{ $product->name }}">
                                     <div class="row">
                                         <div class="col-md-12 col-sm-12 col-xs-12">
-                                            <div class="image-product" >
-                                                <img src=" {{ config('setting.image_folder') . $product->thumbnail }}" class="img-responsive" width="225px">
-                                            </div>
+                                            <div class="image-product product-thumbnail" data-url="{{ asset(config('config.images_folder') . $product->thumbnail) }}"></div>
                                             <div class="content-product">
                                                 <h3 class="title">{{ $product->name }}</h3>
                                                 <div class="start-vote">
@@ -115,7 +118,7 @@
                                                     @endfor
                                                 </div>
                                                 <div class="price">
-                                                    {{ trans('customer.category') }}: <strong>{{ $product->catname }}</strong>
+                                                    {{ trans('customer.category') }}: <strong>{{ $product->category->name }}</strong>
                                                 </div>
                                             </div>
                                         </div>

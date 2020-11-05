@@ -51,6 +51,11 @@ $(document).ready(function(){
         },
         navText: ['<i class="fas fa-angle-left"></i>', '<i class="fas fa-angle-right"></i>']
     });
+
+    for (let i = 0; i < $('.product-thumbnail').length; i++) {
+        let productThumbnailClass = $('.product-thumbnail:eq(' + i +')');
+        productThumbnailClass.css('background-image', 'url(' + productThumbnailClass.attr('data-url') + ')');
+    }
 });
 
 $('.close').click(function() {
