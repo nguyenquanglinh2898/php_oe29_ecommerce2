@@ -30,7 +30,14 @@
                                             <div class="col-md-8 col-sm-9 col-xs-9 col-xs-responsive">
                                                 <div class="post-item-content">
                                                     <h4 class="post-content-title">{{ $voucher->description }}</h4>
-                                                    <p class="post-content-date">{{ date_format($voucher->created_at, config('config.day_format')) }}</p>
+                                                    <b class="voucher-item">
+                                                        <span>{{ trans('sentences.remaining') }}: </span>
+                                                        <span>{{ $voucher->quantity }}</span>
+                                                    </b>
+                                                    <p class="post-content-date">
+                                                        <span>{{ trans('sentences.expire_date') }}: </span>
+                                                        <span>{{ $voucher->start_date }} - {{ $voucher->end_date }}</span>
+                                                    </p>
                                                 </div>
                                             </div>
                                         </div>
@@ -51,9 +58,9 @@
                     @foreach ($favoriteProducts as $product)
                         <div class="item-product">
                             <a href="{{ route('home.show', $product->id) }}" title="{{ $product->name }}">
-                                <div class="image-product" >
-                                    <img src="{{ asset(config('config.images_folder') . $product->thumbnail) }}" height="200px">
-                                </div>
+                                <div class="image-product"
+                                     style="background-image: url('{{ asset(config('config.images_folder') . $product->thumbnail) }}');
+                                    height: 210px; background-size: contain;"></div>
                                 <div class="content-product">
                                     <h3 class="title">{{ $product->name }}</h3>
                                     <div class="start-vote">
@@ -67,7 +74,7 @@
                                             @endif
                                         @endfor
                                     </div>
-                                    <div class="price" style="color: red;">
+                                    <div class="price" style="color: #ff0000;">
                                          {{ $product->price_range }} {{ config('config.vnd2') }}
                                     </div>
                                 </div>
@@ -98,9 +105,9 @@
                                 <a href="{{ route('home.show', $product->id) }}" title="{{ $product->name }}">
                                     <div class="row">
                                         <div class="col-md-12 col-sm-12 col-xs-12">
-                                            <div class="image-product" >
-                                                <img src="{{ asset(config('config.images_folder') . $product->thumbnail) }}" class="img-responsive" width="225px">
-                                            </div>
+                                            <div class="image-product"
+                                                 style="background-image: url('{{ asset(config('config.images_folder') . $product->thumbnail) }}');
+                                                 height: 210px; background-size: contain;"></div>
                                             <div class="content-product">
                                                 <h3 class="title">{{ $product->name }}</h3>
                                                 <div class="start-vote">

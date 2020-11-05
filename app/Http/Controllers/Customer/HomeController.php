@@ -86,12 +86,13 @@ class HomeController extends Controller
 
     public function showDetail(Request $request)
     {
-        $productDetails = ProductDetail::where('list_attributes', json_encode($request->except(['product_id', '_token'])))
+        $listAttr = json_encode($request->except(['product_id', '_token']), JSON_UNESCAPED_UNICODE);
+        $productDetails = ProductDetail::where('list_attributes', $listAttr)
             ->where('product_id', $request->input('product_id'))
             ->get();
         if ($productDetails->isNotEmpty()) {
 
-           return json_encode($productDetails);
+           return json_encode($productDetails, JSON_UNESCAPED_UNICODE);
         }
 
         return json_encode(['msg' => trans('customer.no_result')]);
@@ -287,7 +288,7 @@ class HomeController extends Controller
        return view('pages.edit_user');
     }
 
-    public function saveUser(UserRequest $request)
+    public function saveUser(Request $request)
     {
         $user = User::where('id', $request->user_id)->first();
         $user->name = $request->name;

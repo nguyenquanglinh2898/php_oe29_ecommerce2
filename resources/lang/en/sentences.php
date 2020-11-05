@@ -137,4 +137,5 @@ return [
     'name_invalid' => 'Name invalid',
     'phone_invalid' => 'Phone invalid',
     'address_invalid' => 'Address invalid',
+    'voucher' => 'Voucher',
 ];

@@ -46,7 +46,7 @@
                                         <div class="info">
                                             <div class="info-label">{{ trans('customer.name') }}</div>
                                             <div class="info-content">
-                                                <input id="name" type="text" class="@error('name') is-invalid @enderror" name="name" placeholder="Name" value="{{ old('name') ?: Auth::user()->name }}" required autocomplete="name" autofocus>
+                                                <input id="name" type="text" class="@error('name') is-invalid @enderror" name="name" placeholder="Name" value="{{ old('name') ?: Auth::user()->name }}" autocomplete="name" autofocus>
                                                 @error('name')
                                                     <span class="invalid-feedback" role="alert">
                                                         <strong>{{ $message }}</strong>
@@ -63,7 +63,7 @@
                                         <div class="info">
                                             <div class="info-label">{{ trans('customer.phone') }}</div>
                                             <div class="info-content">
-                                                <input id="phone" type="tel" class="@error('phone') is-invalid @enderror" name="phone" placeholder="Phone" value="{{ old('phone') ?: Auth::user()->phone }}" required autocomplete="phone">
+                                                <input id="phone" type="tel" class="@error('phone') is-invalid @enderror" name="phone" placeholder="Phone" value="{{ old('phone') ?: Auth::user()->phone }}" autocomplete="phone">
                                                 @error('phone')
                                                     <span class="invalid-feedback" role="alert">
                                                         <strong>{{ $message }}</strong>
@@ -74,7 +74,7 @@
                                         <div class="info">
                                             <div class="info-label">{{ trans('customer.address') }}</div>
                                             <div class="info-content">
-                                                <textarea name="address" class="@error('address') is-invalid @enderror" rows="3" required>{{ old('address') ?: Auth::user()->address }}</textarea>
+                                                <textarea name="address" class="@error('address') is-invalid @enderror" rows="3">{{ old('address') ?: Auth::user()->address }}</textarea>
                                                 @error('address')
                                                     <span class="invalid-feedback" role="alert">
                                                         <strong>{{ $message }}</strong>

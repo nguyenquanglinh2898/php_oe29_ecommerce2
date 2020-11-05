@@ -111,7 +111,7 @@
                                                 </li>
                                             @endif
                                             <li>
-                                                <a href="">
+                                                <a>
                                                     <form action="{{ route('logout') }}" method="POST" class="d-none">
                                                         @csrf
                                                         <button type="submit" id="logoutBtn">

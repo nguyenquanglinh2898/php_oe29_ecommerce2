@@ -179,17 +179,20 @@ class CartController extends Controller
     {
         $voucher = Voucher::findOrFail($request->voucherId);
         $shipPrice = $request->shipPrice;
+        $voucherPrice = 0;
         $totalPrice = $request->totalPrice;
 
         if ($voucher->freeship) {
             $totalPrice -= $shipPrice;
+            $voucherPrice += $shipPrice;
             $shipPrice = 0;
         }
 
         $discount = ((float) $voucher->discount / 100) * $totalPrice;
         $totalPrice -= $discount;
+        $voucherPrice += $discount;
 
-        return compact('shipPrice', 'totalPrice');
+        return compact('shipPrice', 'voucherPrice', 'totalPrice');
     }
 
     public function pay(CheckOutFormRequest $request)

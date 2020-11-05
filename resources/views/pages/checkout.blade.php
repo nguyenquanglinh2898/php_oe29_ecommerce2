@@ -35,7 +35,7 @@
                         <div class="form-checkout">
                             <div class="form-group">
                                 <label for="email">{{ trans('sentences.email_address') }}</label>
-                                <input name="email" type="email" class="form-control" id="email" value="{{ old('email') }}">
+                                <input name="email" type="email" class="form-control" id="email" value="{{ Auth::user()->email }}">
                                 <div class="text-danger">
                                     @error('email')
                                         {{ $message }}
@@ -45,7 +45,7 @@
 
                             <div class="form-group">
                                 <label for="name">{{ trans('sentences.full_name') }}</label>
-                                <input name="name" type="text" class="form-control" id="name" value="{{ old('name')  }}">
+                                <input name="name" type="text" class="form-control" id="name" value="{{ Auth::user()->name  }}">
                                 <div class="text-danger">
                                     @error('name')
                                         {{ $message }}
@@ -55,7 +55,7 @@
 
                             <div class="form-group">
                                 <label for="phone">{{ trans('sentences.phone_number') }}</label>
-                                <input name="phone" type="tel" class="form-control" id="phone" value="{{ old('phone') }}">
+                                <input name="phone" type="tel" class="form-control" id="phone" value="{{ Auth::user()->phone }}">
                                 <div class="text-danger">
                                     @error('phone')
                                         {{ $message }}
@@ -65,7 +65,7 @@
 
                             <div class="form-group">
                                 <label for="address">{{ trans('sentences.address') }}</label>
-                                <input name="address" type="text" class="form-control" id="address" value="{{ old('address') }}">
+                                <input name="address" type="text" class="form-control" id="address" value="{{ Auth::user()->address }}">
                                 <div class="text-danger">
                                     @error('address')
                                         {{ $message }}
@@ -200,6 +200,13 @@
                                                 <input type="hidden" name="total[]" class="total-input">
                                             </div>
                                         </div>
+                                        <div class="voucher-price">
+                                            <div class="title">{{ trans('sentences.voucher') }}</div>
+                                            <div class="price">
+                                                <span></span>{{ config('setting.currency_unit') }}
+                                                <input type="hidden" name="total[]" class="total-input">
+                                            </div>
+                                        </div>
                                         <div class="voucher" current-voucher-id="0">
                                             <div class="title">{{ trans('sentences.store_voucher') }}</div>
                                             <div class="select-voucher">
@@ -217,18 +224,6 @@
                         </div>
                         <div class="section-price">
                             <h3 class="total-header">{{ trans('sentences.final_total') }}</h3>
-                            <div class="temp-final-total-price">
-                                <div class="title">{{ trans('sentences.temporary_price') }}</div>
-                                <div class="price">
-                                    <span>{{ number_format($checkout['totalPrice']) }}</span>{{ config('setting.currency_unit') }}
-                                </div>
-                            </div>
-                            <div class="final-ship-price">
-                                <div class="title">{{ trans('sentences.transport_fee') }}</div>
-                                <div class="price">
-                                    <span></span>{{ config('setting.currency_unit') }}
-                                </div>
-                            </div>
                             <div class="final-total-price">
                                 <div class="title">{{ trans('sentences.total') }}</div>
                                 <div class="price">

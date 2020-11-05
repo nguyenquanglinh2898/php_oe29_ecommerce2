@@ -78,8 +78,9 @@ class ProductController extends Controller
     {
         $productDetails = [];
         for ($i = $rowBegin; $i < $data['numOfRow']; $i++) {
-            $listAttr = [];
+            $listAttr = null;
             if (isset($data['attr'])) {
+                $listAttr = [];
                 for ($j = 0; $j < count($data['attr']); $j++) {
                     $attrName = $data['attr'][$j];
                     $attrValue = $data[$attrName][$i];
@@ -89,7 +90,7 @@ class ProductController extends Controller
             }
 
             $productDetail = [
-                'list_attributes' => json_encode($listAttr),
+                'list_attributes' => json_encode($listAttr, JSON_UNESCAPED_UNICODE),
                 'remaining' => $data['remaining'][$i],
                 'price' => $data['price'][$i],
             ];

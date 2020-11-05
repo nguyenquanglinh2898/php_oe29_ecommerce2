@@ -28,7 +28,7 @@ return [
     'manage_category' => 'Manage category',
     'manage_product' => 'Manage product',
     'manage_order' => 'Manage order',
-    'revenue statistics' => 'Revenue statistics',
+    'revenue_statistics' => 'Revenue statistics',
     'control_panel' => 'Control panel',
     'search' => 'Search...',
     'home' => 'Home',

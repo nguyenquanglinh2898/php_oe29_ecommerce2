@@ -9,8 +9,8 @@
                         </div>
                         <div class="widget-content">
                             <p><b><i class="fas fa-mobile-alt"></i> {{ trans('customer.hotline') }}:</b><a href="">{{ config('config.phone') }}</a></p>
-                            <p><b><i class="fas fa-envelope"></i> {{ trans('customer.email') }}:</b><a href="" rel="nofollow">{{ config('config.mail') }}</a></p>
-                            <p><b><i class="fas fa-store-alt"></i> {{ trans('customer.address') }}:</b> {{ trans('customer.address_detail') }}</p>
+                            <p><b><i class="fas fa-envelope"></i> {{ trans('customer.email') }}:</b><a href="" rel="nofollow">{{ config('config.email') }}</a></p>
+                            <p><b><i class="fas fa-store-alt"></i> {{ trans('customer.address') }}:</b> {{ config('config.address_detail') }}</p>
                         </div>
                     </div>
                 </div>
@@ -58,10 +58,6 @@
                                         </div>
                                     </div>
                                 </li>
-
-                                <div class="payment-service" >
-                                    <img src="{{ asset(config('config.nganluong')) }}">
-                                </div>
                             </ul>
                         </div>
                     </div>
@@ -72,7 +68,18 @@
                             <h3>{{ trans('customer.follow_us') }}</h3>
                         </div>
                         <div class="widget-content">
-                            <iframe src="{{ asset(config('config.img_footer')) }}" width="270" height="130" class="fb" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media"></iframe>
+                            <ul class="social-media">
+                                <li>
+                                    <a href="{{ config('setting.facebook_link') }}">
+                                        <img src="{{ asset(config('setting.facebook_logo')) }}">
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ config('setting.youtube_link') }}">
+                                        <img src="{{ asset(config('setting.youtube_logo')) }}">
+                                    </a>
+                                </li>
+                            </ul>
                         </div>
                     </div>
                 </div>

@@ -24,8 +24,8 @@
                 <ul class="list-item-cart">
                     @foreach (Session::get('cart')->items as $key => $item)
                         <li class="item productid-{{ $key }}">
-                            <a class="product-image" href="" >
-                                <img alt="" src="{{ asset($item['product']['thumbnail']) }}" width="80">
+                            <a class="product-image">
+                                <img alt="" src="{{ config('setting.image_folder') . $item['product']['thumbnail'] }}" width="80">
                             </a>
                             <div class="detail-item">
                                 <div class="product-details">
