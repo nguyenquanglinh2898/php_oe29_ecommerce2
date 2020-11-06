@@ -22,6 +22,11 @@ class Voucher extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function getStartDateAttribute($value)
+    {
+        return Carbon::parse($value)->format(config('setting.date_format'));
+    }
+
     public function getEndDateAttribute($value)
     {
         return Carbon::parse($value)->format(config('setting.date_format'));

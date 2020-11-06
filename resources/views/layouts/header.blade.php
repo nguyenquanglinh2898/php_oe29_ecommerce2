@@ -30,7 +30,7 @@
                             <li class="nav-item "><a href="{{ route('home.index') }}" ><span class="fas fa-home"></span>{{ trans('customer.home') }}</a></li>
                             <li class="nav-item"><a href=""><span class="fas fa-info"></span>{{ trans('customer.about') }}</a></li>
                             <li class="nav-item dropdown ">
-                                <a href="" ><span class="fas fa-mobile-alt"></span>{{ trans('product') }}<i class="fas fa-angle-down"></i></a>
+                                <a href="#"><span class="fas fa-tshirt"></span>{{ trans('sentences.category') }}</a>
                                 <div class="dropdown-menu">
                                     <ul class="dropdown-menu-item">
                                         <li>
@@ -39,8 +39,7 @@
                                                 @foreach ($categories as $category)
                                                     <div class="col-sm-6">
                                                         <li>
-                                                            <a href="{{ route('home.category', $category->id) }}" title="{{ $category->name }}">{{ $category->name }} <hr>
-                                                            </a>
+                                                            <a href="{{ route('home.category', $category->id) }}" title="{{ $category->name }}">{{ $category->name }}</a>
                                                         </li>
                                                     </div>
                                                 @endforeach
@@ -52,7 +51,7 @@
                             <li class="nav-item"><a href=""><span class="far fa-newspaper"></span>{{ trans('customer.voucher') }}</a></li>
                             <li class="nav-item "><a href=""><span class="fas fa-id-card"></span>{{ trans('customer.contact') }}</a></li>
                             @if (Auth::check() && Auth::user()->role_id == config('config.role_user'))
-                                <li class="nav-item ">@include('layouts.notification')</li>
+                                <li class="nav-item">@include('layouts.notification')</li>
                             @endif
                         </ul>
                     </div>
@@ -103,7 +102,7 @@
                                                 </li>
                                             @endif
                                             <li>
-                                                <a href="">
+                                                <a href="#">
                                                     <form action="{{ route('logout') }}" method="POST" class="d-none">
                                                         @csrf
                                                         <button type="submit" id="logoutBtn">

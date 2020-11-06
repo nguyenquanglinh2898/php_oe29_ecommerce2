@@ -133,4 +133,9 @@ return [
     'update_successfully' => 'Updated successfully',
     'update_fail' => 'Cannot update',
     'none' => 'none',
+    'email_invalid' => 'Email invalid',
+    'name_invalid' => 'Name invalid',
+    'phone_invalid' => 'Phone invalid',
+    'address_invalid' => 'Address invalid',
+    'voucher' => 'Voucher',
 ];

@@ -133,4 +133,9 @@ return [
     'update_successfully' => 'Cập nhật thành công',
     'update_fail' => 'Không thể cập nhật',
     'none' => 'Không có voucher',
+    'email_invalid' => 'Email không hợp lệ',
+    'name_invalid' => 'Tên không hợp lệ',
+    'phone_invalid' => 'Số điện thoại không hợp lệ',
+    'address_invalid' => 'Địa chỉ không hợp lệ',
+    'voucher' => 'Voucher',
 ];

@@ -27,4 +27,8 @@ return [
     'throttle_resend_mail_minutes' => 1,
     'currency_unit' => 'đ',
     'default_user_avatar' => 'default_user_image.jpg',
+    'facebook_logo' => 'storage/images/facebook_logo.png',
+    'youtube_logo' => 'storage/images/youtube_logo.png',
+    'facebook_link' => 'https://www.facebook.com/mymarket',
+    'youtube_link' => 'https://www.youtube.com/channel/mymarket',
 ];
