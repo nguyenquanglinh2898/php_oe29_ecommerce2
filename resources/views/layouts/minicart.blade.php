@@ -24,8 +24,8 @@
                 <ul class="list-item-cart">
                     @foreach (Session::get('cart')->items as $key => $item)
                         <li class="item productid-{{ $key }}">
-                            <a class="product-image" href="" >
-                                <img alt="" src="{{ asset($item['product']['thumbnail']) }}" width="80">
+                            <a class="product-image">
+                                <img src="{{ config('setting.image_folder') . $item['product']['thumbnail'] }}">
                             </a>
                             <div class="detail-item">
                                 <div class="product-details">
@@ -37,16 +37,14 @@
                                         </a>
                                     </form>
                                     <p class="product-name">
-                                        <a href="" title="{{ $item['product']['name'] . ' - ' . str_replace('"', " ", $item['list_attributes']) }}">{{ $item['product']['name']}}
-                                        </a>
+                                        <a href="{{ route('home.show', $item['product']['id']) }}">{{ $item['product']['name']}}</a>
                                     </p>
                                     <p class="product-name">
-                                        <a href="" title="{{ $item['product']['name'] . ' - ' . str_replace('"', " ", $item['list_attributes']) }}">{{ str_replace('"', " ", $item['list_attributes']) }}
-                                        </a>
+                                        <a href="{{ route('home.show', $item['product']['id']) }}">{{ str_replace(['{', '}', '"'], " ", $item['list_attributes']) }}</a>
                                     </p>
                                 </div>
                                 <div class="product-details-bottom">
-                                    <span class="price pricechange">{{ number_format($item['price'], config('config.default'), ',', '.') }} {{ config('config.vnd2') }}</span>
+                                    <p class="price pricechange">{{ number_format($item['price'], config('config.default'), ',', '.') }} {{ config('config.vnd2') }}</p>
                                     <span>{{ trans('customer.total') }}</span>
                                     <span class="price pricechange total-item-price-{{ $key }}">{{ number_format($item['price'] * $item['qty'], config('config.default'), ',', '.') }} {{ config('config.vnd2') }}</span>
                                     <div class="quantity-select" >

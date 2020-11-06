@@ -1,9 +1,5 @@
 <div class="section-header">
-    <h2 class="section-title">{{ trans('customer.cart') }}
-    @if (isset($cart))
-        <span class="count_item_pr">( {{ $cart->totalQty }} {{ trans('customer.product') }})</span>
-    @endif
-    </h2>
+    <h2 class="section-title">{{ trans('customer.cart') }}</h2>
 </div>
 <div class="section-content">
     @if(!isset($cart))
@@ -29,9 +25,9 @@
                                 </a>
                             </div>
                             <div class="info-product">
-                                <div class="name"><a href="{{ route('home.show', $item['id']) }}" target="_blank" title="{{ $item['product']['name'] . ' - ' . str_replace('"', " ", $item['list_attributes']) }}">{{ $item['product']['name'] }}</a></div>
-                                <div class="name"><a href="{{ route('home.show', $item['id']) }}" target="_blank" title="{{ $item['product']['name'] . ' - ' . str_replace('"', " ", $item['list_attributes']) }}">{{ str_replace('"', " ", $item['list_attributes']) }}</a></div>
-                                <div class="price total-item-price-{{ $key }}">{{ number_format($item['price'], config('config.default'), ',', '.') }} {{ config('config.vnd2') }}</div>
+                                <div class="name"><a href="{{ route('home.show', $item['id']) }}" target="_blank" title="{{ $item['product']['name'] . ' - ' . str_replace(['{', '}', '"'], " ", $item['list_attributes']) }}">{{ $item['product']['name'] }}</a></div>
+                                <div class="name"><a href="{{ route('home.show', $item['id']) }}" target="_blank" title="{{ $item['product']['name'] . ' - ' . str_replace(['{', '}', '"'], " ", $item['list_attributes']) }}">{{ str_replace(['{', '}', '"'], " ", $item['list_attributes']) }}</a></div>
+                                <div class="price total-item-price-{{ $key }}">{{ number_format($item['price'] * $item['qty']) }} {{ config('config.vnd2') }}</div>
                                 <div >
                                     <form id= "quantity_form" class="quantity-block">
                                         @csrf
@@ -58,13 +54,9 @@
             </div>
             <div class="col-md-4">
                 <div class="total-price">
-                    <div class="box-price-top">
-                        <div class="title">{{ trans('provisional') }}</div>
-                        <div class="price totalPrice">{{ number_format($cart->totalPrice, config('config.default'), ',', '.') }}{{ config('config.vnd2') }}</div>
-                    </div>
                     <div class="box-price-up">
                         <div class="title">{{ trans('customer.into_money') }}</div>
-                        <div class="price totalPrice">{{ number_format($cart->totalPrice, config('config.default'), ',', '.') }}{{ config('config.vnd2') }}</div>
+                        <div class="price totalPrice">{{ number_format($cart->totalPrice) }}{{ config('config.vnd2') }}</div>
                     </div>
                     <div class="btn-action">
                         <a href="{{ route('checkout') }}" class="btn btn-danger">{{ trans('customer.pay_now') }}</a>
