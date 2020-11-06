@@ -2,19 +2,19 @@
 @section('title')
     {{ trans('supplier.manage_order') }}
     @switch($status)
-        @case(config('config.order_status_refuse') == $status)
+        @case (config('config.order_status_refuse'))
             <span>{{ trans('supplier.status') }}   :</span><span class="label label-{{ config('config.order_status_refuse_class') }}">{{ config('config.order_status_refuse_name') }}</span>
             @break
-        @case(config('config.order_status_cancel') == $status)
-           <span>{{ trans('supplier.status') }}   :</span><span class="label label-{{ config('config.order_status_cancel_class') }}">{{ config('config.order_status_cancel_name') }}</span>
+        @case (config('config.order_status_cancel'))
+            <span>{{ trans('supplier.status') }}   :</span><span class="label label-{{ config('config.order_status_cancel_class') }}">{{ config('config.order_status_cancel_name') }}</span>
             @break
-        @case(config('config.order_status_pending') == $status)
-             <span>{{ trans('supplier.status') }}   :</span><span class="label label-{{ config('config.order_status_pending_class') }}">{{ config('config.order_status_pending_name') }}</span>
+        @case (config('config.order_status_pending'))
+            <span>{{ trans('supplier.status') }}   :</span><span class="label label-{{ config('config.order_status_pending_class') }}">{{ config('config.order_status_pending_name') }}</span>
             @break
-        @case(config('config.order_status_accept') == $status)
+        @case (config('config.order_status_accept'))
             <span>{{ trans('supplier.status') }}   :</span><span class="label label-{{ config('config.order_status_accept_class') }}">{{ config('config.order_status_accept_name') }}</span>
             @break
-        @case(config('config.order_status_finish') == $status)
+        @case (config('config.order_status_finish'))
             <span>{{ trans('supplier.status') }}   :</span><span class="label label-{{ config('config.order_status_finish_class') }}">{{ config('config.order_status_finish_name') }}</span>
             @break
     @endswitch
@@ -109,12 +109,12 @@
 </div>
 @endsection
 @section('embed-js')
-<script src="{{ asset('bower_components/AdminLTE/datatables.net/js/jquery.dataTables.min.js') }}"></script>
-<script src="{{ asset('bower_components/AdminLTE/datatables.net-bs/js/dataTables.bootstrap.min.js') }}"></script>
-<script src="{{ asset('bower_components/AdminLTE/jquery-slimscroll/jquery.slimscroll.min.js') }}"></script>
-<script src="{{ asset('bower_components/AdminLTE/fastclick/lib/fastclick.js') }}"></script>
-<script src="{{ asset('js/supplier/order/index.js') }}"></script>
-<script src="{{ asset('bower_components/date-euro/index.js') }}"></script>
+    <script src="{{ asset('bower_components/AdminLTE/datatables.net/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('bower_components/AdminLTE/datatables.net-bs/js/dataTables.bootstrap.min.js') }}"></script>
+    <script src="{{ asset('bower_components/AdminLTE/jquery-slimscroll/jquery.slimscroll.min.js') }}"></script>
+    <script src="{{ asset('bower_components/AdminLTE/fastclick/lib/fastclick.js') }}"></script>
+    <script src="{{ asset('js/supplier/order/index.js') }}"></script>
+    <script src="{{ asset('bower_components/date-euro/index.js') }}"></script>
 @endsection
-@section('custom-js')
+    @section('custom-js')
 @endsection

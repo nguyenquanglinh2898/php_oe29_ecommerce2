@@ -1,5 +1,5 @@
 <header class="main-header">
-    <a href="{{ route('supplier.dashboard') }}" class="logo">
+    <a href="{{ route('home.index') }}" class="logo">
         <span class="logo-mini"><b>{{ trans('supplier.a') }}</b>{{ trans('supplier.ps') }}</span>
         <span class="logo-lg"><b>{{ trans('supplier.supplier') }}</b> {{ config('config.name') }}</span>
     </a>
