@@ -20,12 +20,9 @@
         </form>
         <ul class="sidebar-menu" data-widget="tree">
             <li class="header">{{ trans('supplier.main_navigation') }}</li>
-            <li class=""><a href=""><i class="fa fa-dashboard"></i> <span>{{ trans('supplier.dashboard') }}</span></a></li>
-            <li class=""><a href="{{ route('supplier.dashboard') }}"><i class="fa fa-sliders" aria-hidden="true"></i> <span>{{ trans('supplier.manage_slide') }}</span></a></li>
-            <li class=""><a href="{{ route('voucher.index') }}"><i class="fa fa-newspaper-o" aria-hidden="true"></i> <span>{{ trans('supplier.manager_voucher') }}</span></a></li>
-            <li class=""><a href="{{ route('supplier.products.index') }}"><i class="fa fa-product-hunt" aria-hidden="true"></i> <span>{{ trans('supplier.manage_product') }}</span></a></li>
-            <li class=""><a href="{{ route('orders.index', config('config.order_status_pending')) }}"><i class="fa fa-list-alt" aria-hidden="true"></i> <span>{{ trans('supplier.manage_order') }}</span></a></li>
-            <li class=""><a href=""><i class="fa fa-line-chart" aria-hidden="true"></i> <span>{{ trans('revenue_statistics') }}</span></a></li>
+            <li><a href="{{ route('supplier.products.index') }}"><i class="fa fa-product-hunt" aria-hidden="true"></i> <span>{{ trans('supplier.manage_product') }}</span></a></li>
+            <li><a href="{{ route('voucher.index') }}"><i class="fa fa-newspaper-o" aria-hidden="true"></i> <span>{{ trans('supplier.manager_voucher') }}</span></a></li>
+            <li><a href="{{ route('orders.index', config('config.order_status_pending')) }}"><i class="fa fa-list-alt" aria-hidden="true"></i> <span>{{ trans('supplier.manage_order') }}</span></a></li>
         </ul>
     </section>
 </aside>

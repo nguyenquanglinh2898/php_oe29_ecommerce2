@@ -1,7 +1,5 @@
-@extends('admin.layouts.master')
+@extends('supplier.layouts.master')
 @section('title', trans('supplier.add_new_voucher'))
-@section('embed-css')
-@endsection
 @section('custom-css')
     <link rel="stylesheet" href="{{ asset('css/supplier/voucher/index.css') }}">
 @endsection
