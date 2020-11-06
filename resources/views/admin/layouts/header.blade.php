@@ -1,7 +1,7 @@
 <header class="main-header">
 
     <!-- Logo -->
-    <a href="{{ route('admin.dashboard') }}" class="logo">
+    <a href="{{ route('home.index') }}" class="logo">
         <!-- logo for regular state and mobile devices -->
         <span class="logo-lg"><b>{{ trans('sentences.admin') }}</b> {{ config('app.name') }}</span>
     </a>

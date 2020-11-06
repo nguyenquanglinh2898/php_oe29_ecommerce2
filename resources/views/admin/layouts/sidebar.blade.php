@@ -19,10 +19,8 @@
             </div>
         </form>
         <ul class="sidebar-menu" data-widget="tree">
-            <li><a href="{{ route('admin.dashboard') }}"><i class="fa fa-dashboard"></i> <span>{{ trans('sentences.dashboard') }}</span></a></li>
             <li><a href="{{ route('admin.products.index') }}"><i class="fa fa-product-hunt" aria-hidden="true"></i> <span>{{ trans('sentences.manage_products') }}</span></a></li>
             <li><a href="{{ route('suppliers.index') }}"><i class="fa fa-list-alt" aria-hidden="true"></i> <span>{{ trans('sentences.manage_suppliers') }}</span></a></li>
-            <li><a href="{{ route('admin.statistics.index') }}"><i class="fa fa-line-chart" aria-hidden="true"></i> <span>{{ trans('sentences.revenue_statistic') }}</span></a></li>
         </ul>
     </section>
 </aside>

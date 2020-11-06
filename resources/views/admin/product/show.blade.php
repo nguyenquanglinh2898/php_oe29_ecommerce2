@@ -74,7 +74,7 @@
         </div>
     </div>
     <div class="row">
-        <label class="attr-name">{{ trans('sentences.classifying_product') }}:</label>
+        <label class="attr-name">{{ trans('sentences.classification_attributes') }}:</label>
         <table class="table table-bordered table-dark">
             <tr>
                 <th>#</th>
