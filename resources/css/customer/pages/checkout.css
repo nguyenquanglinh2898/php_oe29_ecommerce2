@@ -154,6 +154,7 @@
 }
 
 .col-order .col-content .section-price .ship-price,
+.col-order .col-content .section-price .voucher-price,
 .col-order .col-content .section-price .final-ship-price {
     display: flex;
     justify-content: space-between;
@@ -167,6 +168,7 @@
 .col-order .col-content .section-price .temp-total-price .title,
 .col-order .col-content .section-price .temp-final-total-price .title,
 .col-order .col-content .section-price .ship-price .title,
+.col-order .col-content .section-price .voucher-price .title,
 .col-order .col-content .section-price .final-ship-price .title {
     font-size: 16px;
     line-height: 1.2;
@@ -175,6 +177,7 @@
 .col-order .col-content .section-price .temp-total-price .price,
 .col-order .col-content .section-price .temp-final-total-price .price,
 .col-order .col-content .section-price .ship-price .price,
+.col-order .col-content .section-price .voucher-price .price,
 .col-order .col-content .section-price .final-ship-price .price {
     font-size: 18px;
     line-height: 1.2;
@@ -303,10 +306,12 @@
     .col-order .col-content .section-price .temp-total-price .title,
     .col-order .col-content .section-price .temp-final-total-price .title,
     .col-order .col-content .section-price .ship-price .title,
+    .col-order .col-content .section-price .voucher-price .title,
     .col-order .col-content .section-price .final-ship-price .title,
     .col-order .col-content .section-price .temp-total-price .price,
     .col-order .col-content .section-price .temp-final-total-price .price,
     .col-order .col-content .section-price .ship-price .price,
+    .col-order .col-content .section-price .voucher-price .price,
     .col-order .col-content .section-price .final-ship-price .price,
     .col-order .col-content .btn-order button {
         font-size: 16px;
@@ -365,6 +370,7 @@
     .col-order .col-content .section-price .temp-total-price,
     .col-order .col-content .section-price .temp-final-total-price,
     .col-order .col-content .section-price .ship-price,
+    .col-order .col-content .section-price .voucher-price,
     .col-order .col-content .section-price .final-ship-price,
     .col-order .col-content .section-price .total-price,
     .col-order .col-content .section-price .final-total-price {
@@ -440,4 +446,8 @@
 
 .thumbnail-col img {
     width: 100%;
+}
+
+.product-link {
+    text-decoration: none !important;
 }

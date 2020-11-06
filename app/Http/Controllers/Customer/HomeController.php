@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Customer;
 
 use App\Http\Controllers\Controller;
+use App\Models\Transporter;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Voucher;
@@ -157,9 +158,10 @@ class HomeController extends Controller
 
     public function orderDetail($id)
     {
-        $order = Order::with(['orderItems', 'user'])->findOrFail($id);
+        $order = Order::with(['orderItems.productDeltail.product.user', 'transporter', 'voucher'])->findOrFail($id);
+        $supplier = $order->orderItems->first()->productDeltail->product->user;
 
-        return view('pages.order', compact('order'));
+        return view('pages.order', compact('order', 'supplier'));
     }
 
     public function orderCancel(Request $request)

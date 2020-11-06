@@ -34,23 +34,51 @@
                         </div>
                         <div class="form-checkout">
                             <div class="form-group">
-                                <label for="email">{{ trans('sentences.email_address') }}</label>
-                                <input name="email" type="email" class="form-control" id="email" value="{{ Auth::user()->email }}">
+                                <label for="email">
+                                    {{ trans('sentences.email_address') }}
+                                    <span class="text-danger">*</span>
+                                </label>
+                                @if (isset(Auth::user()->email))
+                                    <input name="email" type="email" class="form-control" id="email" value="{{ Auth::user()->email }}">
+                                @else
+                                    <input name="email" type="email" class="form-control" id="email">
+                                @endif
                             </div>
 
                             <div class="form-group">
-                                <label for="name">{{ trans('sentences.full_name') }}</label>
-                                <input name="name" type="text" class="form-control" id="name" value="{{Auth::user()->name }}">
+                                <label for="name">
+                                    {{ trans('sentences.full_name') }}
+                                    <span class="text-danger">*</span>
+                                </label>
+                                @if (isset(Auth::user()->name))
+                                    <input name="name" type="text" class="form-control" id="name" value="{{Auth::user()->name }}">
+                                @else
+                                    <input name="name" type="text" class="form-control" id="name">
+                                @endif
                             </div>
 
                             <div class="form-group">
-                                <label for="phone">{{ trans('sentences.phone_number') }}</label>
-                                <input name="phone" type="tel" class="form-control" id="phone" value="{{ Auth::user()->phone }}">
+                                <label for="phone">
+                                    {{ trans('sentences.phone_number') }}
+                                    <span class="text-danger">*</span>
+                                </label>
+                                @if (isset(Auth::user()->phone))
+                                    <input name="phone" type="tel" class="form-control" id="phone" value="{{ Auth::user()->phone }}">
+                                @else
+                                    <input name="phone" type="tel" class="form-control" id="phone">
+                                @endif
                             </div>
 
                             <div class="form-group">
-                                <label for="address">{{ trans('sentences.address') }}</label>
-                                <input name="address" type="text" class="form-control" id="address" value="{{ Auth::user()->address }}">
+                                <label for="address">
+                                    {{ trans('sentences.address') }}
+                                    <span class="text-danger">*</span>
+                                </label>
+                                @if (isset(Auth::user()->address))
+                                    <input name="address" type="text" class="form-control" id="address" value="{{ Auth::user()->address }}">
+                                @else
+                                    <input name="address" type="text" class="form-control" id="address">
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -145,13 +173,13 @@
                                             @foreach ($supplier['items'] as $key => $item)
                                                 <tr>
                                                     <td>{{ $key + 1 }}</td>
-                                                    <td class="thumbnail-col"><img src="{{ config('setting.image_folder') . $item['product']['thumbnail'] }}"></td>
-                                                    <td>{{ $item['product']['name'] }}</td>
-                                                    <td>
-                                                        @foreach (json_decode($item['list_attributes']) as $attr => $value)
-                                                            {{ $attr }}: {{ $value }},
-                                                        @endforeach
+                                                    <td class="thumbnail-col">
+                                                        <a href="{{ route('home.show', $item['product']['id']) }}" class="product-link">
+                                                            <img src="{{ config('setting.image_folder') . $item['product']['thumbnail'] }}">
+                                                        </a>
                                                     </td>
+                                                    <td><a href="{{ route('home.show', $item['product']['id']) }}" class="product-link">{{ $item['product']['name'] }}</a></td>
+                                                    <td>{{ str_replace(['{', '}', '"'], " ", $item['list_attributes']) }}</td>
                                                     <td>{{ $item['qty'] }}</td>
                                                     <td>{{ number_format($item['price'] * $item['qty']) }}</span>{{ config('setting.currency_unit') }}</td>
                                                 </tr>
@@ -171,6 +199,13 @@
                                             <div class="price">
                                                 <span></span>{{ config('setting.currency_unit') }}
                                                 <input type="hidden" name="transport_fee[]" class="transport-fee-input">
+                                            </div>
+                                        </div>
+                                        <div class="voucher-price">
+                                            <div class="title">{{ trans('sentences.voucher') }}</div>
+                                            <div class="price">
+                                                <span></span>{{ config('setting.currency_unit') }}
+                                                <input type="hidden" name="voucher_discount[]" class="voucher-discount-input">
                                             </div>
                                         </div>
                                         <div class="total-price">
@@ -197,18 +232,6 @@
                         </div>
                         <div class="section-price">
                             <h3 class="total-header">{{ trans('sentences.final_total') }}</h3>
-                            <div class="temp-final-total-price">
-                                <div class="title">{{ trans('sentences.temporary_price') }}</div>
-                                <div class="price">
-                                    <span>{{ number_format($checkout['totalPrice']) }}</span>{{ config('setting.currency_unit') }}
-                                </div>
-                            </div>
-                            <div class="final-ship-price">
-                                <div class="title">{{ trans('sentences.transport_fee') }}</div>
-                                <div class="price">
-                                    <span></span>{{ config('setting.currency_unit') }}
-                                </div>
-                            </div>
                             <div class="final-total-price">
                                 <div class="title">{{ trans('sentences.total') }}</div>
                                 <div class="price">

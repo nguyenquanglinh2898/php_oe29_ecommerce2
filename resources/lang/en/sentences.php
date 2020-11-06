@@ -138,4 +138,6 @@ return [
     'phone_invalid' => 'Phone invalid',
     'address_invalid' => 'Address invalid',
     'voucher' => 'Voucher',
+    'your_information' => 'Your information',
+    'supplier_information' => 'Supplier Information',
 ];
