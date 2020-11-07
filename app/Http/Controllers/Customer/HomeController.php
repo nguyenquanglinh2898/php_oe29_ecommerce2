@@ -64,8 +64,10 @@ class HomeController extends Controller
             $listAttributes->push(json_decode($detail->list_attributes));
         }
 
-        foreach ($listAttributes[config('config.default')] as $key => $value) {
-            $groupAtribute[$key] = array_unique(data_get($listAttributes, '*.' . $key));
+        if (empty($listAttributes)) {
+            foreach ($listAttributes[config('config.default')] as $key => $value) {
+                $groupAtribute[$key] = array_unique(data_get($listAttributes, '*.' . $key));
+            }
         }
 
         $activeAttribute = (array) json_decode($productDetails[config('config.default')]->list_attributes);

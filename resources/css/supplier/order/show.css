@@ -59,3 +59,17 @@
 .show-td-img {
     height: 50px;
 }
+
+.status-label {
+    font-size: 15px;
+    margin-top: 10px;
+    display: inline-block;
+}
+
+.no-print button {
+    margin-left: 10px;
+}
+
+.final-total-price {
+    font-size: 22px;
+}

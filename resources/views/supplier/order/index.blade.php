@@ -59,7 +59,7 @@
                                 <i class="fa fa-refresh" aria-hidden="true"></i><span class="hidden-xs"> {{ trans('supplier.order_finished') }}</span>
                             </a>
                             <a href="{{ route('orders.index', config('config.order_status_refuse')) }}" class="btn btn-danger btn-flat" data-toggle="modal" >
-                                <i class="fa fa-refresh" aria-hidden="true"></i><span class="hidden-xs"> {{ trans('supplier.order_resfused') }}</span>
+                                <i class="fa fa-refresh" aria-hidden="true"></i><span class="hidden-xs"> {{ trans('supplier.order_refused') }}</span>
                             </a>
                             <a href="{{ route('orders.index', config('config.order_status_cancel')) }}" class="btn btn-default btn-flat" data-toggle="modal" >
                                 <i class="fa fa-refresh" aria-hidden="true"></i><span class="hidden-xs"> {{ trans('supplier.order_canceled') }}</span>
@@ -72,25 +72,21 @@
                 <table id="order-table" class="table table-hover index-order-table">
                     <thead>
                         <tr>
-                            <th data-width="10px">STT</th>
-                            <th data-orderable="false" data-width="150px">{{ trans('supplier.account') }}</th>
-                            <th data-orderable="false" data-width="150px">{{ trans('supplier.customer_name') }}</th>
-                            <th data-orderable="false">{{ trans('supplier.email') }}</th>
-                            <th data-orderable="false" data-width="150px">{{ trans('supplier.phone') }}</th>
-                            <th data-orderable="false">{{ trans('supplier.payment_method') }}</th>
-                            <th data-width="150px" data-type="date-euro">{{ trans('supplier.created_at') }}</th>
-                            <th data-orderable="false" data-width="60px">{{ trans('supplier.action') }}</th>
+                            <th>#</th>
+                            <th data-orderable="false">{{ trans('supplier.customer_name') }}</th>
+                            <th data-orderable="false">{{ trans('sentences.email_address') }}</th>
+                            <th data-orderable="false">{{ trans('supplier.phone') }}</th>
+                            <th data-orderable="false">{{ trans('supplier.status') }}</th>
+                            <th data-type="date-euro">{{ trans('supplier.created_at') }}</th>
+                            <th data-orderable="false">{{ trans('supplier.action') }}</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($orders as $key => $order)
                             <tr>
                                 <td class="text-center">{{ $key + 1 }}</td>
-                                <td>
-                                    <a href="" class="text-left" title="{{ $order->user->username }}">{{ $order->user->username }}</a>
-                                </td>
-                                <td>{{ $order->user->name }}</td>
-                                <td>{{ $order->user->email }}</td>
+                                <td><b>{{ $order->user->name }}</b></td>
+                                <td><i>{{ $order->user->email }}</i></td>
                                 <td>{{ $order->user->phone }}</td>
                                 <td>{{ $order->paymentMethod->name }}</td>
                                 <td> {{ \Carbon\Carbon::parse($order->created_at)->format(config('config.format'))}}</td>
