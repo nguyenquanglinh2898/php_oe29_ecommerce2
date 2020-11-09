@@ -66,7 +66,7 @@ function applyVoucherAnOrder(shipPrice, totalPrice, voucherId, number) {
                 'totalPrice': totalPrice,
             },
         }).done(function(result) {
-            resetPriceAnOrder(number, result['shipPrice'], result['totalPrice'], voucherId);
+            resetPriceAnOrder(number, result['shipPrice'], result['totalPrice'], voucherId, result['voucherPrice']);
             getChildClass('.voucher', 'supplier-items', number).attr('current-voucher-id', voucherId);
             countFinalPrice();
         });
@@ -84,34 +84,30 @@ function countPriceAnOrder(number, fee) {
     applyVoucherAnOrder(shipPriceAnOrder, totalPriceAnOrder, currentVoucherId, number);
 }
 
-function resetPriceAnOrder(number, shipPrice, totalPrice, voucherId = 0) {
+function resetPriceAnOrder(number, shipPrice, totalPrice, voucherId = 0, voucherPrice = 0) {
     getChildClass('.price > span', 'ship-price', number).text(currencyFormat(shipPrice));
     getChildClass('.price > span', 'total-price', number).text(currencyFormat(totalPrice));
     getChildClass('.voucher', 'supplier-items', number).attr('current-voucher-id', voucherId);
+    getChildClass('.price > span', 'voucher-price', number).text('-' + currencyFormat(voucherPrice));
 
     getChildClass('.transport-fee-input', 'ship-price', number).val(shipPrice);
+    getChildClass('.voucher-discount-input', 'voucher-price', number).val(voucherPrice);
     getChildClass('.total-input', 'total-price', number).val(totalPrice);
     getChildClass('.voucher-input', 'supplier-items', number).val(voucherId);
 }
 
-function resetFinalPrice(finalTempPrice, finalShipPrice, finalTotalPrice) {
-    getChildClass('.price > span', 'temp-final-total-price').text(currencyFormat(finalTempPrice));
-    getChildClass('.price > span', 'final-ship-price').text(currencyFormat(finalShipPrice));
+function resetFinalPrice(finalTotalPrice) {
     getChildClass('.price > span', 'final-total-price').text(currencyFormat(finalTotalPrice));
 }
 
 function countFinalPrice() {
-    let finalTempPrice = 0;
-    let finalShipPrice = 0;
     let finalTotalPrice = 0;
 
     for (let i = 0; i < $('.supplier-items').length; i++) {
-        finalTempPrice += currencyToNumber(getChildClass('.price > span', 'temp-total-price', i).text());
-        finalShipPrice += currencyToNumber(getChildClass('.price > span', 'ship-price', i).text());
         finalTotalPrice += currencyToNumber(getChildClass('.price > span', 'total-price', i).text());
     }
 
-    resetFinalPrice(finalTempPrice, finalShipPrice, finalTotalPrice);
+    resetFinalPrice(finalTotalPrice);
 }
 
 function selectTransporter(transporterId) {

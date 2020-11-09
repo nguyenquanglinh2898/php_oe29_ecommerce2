@@ -138,4 +138,6 @@ return [
     'phone_invalid' => 'Số điện thoại không hợp lệ',
     'address_invalid' => 'Địa chỉ không hợp lệ',
     'voucher' => 'Voucher',
+    'your_information' => 'Thông tin của bạn',
+    'supplier_information' => 'Thông tin nhà cung cấp',
 ];

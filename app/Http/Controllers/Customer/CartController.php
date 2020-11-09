@@ -177,17 +177,20 @@ class CartController extends Controller
     {
         $voucher = Voucher::findOrFail($request->voucherId);
         $shipPrice = $request->shipPrice;
+        $voucherPrice = 0;
         $totalPrice = $request->totalPrice;
 
         if ($voucher->freeship) {
             $totalPrice -= $shipPrice;
+            $voucherPrice += $shipPrice;
             $shipPrice = 0;
         }
 
         $discount = ((float) $voucher->discount / 100) * $totalPrice;
         $totalPrice -= $discount;
+        $voucherPrice += $discount;
 
-        return compact('shipPrice', 'totalPrice');
+        return compact('shipPrice', 'voucherPrice', 'totalPrice');
     }
 
     public function pay(Request $request)
@@ -196,19 +199,21 @@ class CartController extends Controller
         try {
             $checkout = Session::get('checkout');
             $this->prepareOrders(count($checkout['suppliers']), $request->all());
-            $this->prepareOrderItems(Order::latest()->first()->id, $checkout['suppliers']);
+            $this->prepareOrderItems($checkout['suppliers']);
 
             DB::commit();
 
             Session::forget(['cart', 'checkout']);
             Alert::success(trans('sentences.order_successfully'));
 
+            return redirect()->route('home.order');
+
         } catch (Exception $exception) {
             DB::rollBack();
             Alert::error(trans('sentences.order_fail'));
-        }
 
-        return redirect()->route('home.index');
+            return redirect()->route('home.index');
+        }
     }
 
     public function prepareOrders($orderQuantity, $data)
@@ -217,6 +222,7 @@ class CartController extends Controller
         for ($i = 0; $i < $orderQuantity; $i++) {
             $orders[] = [
                 'transport_fee' => $data['transport_fee'][$i],
+                'voucher_discount' => $data['voucher_discount'][$i],
                 'total' => $data['total'][$i],
                 'status' => config('config.order_status_pending'),
                 'user_id' => Auth::user()->id,
@@ -230,19 +236,21 @@ class CartController extends Controller
         DB::table('vouchers')->whereIn('id', $data['voucher_id'])->decrement('quantity');
     }
 
-    public function prepareOrderItems($orders_id, $suppliers)
+    public function prepareOrderItems($suppliers)
     {
+        $lastInsertedOrderId = Order::max('id');
         $orderItems = [];
-        foreach ($suppliers as $supplier) {
+        foreach (array_reverse($suppliers) as $supplier) {
             foreach ($supplier['items'] as $item) {
                 $orderItems[] = [
                     'sale_price' => $item['price'],
                     'quantity' => $item['qty'],
-                    'order_id' => $orders_id++,
+                    'order_id' => $lastInsertedOrderId,
                     'product_detail_id' => $item['id'],
                     'created_at' => Carbon::now(),
                 ];
             }
+            $lastInsertedOrderId--;
         }
 
         DB::table('order_items')->insert($orderItems);

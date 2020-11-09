@@ -55,26 +55,26 @@
                                 <div class="col-md-6 col-sm-6 col-xs-12">
                                     <div class="order-info-left">
                                         <div class="order-info-header">
-                                            <h3 class="text-center">{{ trans('customer.account_information') }}</h3>
+                                            <h3 class="text-center">{{ trans('sentences.your_information') }}</h3>
                                         </div>
                                         <div class="order-info-content">
-                                            <div><span>{{ trans('customer.name') }}</span> <span>{{ $order->user->name }}</span></div>
-                                            <div><span>{{ trans('customer.email') }}</span> <span>{{ $order->user->email }}</span></div>
-                                            <div><span>{{ trans('customer.phone') }}</span> <span>{{ $order->user->phone }}</span></div>
-                                            <div><span>{{ trans('customer.address') }}</span> <span>{{ $order->user->address }}</span></div>
+                                            <div><span>{{ trans('customer.name') }}: </span><span>{{ Auth::user()->name }}</span></div>
+                                            <div><span>{{ trans('customer.email') }}: </span><span>{{ Auth::user()->email }}</span></div>
+                                            <div><span>{{ trans('customer.phone') }}: </span><span>{{ Auth::user()->phone }}</span></div>
+                                            <div><span>{{ trans('customer.address') }}: </span><span>{{ Auth::user()->address }}</span></div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
                                     <div class="order-info-right">
                                         <div class="order-info-header">
-                                            <h3 class="text-center">{{ trans('customer.purchase_information') }}</h3>
+                                            <h3 class="text-center">{{ trans('sentences.supplier_information') }}</h3>
                                         </div>
                                         <div class="order-info-content">
-                                            <div><span>{{ trans('customer.name') }}</span> <span>{{ $order->user->name }}</span></div>
-                                            <div><span>{{ trans('customer.email') }}</span> <span>{{ $order->user->email }}</span></div>
-                                            <div><span>{{ trans('customer.phone') }}</span> <span>{{ $order->user->phone }}</span></div>
-                                            <div><span>{{ trans('customer.address') }}</span> <span>{{ $order->user->address }}</span></div>
+                                            <div><span>{{ trans('customer.name') }}: </span><span>{{ $supplier->name }}</span></div>
+                                            <div><span>{{ trans('customer.email') }}: </span><span>{{ $supplier->email }}</span></div>
+                                            <div><span>{{ trans('customer.phone') }}: </span><span>{{ $supplier->phone }}</span></div>
+                                            <div><span>{{ trans('customer.address') }}: </span><span>{{ $supplier->address }}</span></div>
                                         </div>
                                     </div>
                                 </div>
@@ -85,7 +85,9 @@
                                         </div>
                                         <div class="order-info-content">
                                             <div><span>{{ trans('customer.payment_method') }}</span> <span>{{ $order->paymentMethod->name }}</span></div>
-                                            <div><span>{{ trans('customer.quantity') }}</span> <span>{{ $order->orderItems->sum('quantity') }} {{ trans('customer.product') }}</span></div>
+                                            <div><span>{{ trans('sentences.transporter') }}</span> <span>{{ $order->transporter->name }}</span></div>
+                                            <div><span>{{ trans('sentences.voucher') }}</span> <span>{{ $order->voucher->name }}</span></div>
+                                            <div><span>{{ trans('customer.quantity') }}</span> <span>{{ $order->orderItems->sum('quantity') }}</span></div>
                                             <div><span>{{ trans('customer.total') }}</span> <span class="search-strong">{{ number_format($order->total, config('config.default'), ',', '.') }}{{ config('config.vnd2') }}</span></div>
                                         </div>
                                     </div>
@@ -100,7 +102,7 @@
                                             <th class="text-center">STT</th>
                                             <th class="text-center">{{ trans('customer.image') }}<br>{{ trans('customer.product') }}</th>
                                             <th class="text-center">{{ trans('customer.name') }}<br>{{ trans('customer.product') }}</th>
-                                            <th class="text-center">{{ trans('customer.list_attributes') }}</th>
+                                            <th class="text-center">{{ trans('sentences.classification_attributes') }}</th>
                                             <th class="text-center">{{ trans('quantity') }}</th>
                                             <th class="text-center">{{ trans('customer.total') }}</th>
                                         </tr>
@@ -109,8 +111,16 @@
                                         @foreach ($order->orderItems as $key => $orderItem)
                                             <tr>
                                                 <td class="text-center">{{ $key + 1 }}</td>
-                                                <td class="text-center"><a href="" ><img src="{{ asset($orderItem->productDeltail->product->thumbnail) }}" alt=""  height="55px"></a></td>
-                                                <td class="text-center">{{ $orderItem->productDeltail->product->name }}</td>
+                                                <td class="text-center">
+                                                    <a href="{{ route('home.show', $orderItem->productDeltail->product->id) }}">
+                                                        <img src="{{ config('setting.image_folder') . $orderItem->productDeltail->product->thumbnail }}" class="product-thumbnail">
+                                                    </a>
+                                                </td>
+                                                <td class="text-center">
+                                                    <a href="{{ route('home.show', $orderItem->productDeltail->product->id) }}">
+                                                    {{ $orderItem->productDeltail->product->name }}
+                                                    </a>
+                                                </td>
                                                 <td class="text-center">{{ str_replace(['{', '}', '"'], " ", $orderItem->productDeltail->list_attributes) }}</td>
                                                 <td class="text-center">{{ $orderItem->quantity }}</td>
                                                 <td class="text-center search-strong">{{ number_format($orderItem->sale_price, config('config.default'), ',', '.') }}{{ config('config.vnd2') }}</td>
@@ -124,7 +134,7 @@
                     <div class="col-md-3">
                         <div class="online_support">
                             <h2 class="title">{{ trans('customer.ready') }}<br>{{ trans('customer.help_you') }}</h2>
-                            <img src="{{ asset(config('config.suport_online')) }}">
+                            <img src="{{ asset(config('config.support_online')) }}">
                             <h3 class="sub_title">{{ trans('customer.call_to_support') }}</h3>
                             <div class="phone">
                                 <a href="" >{{ config('config.phone') }}</a>
