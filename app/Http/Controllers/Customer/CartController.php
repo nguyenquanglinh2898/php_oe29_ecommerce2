@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Customer;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\PayRequest;
 use App\Models\Order;
 use App\Models\PaymentMethod;
 use App\Models\Transporter;
@@ -193,7 +194,7 @@ class CartController extends Controller
         return compact('shipPrice', 'voucherPrice', 'totalPrice');
     }
 
-    public function pay(Request $request)
+    public function pay(PayRequest $request)
     {
         DB::beginTransaction();
         try {
@@ -229,6 +230,7 @@ class CartController extends Controller
                 'voucher_id' => $data['voucher_id'][$i],
                 'payment_method_id' => $data['payment_method'],
                 'transporter_id' => $data['transporter'],
+                'address' => $data['address'],
                 'created_at' => Carbon::now(),
             ];
         }

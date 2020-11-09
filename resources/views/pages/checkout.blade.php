@@ -34,51 +34,20 @@
                         </div>
                         <div class="form-checkout">
                             <div class="form-group">
-                                <label for="email">
-                                    {{ trans('sentences.email_address') }}
-                                    <span class="text-danger">*</span>
-                                </label>
-                                @if (isset(Auth::user()->email))
-                                    <input name="email" type="email" class="form-control" id="email" value="{{ Auth::user()->email }}">
-                                @else
-                                    <input name="email" type="email" class="form-control" id="email">
-                                @endif
-                            </div>
-
-                            <div class="form-group">
-                                <label for="name">
-                                    {{ trans('sentences.full_name') }}
-                                    <span class="text-danger">*</span>
-                                </label>
-                                @if (isset(Auth::user()->name))
-                                    <input name="name" type="text" class="form-control" id="name" value="{{Auth::user()->name }}">
-                                @else
-                                    <input name="name" type="text" class="form-control" id="name">
-                                @endif
-                            </div>
-
-                            <div class="form-group">
-                                <label for="phone">
-                                    {{ trans('sentences.phone_number') }}
-                                    <span class="text-danger">*</span>
-                                </label>
-                                @if (isset(Auth::user()->phone))
-                                    <input name="phone" type="tel" class="form-control" id="phone" value="{{ Auth::user()->phone }}">
-                                @else
-                                    <input name="phone" type="tel" class="form-control" id="phone">
-                                @endif
-                            </div>
-
-                            <div class="form-group">
                                 <label for="address">
                                     {{ trans('sentences.address') }}
                                     <span class="text-danger">*</span>
                                 </label>
                                 @if (isset(Auth::user()->address))
-                                    <input name="address" type="text" class="form-control" id="address" value="{{ Auth::user()->address }}">
+                                    <input name="address" type="text" class="form-control" id="address" placeholder="{{ trans('sentences.address') }}" value="{{ Auth::user()->address }}">
                                 @else
-                                    <input name="address" type="text" class="form-control" id="address">
+                                    <input name="address" type="text" class="form-control" id="address" placeholder="{{ trans('sentences.address') }}">
                                 @endif
+                                <div class="text-danger">
+                                    @error('address')
+                                        {{ $message }}
+                                    @enderror
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -179,7 +148,11 @@
                                                         </a>
                                                     </td>
                                                     <td><a href="{{ route('home.show', $item['product']['id']) }}" class="product-link">{{ $item['product']['name'] }}</a></td>
-                                                    <td>{{ str_replace(['{', '}', '"'], " ", $item['list_attributes']) }}</td>
+                                                    @if ($item['list_attributes'])
+                                                        <td>{{ str_replace(['{', '}', '"'], " ", $item['list_attributes']) }}</td>
+                                                    @else
+                                                        <td></td>
+                                                    @endif
                                                     <td>{{ $item['qty'] }}</td>
                                                     <td>{{ number_format($item['price'] * $item['qty']) }}</span>{{ config('setting.currency_unit') }}</td>
                                                 </tr>

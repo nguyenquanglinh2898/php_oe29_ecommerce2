@@ -27,7 +27,7 @@ return [
     'order_status_accept' => 1,
     'order_status_finish' =>2,
     'order_status_cancel_name' => 'canceled',
-    'order_status_refuse_name' => 'resfused',
+    'order_status_refuse_name' => 'refuse',
     'order_status_pending_name' => 'pending',
     'order_status_accept_name' => 'accepted',
     'order_status_finish_name' => 'finished',

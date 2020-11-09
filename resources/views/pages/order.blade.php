@@ -61,7 +61,7 @@
                                             <div><span>{{ trans('customer.name') }}: </span><span>{{ Auth::user()->name }}</span></div>
                                             <div><span>{{ trans('customer.email') }}: </span><span>{{ Auth::user()->email }}</span></div>
                                             <div><span>{{ trans('customer.phone') }}: </span><span>{{ Auth::user()->phone }}</span></div>
-                                            <div><span>{{ trans('customer.address') }}: </span><span>{{ Auth::user()->address }}</span></div>
+                                            <div><span>{{ trans('customer.address') }}: </span><span>{{ $order->address }}</span></div>
                                         </div>
                                     </div>
                                 </div>
@@ -86,7 +86,11 @@
                                         <div class="order-info-content">
                                             <div><span>{{ trans('customer.payment_method') }}</span> <span>{{ $order->paymentMethod->name }}</span></div>
                                             <div><span>{{ trans('sentences.transporter') }}</span> <span>{{ $order->transporter->name }}</span></div>
-                                            <div><span>{{ trans('sentences.voucher') }}</span> <span>{{ $order->voucher->name }}</span></div>
+                                            @if ($order->voucher)
+                                                <div><span>{{ trans('sentences.voucher') }}</span> <span>{{ $order->voucher->name }}</span></div>
+                                            @else
+                                                <div><span>{{ trans('sentences.voucher') }}</span> <span></span></div>
+                                            @endif
                                             <div><span>{{ trans('customer.quantity') }}</span> <span>{{ $order->orderItems->sum('quantity') }}</span></div>
                                             <div><span>{{ trans('customer.total') }}</span> <span class="search-strong">{{ number_format($order->total, config('config.default'), ',', '.') }}{{ config('config.vnd2') }}</span></div>
                                         </div>

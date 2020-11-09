@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use App\Notifications\OrderNotification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Builder;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class OrderController extends Controller
 {
@@ -28,16 +29,15 @@ class OrderController extends Controller
 
     public function show($id)
     {
-        $order = Order::with('orderItems')->findOrFail($id);
-        $orderItems = $order->orderItems;
+        $order = Order::with('orderItems', 'transporter', 'voucher')->findOrFail($id);
 
-        return view('supplier.order.show', compact('orderItems', 'order'));
+        return view('supplier.order.show', compact('order'));
     }
 
     public function changeStatusOrder($id, $status)
     {
         $order = Order::findOrFail($id);
-        $order->update(array('status' => $status));
+        $success = $order->update(array('status' => $status));
         $user = $order->user;
         $data = [
             'status' => statusOrder($order->status),
@@ -49,6 +49,12 @@ class OrderController extends Controller
 
         $user->notify(new OrderNotification($data));
 
-        return redirect()->back()->with('message', trans('supplier.change_status_success'));
+        if ($success) {
+            Alert::success(trans('supplier.change_status_success'));
+        } else {
+            Alert::error(trans('supplier.change_status_false'));
+        }
+
+        return redirect()->back();
     }
 }

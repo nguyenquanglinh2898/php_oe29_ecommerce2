@@ -97,6 +97,6 @@ return [
     'order_pending' => 'Đơn chờ duyệt',
     'order_accepted' => 'Đơn chấp nhận',
     'order_finished' => 'Đơn hoàn thành',
-    'order_resfused' => 'Đơn từ chối',
+    'order_refused' => 'Đơn từ chối',
     'order_canceled' => 'Đơn bị hủy',
 ];

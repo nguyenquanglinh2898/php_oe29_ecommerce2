@@ -98,6 +98,6 @@ return [
     'order_pending' => 'Order Pending',
     'order_accepted' => 'Order Accepted',
     'order_finished' => 'Order Finished',
-    'order_resfused' => 'Order Resfused',
+    'order_refused' => 'Order Refused',
     'order_canceled' => 'Order Canceled',
 ];
