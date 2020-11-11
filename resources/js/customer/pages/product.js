@@ -188,14 +188,78 @@ $(document).ready(function() {
     $('.delete-comment').click(function() {
         $('.delete-comment-form').submit();
     });
-    $('.edit-comment-star').click(function() {
-        if ($('.rate-edit-star').css("display") == "none") {
-            $('.rate-edit-star').show();
-            $('.rate-edit-star').addClass('rating-product rate-product ');
-            $(".rating-product").rate();
-        } else {
-            $('.rate-edit-star').hide();
-            $('.rate-edit-star').removeClass('rating-product rate-product ');
-        }
+
+   $(document).on('click', '.comment-reply', function() {
+        var id = $(this).attr('data-id')
+        $('.reply-parent-id').val(id);
+    });
+
+    $('.reply-comment-save').click(function() {
+        var url = $(this).attr('data-url');
+        $.ajax({
+            url: url,
+            type: 'POST',
+            data: $('.comment-reply-form').serialize(),
+            success: function(data) {
+                $('.comment-dialog').modal('hide');
+                $('#vote').html(data);
+            },
+            error: function(data) {
+                var errors = data.responseJSON;
+                Swal.fire({
+                    title: errors.error,
+                    text: errors.msg,
+                    type: 'error',
+                })
+            }
+        });
+    });
+
+    $(document).on('click', '.edit-comment-reply', function() {
+        var id = $(this).attr('data-id');
+        var idChildren = $(this).attr('data-id-children');
+        $('.edit-reply-parent-id').val(id);
+        $('.edit-reply-id').val(idChildren);
+    });
+
+    $('.edit-reply-comment-save').click(function() {
+        var url = $(this).attr('data-url');
+        $.ajax({
+            url: url,
+            type: 'POST',
+            data: $('.edit-comment-reply-form').serialize(),
+            success: function(data) {
+                $('.edit-comment-dialog').modal('hide');
+                $('#vote').html(data);
+            },
+            error: function(data) {
+                var errors = data.responseJSON;
+                Swal.fire({
+                    title: errors.error,
+                    text: errors.msg,
+                    type: 'error',
+                })
+            }
+        });
+    });
+
+    $(document).on('click', '.delete-reply-comment', function() {
+        var mess = $(this).attr('data-mess');
+        var url = $(this).attr('data-url');
+        var idChildren = $(this).attr('data-id');
+        Swal.fire({
+            title: 'delete',
+            text: mess,
+            type: 'error',
+            preConfirm: () => {
+                $.ajax({
+                    type: 'POST',
+                    url: url,
+                    data: $('.delete-reply-comment-form-' + idChildren).serialize(),
+                }).done(function(res) {
+                    $('#vote').html(res);
+                });
+            },
+        })
     });
 });

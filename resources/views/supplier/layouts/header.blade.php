@@ -26,18 +26,18 @@
                 <li class="dropdown notifications-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <i class="fa fa-bell-o"></i>
-                        <span class="label label-warning">{{ config('config.number') }}</span>
+                        <span class="label label-warning num">{{ count($notifications) }}</span>
                     </a>
-                    <ul class="dropdown-menu">
-                        <li class="header">{{ trans('supplier.you_have_notifications', ['notifications' => config('config.number')]) }}</li>
+                    <ul class="dropdown-menu notification">
+                        <li class="header">{{ trans('supplier.you_have_notifications', ['notifications' => count($notifications)]) }}</li>
                         <li>
                             <ul class="menu">
                             </ul>
                         </li>
-                        <li class="footer"><a href="#">{{ trans('supplier.view_all') }}</a></li>
+                        @include('supplier.layouts.notification')
                     </ul>
                 </li>
-                <li class="dropdown notifications-menu">
+                <li class="dropdown messages-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <i class="fa fa-language"></i>
                         <span class="label label-warning">{{ trans('supplier.lang') }}</span>
@@ -47,7 +47,6 @@
                         <li class="footer"><a href="{{ route('change_language', ['vi']) }}">{{ trans('supplier.vietnam') }}</a></li>
                     </ul>
                 </li>
-                <!-- User Account Menu -->
                 <li class="dropdown tasks-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <img src="{{ Auth::user()->avatar }}" class="user-image" alt="{{ trans('sentences.profile_image') }}">

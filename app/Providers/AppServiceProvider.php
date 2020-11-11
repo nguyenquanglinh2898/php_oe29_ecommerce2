@@ -27,7 +27,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        view()->composer('layouts.header', function($view) {
+        view()->composer(['layouts.header', 'supplier.layouts.header'], function($view) {
             $categories = Category::where('parent_id', null)->get();
             if (Auth::check()) {
                 $notifications = Auth::user()->unreadNotifications;

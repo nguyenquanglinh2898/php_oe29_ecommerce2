@@ -62,27 +62,30 @@ class HomeController extends Controller
 
         $suggestProducts = Product::where('category_id', $product->category_id)->get();
 
-        foreach ($productDetails as $detail) {
-            $listAttributes->push(json_decode($detail->list_attributes));
-        }
+        if ($productDetails[config('config.default')]->list_attributes != null) {
+            foreach ($productDetails as $detail) {
+                $listAttributes->push(json_decode($detail->list_attributes));
+            }
 
-        if (empty($listAttributes)) {
             foreach ($listAttributes[config('config.default')] as $key => $value) {
                 $groupAtribute[$key] = array_unique(data_get($listAttributes, '*.' . $key));
             }
+
+            $activeAttribute = (array) json_decode($productDetails[config('config.default')]->list_attributes);
         }
 
-        $activeAttribute = (array) json_decode($productDetails[config('config.default')]->list_attributes);
         $activeAttribute['price'] = $productDetails[config('config.default')]->price;
         $activeAttribute['remaining'] = $productDetails[config('config.default')]->remaining;
         $activeAttribute['id'] = $productDetails[config('config.default')]->id;
 
         $activeComment = null;
+        $comments = $product->comments()->where('parent_id', null)->get();
         if (Auth::check()) {
-            $activeComment = Auth::user()->comments()->where('product_id', $product->id)->first();
+            $activeComment = Auth::user()->comments()->where('product_id', $product->id)->where('parent_id', null)->first();
         }
 
-        return view('pages.product', compact('product', 'groupAtribute', 'activeAttribute', 'suggestProducts', 'activeComment'));
+        return view('pages.product', compact('product', 'groupAtribute', 'activeAttribute', 'suggestProducts', 'activeComment', 'comments'));
+
     }
 
     public function showDetail(Request $request)
@@ -190,7 +193,7 @@ class HomeController extends Controller
         DB::beginTransaction();
         try {
             $comment = Comment::create($request->all());
-            $rate = Comment::where('product_id', $request->product_id)->avg('rate');
+            $rate = Comment::where('product_id', $request->product_id)->where('parent_id', null)->avg('rate');
             $product = Product::findOrFail($request->product_id);
             $product->update(['rate' => $rate]);
 
@@ -223,7 +226,7 @@ class HomeController extends Controller
         DB::beginTransaction();
         try {
             $comment = Comment::findOrFail($request->id)->update($request->except('id'));
-            $rate = Comment::where('product_id', $request->product_id)->avg('rate');
+            $rate = Comment::where('product_id', $request->product_id)->where('parent_id', null)->avg('rate');
             $product = Product::findOrFail($request->product_id);
             $product->update(['rate' => $rate]);
 
@@ -289,5 +292,45 @@ class HomeController extends Controller
         Alert::success(trans('customer.change_infomation_success'));
 
         return redirect()->back();
+    }
+
+    public function showComment($id, $productId)
+    {
+        $activeComment = Comment::find($id);
+
+        if ($activeComment) {
+            return redirect()->route('home.show', $productId)->with('activeComment', $activeComment);
+        }
+
+        Alert::error(trans('customer.comment_has_delete'));
+
+        return redirect()->back();
+    }
+
+    public function replyComment(Request $request)
+    {
+        $comment = Comment::create($request->all());
+        $product = Product::findOrFail($request->product_id);
+        $comments = $product->comments()->where('parent_id', null)->get();
+
+        return view('layouts.comment', compact('product', 'comments'));
+    }
+
+    public function editReplyComment(Request $request)
+    {
+        $comment = Comment::findOrFail($request->id)->update($request->except('id'));
+        $product = Product::findOrFail($request->product_id);
+        $comments = $product->comments()->where('parent_id', null)->get();
+
+        return view('layouts.comment', compact('product', 'comments'));
+    }
+
+    public function deleteReplyComment(Request $request)
+    {
+        $comment = Comment::findOrFail($request->id)->delete();
+        $product = Product::findOrFail($request->product_id);
+        $comments = $product->comments()->where('parent_id', null)->get();
+
+        return view('layouts.comment', compact('product', 'comments'));
     }
 }

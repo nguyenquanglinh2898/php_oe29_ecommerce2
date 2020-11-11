@@ -63,3 +63,14 @@ $(function() {
         });
     });
 });
+
+$('.close').click(function() {
+    var url = $(this).attr('data-url');
+    $.ajax({
+        url: url,
+        type: 'GET',
+        success: function(data) {
+            $('.num').html(data);
+        },
+    });
+});
