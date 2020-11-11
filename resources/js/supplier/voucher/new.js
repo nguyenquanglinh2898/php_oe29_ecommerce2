@@ -1,11 +1,26 @@
 $(document).ready(function() {
+    const FREESHIP_VOUCHER = 0;
+    const DISCOUNT_VOUCHER = 1;
+    const DISCOUNT_FREESHIP_VOUCHER = 2;
+    if ($('.select-apply-for').val() == DISCOUNT_VOUCHER ) {
+        $('.discount').css("display","inline");
+    } else if ($('.select-apply-for').val() == DISCOUNT_FREESHIP_VOUCHER) {
+        $('.discount').css("display","inline");
+    } else {
+        $('.discount').css("display","none");
+    }
+
     $('.select-apply-for').on('change', function() {
-        if (this.value == 1 ) {
+        if (this.value == DISCOUNT_VOUCHER ) {
             $('.discount').css("display","inline");
             $('.freeship-input').val(null);
+        } else if (this.value == DISCOUNT_FREESHIP_VOUCHER) {
+            $('.discount').css("display","inline");
+            $('.freeship-input').val(DISCOUNT_VOUCHER);
         } else {
             $('.discount').css("display","none");
-            $('.freeship-input').val(1);
+            $('.freeship-input').val(DISCOUNT_VOUCHER);
+            $('.discount-input').val(FREESHIP_VOUCHER);
         }
     });
     $('button.voucher-btn').click(function() {

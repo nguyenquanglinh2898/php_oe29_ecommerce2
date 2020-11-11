@@ -20,6 +20,8 @@ use Exception;
 use RealRashid\SweetAlert\Facades\Alert;
 use App\Notifications\CommentNotification;
 use App\Models\User;
+use App\Http\Requests\UserRequest;
+use Illuminate\Support\Facades\Storage;
 use DB;
 
 class HomeController extends Controller
@@ -250,6 +252,41 @@ class HomeController extends Controller
             DB::rollBack();
             Alert::error(trans('customer.comment_error'));
         }
+
+        return redirect()->back();
+    }
+
+    public function user()
+    {
+        return view('pages.show_user');
+    }
+
+    public function editUser()
+    {
+       return view('pages.edit_user');
+    }
+
+    public function saveUser(UserRequest $request)
+    {
+        $user = User::where('id', $request->user_id)->first();
+        $user->name = $request->name;
+        $user->phone = $request->phone;
+        $user->address = $request->address;
+
+        if ($request->hasFile('avatar_image')) {
+            $image = $request->file('avatar_image');
+            $imageName = time() . '_' . $image->getClientOriginalName();
+            $image->storeAs('images', $imageName, 'public');
+
+            if ($user->avatar != NULL) {
+                Storage::disk('public')->delete('images/' . $user->avatar);
+            }
+
+            $user->avatar = $imageName;
+        }
+
+        $user->save();
+        Alert::success(trans('customer.change_infomation_success'));
 
         return redirect()->back();
     }
