@@ -2,38 +2,44 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Product;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Repositories\Product\ProductRepositoryInterface;
 use RealRashid\SweetAlert\Facades\Alert;
+use Illuminate\Support\Facades\Session;
 
 class ProductController extends Controller
 {
+    protected $productRepo;
+
+    public function __construct(ProductRepositoryInterface $productRepo)
+    {
+        $this->productRepo = $productRepo;
+    }
+
     public function index()
     {
-        $products = Product::with('category', 'productDetails')->get();
+        $products = $this->productRepo->getAllProductOfSupplier();
 
         return view('admin.product.index', compact('products'));
     }
 
     public function show($id)
     {
-        $product = Product::findOrFail($id);
-        $product->load('user', 'category', 'images', 'productDetails');
+        $product = $this->productRepo->find($id);
 
         return view('admin.product.show', compact('product'));
     }
 
-    public function changeStatus($idProduct, $statusId)
+    public function changeStatus($productId, $statusId)
     {
-        $success = Product::find($idProduct)->update(['status' => $statusId]);
+        $success = $this->productRepo->updateStatus($productId, $statusId);
 
         if ($success) {
             Alert::success(trans('supplier.change_status_success'));
         } else {
-            Alert::success(trans('supplier.change_status_fail'));
+            Alert::error(trans('supplier.change_status_fail'));
         }
 
-        return redirect()->back();
+        return redirect()->route('admin.products.index');
     }
 }
