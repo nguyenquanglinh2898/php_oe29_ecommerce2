@@ -88,15 +88,20 @@
                         <b>{{ $i + 1 }}</b>
                     </td>
                     <td>
-                        @foreach (json_decode($product->productDetails[$i]->list_attributes) as $key => $value)
-                            <p><b>{{ $key }}</b>: {{ $value }}</p>
-                        @endforeach
+                        @if ($product->productDetails[$i]->list_attributes)
+                            @foreach (json_decode($product->productDetails[$i]->list_attributes) as $key => $value)
+                                <p><b>{{ $key }}</b>: {{ $value }}</p>
+                            @endforeach
+                        @else
+                            <p><i>{{ trans('sentences.none') }}</i></p>
+                        @endif
                     </td>
                     <td>
                         {{ $product->productDetails[$i]->remaining }}
                     </td>
                     <td>
-                        {{ $product->productDetails[$i]->price }}
+                        {{ number_format($product->productDetails[$i]->price) }}
+                        <span>{{ config('setting.currency_unit') }}</span>
                     </td>
                 </tr>
             @endfor
