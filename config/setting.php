@@ -31,4 +31,5 @@ return [
     'youtube_logo' => 'storage/images/youtube_logo.png',
     'facebook_link' => 'https://www.facebook.com/mymarket',
     'youtube_link' => 'https://www.youtube.com/channel/mymarket',
+    'default_cart_item_quantity' => 1,
 ];

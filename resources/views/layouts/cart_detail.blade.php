@@ -44,7 +44,7 @@
                                         @csrf
                                         <input type="hidden" name="id" value="{{ $key }}" >
                                         <input type="hidden" name="remove" value="{{ $key }}" >
-                                        <a href="javascript:;"  class="btn btn-link btn-item-delete remove-item-cart" data-url="{{ route('cart.remove') }}" ><i class="fas fa-times"></i></a>
+                                        <a href="javascript:;"  class="btn btn-link btn-item-delete remove-item-cart" data-url="{{ route('cart.remove') }}" data-url-cart="{{ route('cart.show_detail') }}"><i class="fas fa-times"></i></a>
                                     </form>
                                 </div>
                             </div>
