@@ -58,20 +58,15 @@ $( ".btn-plus" ).each(function(index) {
 
 $( ".remove-item-cart" ).each(function(index) {
     $(this).on("click", function() {
-        var url = $(this).attr('data-url');
-        var url2 = $(this).attr('data-url2');
-        var form = $(this).parent('form');
+        let url = $(this).attr('data-url');
+        let cartUrl = $(this).attr('data-url-cart');
+        let form = $(this).parent('form');
         $.ajax({
             url: url,
             type: 'POST',
             data: form.serialize(),
         }).done(function(res) {
-                $('.section-cart').html(res);
-                Swal.fire({
-                    title: data.success,
-                    text: data.msg,
-                    type: 'success',
-                })
+            $('body').load(cartUrl);
         });
     });
 });

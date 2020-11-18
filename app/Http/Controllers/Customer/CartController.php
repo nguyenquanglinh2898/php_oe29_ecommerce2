@@ -22,20 +22,50 @@ use Exception;
 
 class CartController extends Controller
 {
+    public function addItemToCart($item)
+    {
+        $cart = new Cart(Session::get('cart'));
+
+        if (Arr::exists($cart->items, $item['id'])) {
+            if ($cart->items[$item['id']]['qty'] < $item['remaining']) {
+                $items = $cart->items;
+                $items[$item['id']]['qty'] = $cart->items[$item['id']]['qty'] + config('setting.default_cart_item_quantity');
+
+                $cart->items = $items;
+                $cart->totalQty += config('setting.default_cart_item_quantity');
+                $cart->totalPrice += $item['price'];
+                $cart->totalWeight += $item['product']['weight'];
+
+                Session::put('cart', $cart);
+
+                return true;
+            }
+
+            return false;
+        } else {
+            Arr::set($item, 'qty', 1);
+            $cart->items = Arr::add($cart->items, $item['id'], $item);
+            $cart->totalQty += config('setting.default_cart_item_quantity');
+            $cart->totalPrice += $item['price'];
+            $cart->totalWeight += $item['product']['weight'];
+
+            Session::put('cart', $cart);
+
+            return true;
+        }
+    }
+
     public function addCart(Request $request)
     {
         $item = ProductDetail::with('product')->findOrFail($request->product_detail_id)->toArray();
-        $oldCart = Session::get('cart');
-        $cart = new Cart($oldCart);
 
-        if (!$cart->add($item)) {
+        if (!$this->addItemToCart($item)) {
             $data['msg'] = trans('customer.error_add_cart');
             $data['error'] = trans('customer.error');
 
             return response()->json($data, config('config.error'));
         }
         else {
-            Session::put('cart', $cart);
             $data['success'] = trans('customer.success');
             $data['msg'] = trans('customer.success_add_cart');
         }
@@ -49,53 +79,72 @@ class CartController extends Controller
         $oldCart = Session::get('cart');
         $cart = new Cart($oldCart);
 
-        if (!$cart->update($item, $request->input('qty'))) {
-            $data['msg'] = trans('customer.error_update_cart');
-            $data['error'] = trans('customer.error');
+        if (Arr::exists($cart->items, $item['id'])) {
+            if ($request->qty <= $item['remaining'] && $request->qty >= config('setting.default_cart_item_quantity')) {
+                $items = $cart->items;
+                $items[$item['id']]['qty'] = $request->qty;
 
-            return response()->json($data, config('config.error'));
-        }
-        else {
-            Session::put('cart', $cart);
-            $data['success'] = trans('customer.success');
-            $data['msg'] = trans('customer.success_add_cart');
-            $data['total_price_item'] = $item['price'] * $request->input('qty');
-            $data['totalPrice'] = $cart->totalPrice;
-            $data['totalQty'] = $cart->totalQty;
-            $data['key'] = $request->input('id');
+                $cart->totalQty += ($request->qty - $cart->items[$item['id']]['qty']);
+                $cart->totalPrice += ($request->qty - $cart->items[$item['id']]['qty']) * $item['price'];
+                $cart->totalWeight += ($request->qty - $cart->items[$item['id']]['qty']) * $item['product']['weight'];
+                $cart->items = $items;
+
+                Session::put('cart', $cart);
+                $data['success'] = trans('customer.success');
+                $data['msg'] = trans('customer.success_add_cart');
+                $data['total_price_item'] = $item['price'] * $request->input('qty');
+                $data['totalPrice'] = $cart->totalPrice;
+                $data['totalQty'] = $cart->totalQty;
+                $data['key'] = $request->input('id');
+
+                return response()->json($data, config('config.success'));
+            }
         }
 
-        return response()->json($data, config('config.success'));
+        $data['msg'] = trans('customer.error_update_cart');
+        $data['error'] = trans('customer.error');
+
+        return response()->json($data, config('config.error'));
+    }
+
+    public function removeItemFromCart($item)
+    {
+        $cart = new Cart(Session::get('cart'));
+
+        if (Arr::exists($cart->items, $item['id'])) {
+            $items = $cart->items;
+            Arr::forget($items, $item['id']);
+
+            $cart->totalQty -= $cart->items[$item['id']]['qty'];
+            $cart->totalPrice -= $cart->items[$item['id']]['qty'] * $item['price'];
+            $cart->totalWeight -= $cart->items[$item['id']]['qty'] * $item['product']['weight'];
+            $cart->items = $items;
+
+            if($cart->items) {
+                Session::put('cart', $cart);
+            } else {
+                Session::forget('cart');
+                $cart = null;
+            }
+
+            return true;
+        }
+
+        return false;
     }
 
     public function removeCart(Request $request)
     {
         $item = ProductDetail::with('product')->findOrFail($request->input('id'))->toArray();
-        $oldCart = Session::get('cart');
-        $cart = new Cart($oldCart);
-        if (!$cart->remove($item)) {
+
+        if (!$this->removeItemFromCart($item)) {
             $data['msg'] = trans('customer.remove_cart');
             $data['error'] = trans('customer.error');
 
             return response()->json($data, config('config.error'));
-        }
-        else if($cart->items) {
-            Session::put('cart', $cart);
-            $data['msg'] = trans('customer.success_remove_cart');
-            $data['success'] = trans('customer.success');
-            $data['totalPrice'] = $cart->totalPrice;
-            $data['totalQty'] = $cart->totalQty;
-            $data['key'] = $request->input('id');
         } else {
-            Session::forget('cart');
-            $cart = null;
             $data['msg'] = trans('customer.success_remove_cart');
             $data['success'] = trans('customer.success');
-        }
-
-        if ($request->has('remove')) {
-
-            return view('layouts.cart_detail', compact('cart'));
         }
 
         return response()->json($data, config('config.success'));
