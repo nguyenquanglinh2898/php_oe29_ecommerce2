@@ -90,7 +90,7 @@ class HomeController extends Controller
 
     public function showDetail(Request $request)
     {
-        $productDetails = ProductDetail::where('list_attributes', json_encode($request->except(['product_id', '_token'])))
+        $productDetails = ProductDetail::where('list_attributes', json_encode($request->except(['product_id', '_token']), JSON_UNESCAPED_UNICODE))
             ->where('product_id', $request->input('product_id'))
             ->get();
         if ($productDetails->isNotEmpty()) {
@@ -137,7 +137,11 @@ class HomeController extends Controller
     public function category($id)
     {
         $category = Category::findOrFail($id);
-        $products = $category->products()->active()->paginate(config('config.paginate'));
+        $products = Product::with('category')
+            ->whereHas('category', function ($query) use ($category) {
+                $query->where('parent_id', $category->id)
+                    ->orWhere('id', $category->id);
+            })->paginate(config('config.paginate'));
 
         return view('pages.category', compact('category', 'products'));
     }
@@ -145,10 +149,13 @@ class HomeController extends Controller
     public function filter(Request $request)
     {
         $category = Category::findOrFail($request->category_id);
-        $products = Product::query()
+        $products = Product::query()->with('category')
+            ->whereHas('category', function ($query) use ($category) {
+                $query->where('parent_id', $category->id)
+                    ->orWhere('id', $category->id);
+            })
             ->active()
             ->name($request)
-            ->category($request)
             ->price($request)
             ->type($request)
             ->paginate(config('config.paginate'));
@@ -169,23 +176,6 @@ class HomeController extends Controller
         $supplier = $order->orderItems->first()->productDeltail->product->user;
 
         return view('pages.order', compact('order', 'supplier'));
-    }
-
-    public function orderCancel(Request $request)
-    {
-        $order = Order::findOrFail($request->id);
-        if (Carbon::now()->diffInHours($order->created_at) <= config('config.cancel_date') && $order->status == config('config.order_status_pending')) {
-            $order->update(['status' => config('config.order_status_cancel')]);
-            $data['success'] = trans('customer.success');
-            $data['msg'] = trans('customer.cancel_order_success');
-
-            return response()->json($data, config('config.success'));
-        }
-
-        $data['msg'] = trans('customer.cancel_order_error');
-        $data['error'] = trans('customer.error');
-
-        return response()->json($data, config('config.error'));
     }
 
     public function comment(Request $request)

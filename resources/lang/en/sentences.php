@@ -140,4 +140,8 @@ return [
     'voucher' => 'Voucher',
     'your_information' => 'Your information',
     'supplier_information' => 'Supplier Information',
+    'refuse_order_successfully' => 'Refuse order successfully',
+    'cannot_refuse_order' => 'Cannot refuse this order!',
+    'cancel_order_successfully' => 'Successfully cancel this order',
+    'cannot_cancel_order' => 'Cannot cancel this order',
 ];

@@ -141,4 +141,13 @@ return [
     'phone_invalid' => 'invalid phone number',
     'change_infomation_success' => 'change infomation success',
     'follow_us' => 'Follow us',
+    'change_information' => 'change information',
+    'save' => 'save',
+    'comment_has_delete' => 'Comment has deleted',
+    'reply_comment' => 'Reply Comment',
+    'edit_reply_comment' => 'Edit Reply Comment',
+    'delete_message' => 'Do you want to delete this comment?',
+    'no_notification' => 'No Notification',
+    'delete_comment_success' => 'Delete comment successfully',
+    'price' => 'Price',
 ];

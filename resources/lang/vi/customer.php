@@ -141,4 +141,13 @@ return [
     'phone_invalid' => 'Số điện thoại không hợp lệ',
     'change_infomation_success' => 'Thay đổi thông tin thành công',
     'follow_us' => 'Theo dõi chúng tôi',
+    'change_information' => 'Thay đổi thông tin',
+    'save' => 'Lưu',
+    'comment_has_delete' => 'Bình luận đã bị xóa',
+    'reply_comment' => 'Trả lời bình luận',
+    'edit_reply_comment' => 'Sửa bình luận trả lời',
+    'delete_message' => 'Bạn có muốn xóa bình luận này?',
+    'no_notification' => 'Không có thông báo',
+    'delete_comment_success' => 'Xóa bình luận thành công',
+    'price' => 'Giá',
 ];
