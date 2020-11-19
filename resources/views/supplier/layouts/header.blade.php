@@ -34,7 +34,6 @@
                             <ul class="menu">
                             </ul>
                         </li>
-                        @include('supplier.layouts.notification')
                     </ul>
                 </li>
                 <li class="dropdown messages-menu">

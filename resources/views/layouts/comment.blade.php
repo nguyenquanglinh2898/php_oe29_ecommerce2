@@ -86,8 +86,8 @@
                                     <div class="name">
                                         {{ $activeComment->children->user->name }}
                                     </div>
-                                    <div class="date">{{ date_format($activeComment->created_at, config('config.format')) }}</div>
-                                    <div class="content">{{ $activeComment->content }}</div>
+                                    <div class="date">{{ date_format($activeComment->children->created_at, config('config.format')) }}</div>
+                                    <div class="content">{{ $activeComment->children->content }}</div>
                                 </div>
                             </div>
                         @endif
@@ -173,7 +173,7 @@
                         </div>
                     @endif
                     @foreach ($comments as $comment)
-                        @if (!isset($activeComment) || $activeComment == null && !session('activeComment'))
+                        @if ((!isset($activeComment) || $activeComment == null) && !session('activeComment'))
                             @include('layouts.comment_mini', ['comment' => $comment])
                         @elseif(!session('activeComment') && $comment->id != $activeComment->id)
                             @include('layouts.comment_mini', ['comment' => $comment])

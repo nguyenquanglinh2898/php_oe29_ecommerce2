@@ -93,7 +93,7 @@
                                     <tr>
                                         <td class="show-th">{{ $key + 1 }}</td>
                                         <td class="text-center">
-                                            <img src="{{ config('setting.image_folder') . $item->productDeltail->product->thumbnail }}" class="show-td-img">
+                                            <img src="{{asset(config('setting.image_folder') . $item->productDeltail->product->thumbnail) }}" class="show-td-img">
                                         </td>
                                         <td>{{ $item->productDeltail->product->name }}</td>
                                         <td>{{ str_replace(['{', '}', '"'], " ", $item->productDeltail->list_attributes) }}</td>
@@ -165,11 +165,14 @@
                             <i class="fa fa-print"></i> {{ trans('supplier.accept') }}
                         </button>
                     </a>
-                    <a href="{{ route('orders.change_status', ['id' => $order->id, 'status' => config('config.order_status_refuse') ]) }}">
-                        <button class="btn btn-danger btn-print pull-right">
+                    <form class="cancel-form" action="{{ route('order.refuse') }}" method="post">
+                        @csrf
+                        <input type="hidden" name="order_id" value="{{ $order->id }}">
+                        <input type="hidden" name="order_status" value="{{ config('config.order_status_refuse') }}">
+                        <button type="submit" class="btn btn-danger btn-print pull-right">
                             <i class="fa fa-print"></i> {{ trans('supplier.refuse') }}
                         </button>
-                    </a>
+                    </form>
                 @elseif ($order->status == config('config.order_status_accept'))
                     <a href="{{ route('orders.change_status', ['id' => $order->id, 'status' => config('config.order_status_finish') ]) }}">
                         <button class="btn btn-success btn-print pull-right">

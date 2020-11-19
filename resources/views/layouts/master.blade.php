@@ -16,9 +16,7 @@
         <link rel="stylesheet" href="{{ asset('bower_components/common/css/owl.theme.default.min.css') }}">
         <link rel="stylesheet" href="{{ asset('bower_components/common/css/sweetalert2.min.css') }}">
         <link rel="stylesheet" href="{{ asset('css/customer/style.css') }}">
-        @if(Request::route()->getName() != 'cart.show_detail')
-            <link rel="stylesheet" href="{{ asset('css/customer/pages/minicart.css') }}">
-        @endif
+        <link rel="stylesheet" href="{{ asset('css/customer/pages/minicart.css') }}">
         @yield('css')
     </head>
     <body>
