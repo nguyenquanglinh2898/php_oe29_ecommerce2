@@ -140,4 +140,8 @@ return [
     'voucher' => 'Voucher',
     'your_information' => 'Thông tin của bạn',
     'supplier_information' => 'Thông tin nhà cung cấp',
+    'refuse_order_successfully' => 'Từ chối đơn hàng thành công',
+    'cannot_refuse_order' => 'Không thể từ chối đơn hàng!',
+    'cancel_order_successfully' => 'Hủy đơn hàng thành công',
+    'cannot_cancel_order' => 'Không thể hủy đơn hàng này',
 ];
