@@ -4,7 +4,7 @@
     <section class="bread-crumb">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="">{{ trans('customer.home') }}</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('home.index') }}">{{ trans('customer.home') }}</a></li>
                 <li class="breadcrumb-item"><a href="">{{ trans('customer.product') }}</a></li>
                 <li class="breadcrumb-item"><a href="">{{ $product->category->name }}</a></li>
                 <li class="breadcrumb-item active" aria-current="page">{{ $product->name }}</li>
@@ -50,7 +50,20 @@
                                 <div class="col-md-6 col-sm-6">
                                     <div class="image-product">
                                         <div class="image-gallery-0">
-                                            <img src="{{ asset($product->thumbnail) }}">
+                                            @if ($product->images->isNotEmpty())
+                                                <ul id="imageGallery-0">
+                                                    <li data-thumb="{{ config('setting.image_folder') . $product->thumbnail }}" data-src="{{ config('setting.image_folder') . $product->thumbnail }}">
+                                                        <img src="{{ config('setting.image_folder') . $product->thumbnail }}" />
+                                                    </li>
+                                                    @foreach ($product->images as $image)
+                                                        <li data-thumb="{{ config('setting.image_folder') . $image->url }}" data-src="{{ config('setting.image_folder') . $image->url }}">
+                                                            <img src="{{ config('setting.image_folder') . $image->url }}" />
+                                                        </li>
+                                                    @endforeach
+                                                </ul>
+                                            @else
+                                              <img src="{{ config('setting.image_folder') . $product->thumbnail }}" height="400" width="400">
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
@@ -59,7 +72,7 @@
                                         <div class="product-1" >
                                             <div class="product-1">
                                                 <div class="sale-price">
-                                                    <span class="price">{{ $activeAttribute['price'] }}</span>
+                                                    <span class="price">{{ number_format($activeAttribute['price']) }}</span>
                                                     <span class= 'vnd'>{{ config('config.vnd') }}</span>
                                                 </div>
                                                 <div class="status">
@@ -70,7 +83,9 @@
                                         </div>
                                     </div>
                                     <div class="color-product">
-                                        <div class="title">{{ trans('customer.list_atribute') }}:</div>
+                                        @if ($groupAtribute != null)
+                                            <div class="title">{{ trans('customer.list_atribute') }}:</div>
+                                        @endif
                                         <div class="select-color">
                                             <div class="row">
                                                 <form class = "select_form">
@@ -79,9 +94,9 @@
                                                     @foreach ($groupAtribute as $key => $atributes)
                                                         <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
                                                             <div class="" can-buy="" data-qty="">
-                                                              <div class="">{{ $key }}</div>
+                                                              <div class="select-atribute">{{ $key }}</div>
                                                               <div class="">
-                                                                <select class = "atribute" name="{{ $key }}" data-url="{{ route('home.show_detail') }}">
+                                                                <select class = "atribute select-atribute" name="{{ $key }}" data-url="{{ route('home.show_detail') }}">
                                                                     @foreach ($atributes as $value)
                                                                         <option value="{{ $value }}"
                                                                             @if ($value == $activeAttribute[$key])
@@ -105,11 +120,12 @@
                                             <input type="text" name="product_detail_id" id="product_detail_id" value="{{ $activeAttribute['id'] }}" hidden="">
                                             <div class="row">
                                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                                                    <button type="submit" class="btn btn-lg btn-gray">
-                                                        <i class="far fa-money-bill-alt"></i>
-                                                        {{ trans('customer.buy_now') }}
-                                                    </button>
-                                                </div>
+                                                       <button type="button" data-role="addtocart" class="btn btn-lg btn-gray btn-cart btn_buy buy_now"
+                                                       data-url="{{ route('cart.add') }}" data-url2="{{ route('cart.show_detail') }}">
+                                                            <i class="far fa-money-bill-alt"></i>
+                                                            {{ trans('customer.buy_now') }}
+                                                   </button>
+                                               </div>
                                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                                 </div>
                                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
@@ -127,7 +143,7 @@
                         <div class="col-md-3">
                             <div class="online_support">
                                 <h2 class="title">{{ trans('customer.ready') }}<br>{{ trans('customer.help_you') }}</h2>
-                                <img src="{{ asset(config('config.suport_online')) }}">
+                                <img src="{{ asset(config('config.support_online')) }}">
                                 <h3 class="sub_title">{{ trans('customer.call_to_support') }}</h3>
                                 <div class="phone">
                                     <a href="" >{{ config('config.phone') }}</a>
@@ -188,7 +204,7 @@
                                             <a href="" title="">
                                                 <div class="product-content">
                                                     <div class="image">
-                                                        <img src=" {{ asset(config('images_folder') . $suggestproduct->thumbnail) }}" class="img-fluid" width="225px" >
+                                                        <img src="{{ asset(config('setting.image_folder') . $product->thumbnail) }}" class="img-fluid">
                                                     </div>
                                                     <div class="content">
                                                         <h3 class="title">{{ $suggestproduct->name }}</h3>

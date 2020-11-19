@@ -120,7 +120,7 @@
                 </div>
             </div>
             <div class="section-content">
-                @if ($category->products->isEmpty())
+                @if ($products->isEmpty())
                 <div class="empty-content">
                     <div class="icon"><i class="fab fa-searchengin"></i></div>
                     <div class="title">{{ trans('customer.ops') }}</div>
@@ -134,9 +134,7 @@
                                     <a href="" title="{{ $product->name }}">
                                         <div class="row">
                                             <div class="col-md-12 col-sm-12 col-xs-12">
-                                                <div class="image-product" >
-                                                    <img src="{{ config('setting.image_folder') . $product->thumbnail }}" class="img-responsive">
-                                                </div>
+                                                <div class="image-product product-thumbnail" data-url="{{ asset(config('config.images_folder') . $product->thumbnail) }}"></div>
                                                 <div class="content-product">
                                                     <h3 class="title">{{ $product->name }}</h3>
                                                     <div class="start-vote">
@@ -151,7 +149,7 @@
                                                         @endfor
                                                     </div>
                                                     <div class="price">
-                                                        {{ $product->price_range }}
+                                                        {{ $product->price_range }} {{ config('config.vnd') }}
                                                     </div>
                                                 </div>
                                             </div>
