@@ -76,10 +76,11 @@
                                                         <i class="fa fa-eye" aria-hidden="true"></i>
                                                     </a>
                                                     @if (config('config.order_status_pending') == $order->status)
-                                                        <form class="cancel-form" >
+                                                        <form class="cancel-form" action="{{ route('order.cancel') }}" method="post">
                                                             @csrf
-                                                            <input type="" name="id" value="{{ $order->id }}" hidden="">
-                                                            <button type="button" class="btn btn-icon btn-sm btn-primary tip cancel-order" title="{{ trans('customer.cancel_order') }}" data-url="{{ route('home.order_cancel') }}" data-url2="{{ route('home.order') }}">
+                                                            <input type="hidden" name="order_id" value="{{ $order->id }}">
+                                                            <input type="hidden" name="order_status" value="{{ config('config.order_status_cancel') }}">
+                                                            <button type="submit" class="btn btn-icon btn-sm btn-primary tip cancel-order" title="{{ trans('customer.cancel_order') }}">
                                                                 <i class="fa fa-ban" aria-hidden="true"></i>
                                                             </button>
                                                         </form>
@@ -116,5 +117,4 @@
 @endsection
 @section('js')
     <script src="{{ asset('js/customer/pages/search_page.js') }}"></script>
-    <script src="{{ asset('js/customer/pages/cancel_order.js') }}"></script>
 @endsection

@@ -72,8 +72,11 @@
                                             @endif
                                         @endfor
                                     </div>
-                                    <div class="price">
+                                    <div class="price title">
                                         {{ trans('customer.category') }}: <strong>{{ $product->catname }}</strong>
+                                    </div>
+                                    <div class="price title">
+                                        {{ trans('customer.price') }}: <strong>{{ $product->price_range }}</strong>
                                     </div>
                                 </div>
                             </a>
@@ -117,8 +120,11 @@
                                                         @endif
                                                     @endfor
                                                 </div>
-                                                <div class="price">
+                                                <div class="price title">
                                                     {{ trans('customer.category') }}: <strong>{{ $product->category->name }}</strong>
+                                                </div>
+                                                <div class="price title">
+                                                    {{ trans('customer.price') }}: <strong>{{ $product->price_range }}</strong>
                                                 </div>
                                             </div>
                                         </div>

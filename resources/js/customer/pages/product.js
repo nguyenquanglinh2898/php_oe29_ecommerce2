@@ -75,6 +75,27 @@ $(document).ready(function() {
         $('#qty').attr('max', qty);
     });
 
+    $('button.buy_now').click(function() {
+        var url = $(this).attr('data-url');
+        var url2 = $(this).attr('data-url2');
+        $.ajax({
+            url: url,
+            type: 'GET',
+            data: $('.product_detail_form').serialize(),
+            success: function(data) {
+                window.location = url2;
+            },
+            error: function(data) {
+                var errors = data.responseJSON;
+                Swal.fire({
+                    title: errors.error,
+                    text: errors.msg,
+                    type: 'error',
+                })
+            }
+        });
+    });
+
     $('button.add_to_cart').click(function() {
         var url = $(this).attr('data-url');
         var url2 = $(this).attr('data-url2');
@@ -111,7 +132,7 @@ $(document).ready(function() {
             }).done(function(res) {
                 var data = JSON.parse(res);
                 if (data[0]) {
-                    $('.price').html(data[0].price);
+                    $('.price').html(new Intl.NumberFormat('en-EN', { maximumSignificantDigits: 3 }).format(data[0].price));
                     $('.remaining').html(data[0].remaining);
                     $('#product_detail_id').val(data[0].id);
                     $('.vnd').css('display', 'inline');

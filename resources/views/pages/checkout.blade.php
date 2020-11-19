@@ -144,7 +144,8 @@
                                                     <td>{{ $key + 1 }}</td>
                                                     <td class="thumbnail-col">
                                                         <a href="{{ route('home.show', $item['product']['id']) }}" class="product-link">
-                                                            <img src="{{ config('setting.image_folder') . $item['product']['thumbnail'] }}">
+                                                            <img alt="" src="{{ asset(config('config.images_folder') . $item['product']['thumbnail']) }}" >
+
                                                         </a>
                                                     </td>
                                                     <td><a href="{{ route('home.show', $item['product']['id']) }}" class="product-link">{{ $item['product']['name'] }}</a></td>
@@ -254,5 +255,8 @@
     <!-- Custom Scripts -->
     <script src="{{ asset('js/customer/pages/checkout.js') }}"></script>
     <script src="{{ asset('js/customer/pages/show_vouchers.js') }}"></script>
+    <link rel="stylesheet" href="{{ asset('css/customer/pages/search.css') }}">
+
+    <script src="{{ asset('js/customer/pages/search_page.js') }}"></script>
 </body>
 </html>

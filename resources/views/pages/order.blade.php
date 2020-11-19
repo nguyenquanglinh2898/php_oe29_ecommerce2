@@ -117,7 +117,7 @@
                                                 <td class="text-center">{{ $key + 1 }}</td>
                                                 <td class="text-center">
                                                     <a href="{{ route('home.show', $orderItem->productDeltail->product->id) }}">
-                                                        <img src="{{ config('setting.image_folder') . $orderItem->productDeltail->product->thumbnail }}" class="product-thumbnail">
+                                                        <div class="image-product product-thumbnail product-thumbnail-order" data-url="{{ asset(config('config.images_folder') . $orderItem->productDeltail->product->thumbnail) }}"></div>
                                                     </a>
                                                 </td>
                                                 <td class="text-center">
@@ -125,9 +125,9 @@
                                                     {{ $orderItem->productDeltail->product->name }}
                                                     </a>
                                                 </td>
-                                                <td class="text-center">{{ str_replace(['{', '}', '"'], " ", $orderItem->productDeltail->list_attributes) }}</td>
+                                                <td class="text-center">{{ str_replace(['{', '}', '"', '[', ']'], " ", $orderItem->productDeltail->list_attributes) }}</td>
                                                 <td class="text-center">{{ $orderItem->quantity }}</td>
-                                                <td class="text-center search-strong">{{ number_format($orderItem->sale_price, config('config.default'), ',', '.') }}{{ config('config.vnd2') }}</td>
+                                                <td class="text-center search-strong">{{ number_format($orderItem->sale_price) }}{{ config('config.vnd2') }}</td>
                                             </tr>
                                         @endforeach
                                     </tbody>
