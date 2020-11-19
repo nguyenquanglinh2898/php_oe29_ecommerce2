@@ -62,12 +62,16 @@ Route::middleware(['auth', 'verified'])->group(function() {
             Route::post('vouchers', 'VoucherController@store')->name('voucher.store');
             Route::post('vouchers/update', 'VoucherController@update')->name('voucher.update');
         });
+
+        Route::post('refuse-order', 'OrderController@refuseOrder')->name('order.refuse');
     });
 
     Route::middleware('checkRole:' . config('setting.customer_id'))->group(function() {
         Route::namespace('Customer')->prefix('cart')->group(function() {
             Route::post('/pay', 'CartController@pay')->name('cart.pay');
         });
+
+        Route::post('cancel-order', 'OrderController@cancelOrder')->name('order.cancel');
     });
 });
 
@@ -86,7 +90,6 @@ Route::namespace('Customer')->prefix('pages')->group(function() {
     Route::get('filter', 'HomeController@filter')->name('home.filter');
     Route::get('orders', 'HomeController@order')->name('home.order');
     Route::get('order-detail/{id}', 'HomeController@orderDetail')->name('home.order_detail');
-    Route::post('cancel-orders', 'HomeController@orderCancel')->name('home.order_cancel');
     Route::get('user', 'HomeController@user')->name('home.user');
     Route::get('user/edit', 'HomeController@editUser')->name('home.edit_user');
     Route::post('user/save', 'HomeController@saveUser')->name('home.save_user');

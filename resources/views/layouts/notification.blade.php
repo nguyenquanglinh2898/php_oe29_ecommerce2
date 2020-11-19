@@ -24,7 +24,11 @@
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close" data-url="{{ route('home.notification', $notification->id) }}">
                             <span aria-hidden="true"><i class="fa fa-remove"></i></span>
                         </button>
-                        <a href="{{ route('home.order_detail', $notification->data['order_id']) }}" class="link-notification" ><b>{{ $notification->data['status'] }}</b> {{ $notification->data['message'] }} </a>
+                        @if ($notification->data['order_id'] == null)
+                            <a href="{{ route('home.order') }}" class="link-notification" ><b>{{ $notification->data['status'] }}</b> {{ $notification->data['message'] }} </a>
+                        @else
+                            <a href="{{ route('home.order_detail', $notification->data['order_id']) }}" class="link-notification" ><b>{{ $notification->data['status'] }}</b> {{ $notification->data['message'] }} </a>
+                        @endif
                     </div>
                 </div>
             @endforeach
