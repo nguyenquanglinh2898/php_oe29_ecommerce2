@@ -26,7 +26,7 @@
                             </li>
                             @if (Route::has('register'))
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ trans('sentences.register') }}</a>
+                                    <a class="nav-link register-btn" href="{{ route('register') }}">{{ trans('sentences.register') }}</a>
                                 </li>
                             @endif
                         @else
