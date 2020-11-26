@@ -56,7 +56,7 @@ Route::middleware(['auth', 'verified'])->group(function() {
             Route::get('/change-status/{id}/{status}', 'OrderController@changeStatusOrder')
                 ->name('orders.change_status');
             Route::get('/vouchers', 'VoucherController@index')->name('voucher.index');
-            Route::post('vouchers/destroy', 'VoucherController@destroy')->name('vouchers.destroy');
+            Route::post('vouchers/destroy/{voucherId}', 'VoucherController@destroy')->name('vouchers.destroy');
             Route::get('/vouchers/create', 'VoucherController@create')->name('voucher.create');
             Route::get('/vouchers/edit/{id}', 'VoucherController@edit')->name('voucher.edit');
             Route::post('vouchers', 'VoucherController@store')->name('voucher.store');

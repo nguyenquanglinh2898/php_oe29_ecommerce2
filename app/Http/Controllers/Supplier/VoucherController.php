@@ -3,8 +3,7 @@
 namespace App\Http\Controllers\Supplier;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use App\Models\Voucher;
+use App\Repositories\Voucher\VoucherRepositoryInterface;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\VoucherRequest;
 use App\Http\Requests\EditVoucherRequest;
@@ -12,19 +11,30 @@ use RealRashid\SweetAlert\Facades\Alert;
 
 class VoucherController extends Controller
 {
+    protected $voucherRepo;
+
+    public function __construct(VoucherRepositoryInterface $voucherRepo)
+    {
+        $this->voucherRepo = $voucherRepo;
+    }
+
     public function index()
     {
-        $vouchers = Voucher::where('user_id', Auth::id())->orderBy('created_at', 'DESC')->get();
+        $vouchers = $this->voucherRepo->getSupplierVouchers(Auth::id());
 
         return view('supplier.voucher.index', compact('vouchers'));
     }
 
-    public function destroy(Request $request)
+    public function destroy($voucherId)
     {
-        $deleteVoucher = Voucher::findOrFail($request->input('id'))->delete();
-        $vouchers = Voucher::where('user_id', Auth::id())->orderBy('created_at', 'DESC')->get();
+        $success = $this->voucherRepo->delete($voucherId);
+        if ($success) {
+            Alert::success(trans('sentences.delete_successfully'));
+        } else {
+            Alert::error(trans('sentences.delete_fail'));
+        }
 
-        return view('supplier.voucher.table', compact('vouchers'));
+        return redirect()->route('voucher.index');
     }
 
     public function create()
@@ -34,7 +44,7 @@ class VoucherController extends Controller
 
     public function store(VoucherRequest $request)
     {
-        if (Voucher::create($request->all())) {
+        if ($this->voucherRepo->create($request->all())) {
             $data['success'] = trans('customer.success');
             $data['msg'] = trans('supplier.success_add_voucher');
 
@@ -49,7 +59,7 @@ class VoucherController extends Controller
 
     public function edit($id)
     {
-        $voucher = Voucher::find($id);
+        $voucher = $this->voucherRepo->find($id);
         if($voucher == null){
             Alert::error(trans('supplier.cant_find_voucher'));
 
@@ -61,7 +71,8 @@ class VoucherController extends Controller
 
     public function update(EditVoucherRequest $request)
     {
-        if (Voucher::findOrFail($request->voucher_id)->update($request->except('voucher_id'))) {
+        $success = $this->voucherRepo->update($request->voucher_id, $request->except('voucher_id'));
+        if ($success) {
             $data['success'] = trans('customer.success');
             $data['msg'] = trans('supplier.success_edit_voucher');
 

@@ -3,51 +3,58 @@
 namespace App\Http\Controllers\Customer;
 
 use App\Http\Controllers\Controller;
-use App\Models\Transporter;
+use App\Repositories\Category\CategoryRepositoryInterface;
+use App\Repositories\Comment\CommentRepositoryInterface;
+use App\Repositories\Order\OrderRepositoryInterface;
+use App\Repositories\Product\ProductRepositoryInterface;
+use App\Repositories\ProductDetail\ProductDetailRepositoryInterface;
+use App\Repositories\Slide\SlideRepositoryInterface;
+use App\Repositories\User\UserRepositoryInterface;
+use App\Repositories\Voucher\VoucherRepositoryInterface;
 use Illuminate\Http\Request;
-use App\Models\Product;
-use App\Models\Voucher;
-use App\Models\ProductDetail;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Arr;
-use App\Models\Notification;
-use App\Models\Category;
-use App\Models\Order;
 use Illuminate\Support\Facades\Auth;
-use Carbon\Carbon;
-use App\Models\Comment;
 use Exception;
 use RealRashid\SweetAlert\Facades\Alert;
-use App\Notifications\CommentNotification;
-use App\Models\User;
 use App\Http\Requests\UserRequest;
-use Illuminate\Support\Facades\Storage;
 use DB;
 
 class HomeController extends Controller
 {
+    protected $productRepo;
+    protected $categoryRepo;
+    protected $voucherRepo;
+    protected $slideRepo;
+    protected $commentRepo;
+    protected $userRepo;
+    protected $productDetailRepo;
+    protected $orderRepo;
+
+    public function __construct(ProductRepositoryInterface $productRepo,
+        CategoryRepositoryInterface $categoryRepo,
+        VoucherRepositoryInterface $voucherRepo,
+        SlideRepositoryInterface $slideRepo,
+        CommentRepositoryInterface $commentRepo,
+        UserRepositoryInterface $userRepo,
+        ProductDetailRepositoryInterface $productDetailRepo,
+        OrderRepositoryInterface $orderRepo
+    ) {
+        $this->productRepo = $productRepo;
+        $this->categoryRepo = $categoryRepo;
+        $this->voucherRepo = $voucherRepo;
+        $this->slideRepo = $slideRepo;
+        $this->commentRepo = $commentRepo;
+        $this->userRepo = $userRepo;
+        $this->productDetailRepo = $productDetailRepo;
+        $this->orderRepo = $orderRepo;
+    }
+
     public function index()
     {
-        $favoriteProducts = Product::join('comments', 'products.id', '=', 'comments.product_id')
-            ->join('categories', 'products.category_id', '=', 'categories.id')
-            ->select('products.*', 'categories.name as catname', DB::raw('SUM(comments.rate) as sumrate'))
-            ->groupBy('product_id')
-            ->where('products.rate', '>', config('config.rate'))
-            ->orderBy('sumrate', 'DESC')
-            ->take(config('config.take'))
-            ->get();
-
-        $categories = DB::table('categories')
-            ->join('products', 'categories.id', '=', 'products.category_id')
-            ->select('categories.*', DB::raw('COUNT(products.category_id) as sumcat'))
-            ->groupBy('category_id')
-            ->orderBy('sumcat', 'DESC')
-            ->take(config('config.take'))
-            ->get();
-
-        $newProducts = Product::active()->orderBy('created_at', 'DESC')->paginate(config('config.paginate'));
-        $newVouchers = Voucher::orderBy('created_at', 'DESC')->take(config('config.take'))->get();
-        $slides = DB::table('slides')->get();
+        $favoriteProducts = $this->productRepo->getFavoriteProducts();
+        $categories = $this->categoryRepo->getProductFilteredByCategory();
+        $newProducts = $this->productRepo->getNewProducts();
+        $newVouchers = $this->voucherRepo->getNewVouchers();
+        $slides = $this->slideRepo->getAll();
 
         return view('pages.home', compact('favoriteProducts', 'newProducts', 'newVouchers', 'categories' , 'slides'));
     }
@@ -57,10 +64,10 @@ class HomeController extends Controller
         $listAttributes = collect();
         $groupAtribute = [];
 
-        $product = Product::findOrFail($id);
+        $product = $this->productRepo->find($id);
         $productDetails = $product->productDetails;
 
-        $suggestProducts = Product::where('category_id', $product->category_id)->get();
+        $suggestProducts = $this->productRepo->getSuggestProducts($product->category_id);
 
         if ($productDetails[config('config.default')]->list_attributes != null) {
             foreach ($productDetails as $detail) {
@@ -79,9 +86,9 @@ class HomeController extends Controller
         $activeAttribute['id'] = $productDetails[config('config.default')]->id;
 
         $activeComment = null;
-        $comments = $product->comments()->where('parent_id', null)->get();
+        $comments = $this->commentRepo->getProductComments($product);
         if (Auth::check()) {
-            $activeComment = Auth::user()->comments()->where('product_id', $product->id)->where('parent_id', null)->first();
+            $activeComment = $this->userRepo->getUserCommentsOfProduct(Auth::user(), $product->id);
         }
 
         return view('pages.product', compact('product', 'groupAtribute', 'activeAttribute', 'suggestProducts', 'activeComment', 'comments'));
@@ -90,11 +97,12 @@ class HomeController extends Controller
 
     public function showDetail(Request $request)
     {
-        $productDetails = ProductDetail::where('list_attributes', json_encode($request->except(['product_id', '_token']), JSON_UNESCAPED_UNICODE))
-            ->where('product_id', $request->input('product_id'))
-            ->get();
-        if ($productDetails->isNotEmpty()) {
+        $productDetails = $this->productDetailRepo->showProductDetail(
+            json_encode($request->except(['product_id', '_token']), JSON_UNESCAPED_UNICODE),
+            $request->product_id
+        );
 
+        if ($productDetails->isNotEmpty()) {
            return json_encode($productDetails);
         }
 
@@ -103,30 +111,27 @@ class HomeController extends Controller
 
     public function notification($id)
     {
-        Auth::user()->unreadNotifications->where('id', $id)->markAsRead();
+        $this->userRepo->markNotiAsRead(Auth::user(), $id);
 
-        return Auth::user()->unreadNotifications()->count();
+        return $this->userRepo->getNumberOfUnreadNoti(Auth::user());
     }
 
     public function search(Request $request)
     {
-        $keyword = $request->input('name');
-
-        if ($keyword != null) {
-            $products = Product::active()->where('name', 'LIKE', "%$keyword%")->get();
+        if ($request->name) {
+            $products = $this->productRepo->searchProduct($request->name);
 
             return view('layouts.search', compact('products'));
         }
+
+        return false;
     }
 
     public function searchDetail(Request $request)
     {
-        $keyword = $request->input('name');
-
-        if ($keyword != null) {
-
-            $products = Product::active()->where('name', 'LIKE', "%$keyword%")->get();
-            $categories = Category::with('products')->where('name', 'LIKE', "%$keyword%")->take(config('config.take'))->get();
+        if ($request->name) {
+            $products = $this->productRepo->searchProduct($request->name);
+            $categories = $this->categoryRepo->searchCategory($request->name);
 
             return view('pages.search', compact('products', 'categories'));
         }
@@ -136,44 +141,31 @@ class HomeController extends Controller
 
     public function category($id)
     {
-        $category = Category::findOrFail($id);
-        $products = Product::with('category')
-            ->whereHas('category', function ($query) use ($category) {
-                $query->where('parent_id', $category->id)
-                    ->orWhere('id', $category->id);
-            })->paginate(config('config.paginate'));
+        $category = $this->categoryRepo->find($id);
+        $products = $this->productRepo->getCategoriedProduct($category);
 
         return view('pages.category', compact('category', 'products'));
     }
 
     public function filter(Request $request)
     {
-        $category = Category::findOrFail($request->category_id);
-        $products = Product::query()->with('category')
-            ->whereHas('category', function ($query) use ($category) {
-                $query->where('parent_id', $category->id)
-                    ->orWhere('id', $category->id);
-            })
-            ->active()
-            ->name($request)
-            ->price($request)
-            ->type($request)
-            ->paginate(config('config.paginate'));
+        $category = $this->categoryRepo->find($request->category_id);
+        $products = $this->productRepo->filterProduct($category, $request);
 
         return view('pages.category', compact('category', 'products'));
     }
 
     public function order()
     {
-        $orders = Order::where('user_id', Auth::id())->orderBy('created_at', 'DESC')->paginate(config('config.paginate'));
+        $orders = $this->orderRepo->getUserOrders(Auth::id());
 
         return view('pages.orders', compact('orders'));
     }
 
     public function orderDetail($id)
     {
-        $order = Order::with(['orderItems.productDeltail.product.user', 'transporter', 'voucher'])->findOrFail($id);
-        $supplier = $order->orderItems->first()->productDeltail->product->user;
+        $order = $this->orderRepo->getOrderDetail($id);
+        $supplier = $this->orderRepo->getOrderSupplier($order);
 
         return view('pages.order', compact('order', 'supplier'));
     }
@@ -182,24 +174,9 @@ class HomeController extends Controller
     {
         DB::beginTransaction();
         try {
-            $comment = Comment::create($request->all());
-            $rate = Comment::where('product_id', $request->product_id)->where('parent_id', null)->avg('rate');
-            $product = Product::findOrFail($request->product_id);
-            $product->update(['rate' => $rate]);
-
-            $data = [
-                'user' => Auth::user()->name,
-                'product_name' => $product->name,
-                'comment_id' => $comment->id,
-                'product_id' => $request->product_id,
-                'rate' => $request->rate,
-                'class' => config('config.comment_class'),
-                'icon' => config('config.comment_icon'),
-                'status' => config('config.comment_status'),
-                'created_at' => Carbon::now()->toDateTimeString(),
-            ];
-            $user = User::findOrFail($product->user_id);
-            $user->notify(new CommentNotification($data));
+            $this->commentRepo->create($request->all());
+            $rate = $this->commentRepo->getProductCommentRate($request->product_id);
+            $this->productRepo->update($request->product_id, ['rate' => $rate]);
 
             DB::commit();
             Alert::success(trans('customer.comment_success'));
@@ -215,10 +192,9 @@ class HomeController extends Controller
     {
         DB::beginTransaction();
         try {
-            $comment = Comment::findOrFail($request->id)->update($request->except('id'));
-            $rate = Comment::where('product_id', $request->product_id)->where('parent_id', null)->avg('rate');
-            $product = Product::findOrFail($request->product_id);
-            $product->update(['rate' => $rate]);
+            $this->commentRepo->update($request->id, $request->except('id'));
+            $rate = $this->commentRepo->getProductCommentRate($request->product_id);
+            $this->productRepo->update($request->product_id, ['rate' => $rate]);
 
             DB::commit();
             Alert::success(trans('customer.comment_success'));
@@ -234,10 +210,9 @@ class HomeController extends Controller
     {
         DB::beginTransaction();
         try {
-            $comment = Comment::findOrFail($request->id)->delete();
-            $rate = Comment::where('product_id', $request->product_id)->avg('rate');
-            $product = Product::findOrFail($request->product_id);
-            $product->update(['rate' => $rate]);
+            $this->commentRepo->delete($request->id);
+            $rate = $this->commentRepo->getProductCommentRate($request->product_id);
+            $this->productRepo->update($request->product_id, ['rate' => $rate]);
 
             DB::commit();
             Alert::success(trans('customer.delete_comment_success'));
@@ -261,24 +236,21 @@ class HomeController extends Controller
 
     public function saveUser(UserRequest $request)
     {
-        $user = User::where('id', $request->user_id)->first();
-        $user->name = $request->name;
-        $user->phone = $request->phone;
-        $user->address = $request->address;
+        $attributes = [
+            'name' => $request->name,
+            'phone' => $request->phone,
+            'address' => $request->address,
+        ];
 
         if ($request->hasFile('avatar_image')) {
             $image = $request->file('avatar_image');
             $imageName = time() . '_' . $image->getClientOriginalName();
             $image->storeAs('images', $imageName, 'public');
 
-            if ($user->avatar != NULL) {
-                Storage::disk('public')->delete('images/' . $user->avatar);
-            }
-
-            $user->avatar = $imageName;
+            $attributes['avatar'] = $imageName;
         }
 
-        $user->save();
+        $this->userRepo->update($request->user_id, $attributes);
         Alert::success(trans('customer.change_infomation_success'));
 
         return redirect()->back();
@@ -286,7 +258,7 @@ class HomeController extends Controller
 
     public function showComment($id, $productId)
     {
-        $activeComment = Comment::find($id);
+        $activeComment = $this->commentRepo->find($id);
 
         if ($activeComment) {
             return redirect()->route('home.show', $productId)->with('activeComment', $activeComment);
@@ -299,27 +271,27 @@ class HomeController extends Controller
 
     public function replyComment(Request $request)
     {
-        $comment = Comment::create($request->all());
-        $product = Product::findOrFail($request->product_id);
-        $comments = $product->comments()->where('parent_id', null)->get();
+        $this->commentRepo->create($request->all());
+        $product = $this->productRepo->find($request->product_id);
+        $comments = $this->commentRepo->getProductComments($product);
 
         return view('layouts.comment', compact('product', 'comments'));
     }
 
     public function editReplyComment(Request $request)
     {
-        $comment = Comment::findOrFail($request->id)->update($request->except('id'));
-        $product = Product::findOrFail($request->product_id);
-        $comments = $product->comments()->where('parent_id', null)->get();
+        $this->commentRepo->update($request->id, $request->except('id'));
+        $product = $this->productRepo->find($request->product_id);
+        $this->commentRepo->getProductComments($product);
 
         return view('layouts.comment', compact('product', 'comments'));
     }
 
     public function deleteReplyComment(Request $request)
     {
-        $comment = Comment::findOrFail($request->id)->delete();
-        $product = Product::findOrFail($request->product_id);
-        $comments = $product->comments()->where('parent_id', null)->get();
+        $this->commentRepo->delete($request->id);
+        $product = $this->productRepo->find($request->product_id);
+        $this->commentRepo->getProductComments($product);
 
         return view('layouts.comment', compact('product', 'comments'));
     }
