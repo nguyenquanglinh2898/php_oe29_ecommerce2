@@ -61,7 +61,7 @@
                                             </div>
                                         </div>
                                         <div class="info">
-                                            <div class="info-label">{{ trans('customer.phome') }}</div>
+                                            <div class="info-label">{{ trans('customer.phone') }}</div>
                                             <div class="info-content">
                                                 <input id="phone" type="tel" class="@error('phone') is-invalid @enderror" name="phone" placeholder="{{ trans('customer.phone') }}" value="{{ old('phone') ?: Auth::user()->phone }}" required autocomplete="phone">
                                                 @error('phone')

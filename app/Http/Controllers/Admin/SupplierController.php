@@ -2,78 +2,55 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\Http\Request;
+use App\Repositories\Supplier\SupplierRepositoryInterface;
 use App\Http\Controllers\Controller;
-use App\Models\User;
-use App\Models\Comment;
-use App\Models\Product;
-use App\Notifications\SupplierNotification;
 use RealRashid\SweetAlert\Facades\Alert;
-use Carbon\Carbon;
 use DB;
 
 class SupplierController extends Controller
 {
+    protected $supplierRepo;
+
+    public function __construct(SupplierRepositoryInterface $supplierRepo)
+    {
+        $this->supplierRepo = $supplierRepo;
+    }
+
     public function index()
     {
-        $suppliers = User::where('role_id', config('config.role_supplier'))
-            ->orderBy('created_at', 'DESC')
-            ->get();
+        $suppliers = $this->supplierRepo->getAll();
 
         return view('admin.supplier.index', compact('suppliers'));
     }
 
     public function supplierRegister()
     {
-        $suppliers = User::where('role_id', config('config.role_id'))
-            ->where('status', config('config.status_not_active'))
-            ->orderBy('created_at', 'DESC')
-            ->get();
+        $suppliers = $this->supplierRepo->getRegistedSupplier();
 
         return view('admin.supplier.index', compact('suppliers'));
     }
 
     public function supplierBlock()
     {
-        $suppliers = User::where('role_id', config('config.role_supplier'))
-            ->where('status', config('config.status_block'))
-            ->orderBy('created_at', 'DESC')->get();
+        $suppliers = $this->supplierRepo->getBlockedSupplier();
 
         return view('admin.supplier.index', compact('suppliers'));
     }
 
     public function show($id)
     {
-        $supplier = User::findOrFail($id);
-        $comments = $supplier->comments()
-            ->orderBy('created_at', 'DESC')
-            ->paginate(config('config.paginate'));
+        $supplier = $this->supplierRepo->find($id);
 
-        $postProducts = $supplier->products()
-            ->orderBy('created_at', 'DESC')
-            ->paginate(config('config.paginate'));
+        $postProducts = $this->supplierRepo->getProducts($supplier);
 
-        return view('admin.supplier.show', compact('supplier', 'comments', 'postProducts'));
+        return view('admin.supplier.show', compact('supplier', 'postProducts'));
     }
 
     public function changeStatusSupplier($id, $status)
     {
         DB::beginTransaction();
         try {
-            $supplier = User::findOrFail($id);
-            $supplier->update(['status' => $status]);
-            $data = [
-                'status' => statusSupplier($supplier->status),
-                'class' => classSupplier($supplier->status),
-                'icon' => iconSupplier($supplier->status),
-                'created_at' =>Carbon::now()->toDateTimeString(),
-            ];
-            if ($status == config('config.status_block')) {
-                $supplier->products()->update(['block' => config('config.default_one')]);
-            } else {
-                $supplier->products()->update(['block' => config('config.default')]);
-            }
-            $supplier->notify(new SupplierNotification($data));
+            $this->supplierRepo->updateStatus($id, $status);
 
             DB::commit();
             Alert::success(trans('supplier.change_status_success'));

@@ -8,7 +8,7 @@
 @endsection
 @section('breadcrumb')
     <ol class="breadcrumb">
-        <li><a href=""><i class="fa fa-dashboard"></i> {{ trans('admin.home') }}</a></li>
+        <li><a href="{{ route('admin.products.index') }}"><i class="fa fa-dashboard"></i> {{ trans('admin.home') }}</a></li>
         <li><a href=""><i class="fa fa-users"></i> {{ trans('admin.manage_account') }}</a></li>
         <li class="active">{{ $supplier->name }}</li>
     </ol>
@@ -29,17 +29,22 @@
                 @endif
                 <ul class="list-group list-group-unbordered">
                     <li class="list-group-item">
-                        <b>{{ trans('admin.email') }}</b> <a class="pull-right">{{ $supplier->email }}</a>
+                        <b>{{ trans('customer.email') }}</b>
+                        <p class="pull-right">{{ $supplier->email }}</p>
                     </li>
                     <li class="list-group-item">
-                        <b>{{ trans('admin.phone') }}</b> <a class="pull-right">{{ $supplier->phone }}</a>
+                        <b>{{ trans('admin.phone') }}</b>
+                        <p class="pull-right">{{ $supplier->phone }}</p>
                     </li>
                     <li class="list-group-item">
-                        <b>{{ trans('admin.created_at') }}</b> <a class="pull-right">{{ date_format($supplier->created_at, config('config.format')) }}</a>
+                        <b>{{ trans('admin.created_at') }}</b>
+                        <p class="pull-right">{{ date_format($supplier->created_at, config('config.format')) }}</p>
+                    </li>
+                    <li class="list-group-item">
+                        <b>{{ trans('admin.address') }}</b>
+                        <p class="pull-right">{{ $supplier->address }}</p>
                     </li>
                 </ul>
-                <strong><i class="fa fa-map-marker margin-r-5"></i>{{ trans('admin.address') }}</strong>
-                <p class="text-muted">{{ $supplier->address }}</p>
                 @if ($supplier->status == config('config.status_active'))
                     <a href="{{ route('supplier.change_status',['id' => $supplier->id, 'status' => config('config.status_block') ]) }}" class="btn btn-danger btn-block"><b>{{ trans('admin.block_account') }}</b></a>
                 @elseif ($supplier->status == config('config.status_block'))
@@ -54,13 +59,12 @@
         <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
                 <li class="active"><a href="#comment-timeline" data-toggle="tab">{{ trans('admin.post_product_history') }}</a></li>
-                <li><a href="#order-timeline" data-toggle="tab">{{ trans('admin.comment_history') }}</a></li>
             </ul>
             <div class="tab-content">
                 <div class="active tab-pane" id="comment-timeline">
                     @if ($postProducts->isNotEmpty())
                         <ul class="timeline timeline-inverse">
-                            @foreach ($postProducts as $postProduct)
+                            @foreach ($postProducts as $key => $postProduct)
                                 <li class="time-label">
                                     <span class="bg-yellow">
                                         <i class="fa fa-clock-o"></i> {{ $postProduct->created_at }}
@@ -69,23 +73,23 @@
                                 <li>
                                     <i class="fa fa-check bg-green" aria-hidden="true"></i>
                                     <div class="timeline-item">
-                                        <h3 class="timeline-header"><a>{{ $supplier->name }}</a> {{ trans('posted_a_product') }} </h3>
+                                        <h3 class="timeline-header"><a>{{ $supplier->name }}</a></h3>
                                         <div class="timeline-body">
                                             <div class="table-responsive">
                                                 <table class="table table-striped show-table" >
                                                     <thead>
                                                         <tr>
-                                                            <th class="text-center show-middle" >ID</th>
+                                                            <th class="text-center show-middle" ></th>
                                                             <th class="text-center show-middle" >{{ trans('admin.images') }}</th>
-                                                            <th class="text-center show-middle" >{{ trans('admin.name') }}<br>{{ trans('admin.product') }}</th>
+                                                            <th class="text-center show-middle" >{{ trans('admin.name') }} {{ trans('admin.product') }}</th>
                                                             <th class="text-center show-middle" >{{ trans('admin.brand') }}</th>
                                                             <th class="text-center show-middle" >{{ trans('admin.category') }}</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         <tr>
-                                                            <td class="text-center show-middle" >{{ $postProduct->id }}</td>
-                                                            <td class="text-center show-middle" ><a href="{{ route('admin.products.show', [$postProduct->id]) }}"><img class="profile-user-img img-responsive " src="{{ config('setting.image_folder') . $postProduct->thumbnail }}" ></a></td>
+                                                            <td class="text-center show-middle" >{{ $key + 1 }}</td>
+                                                            <td class="text-center show-middle" ><img class="profile-user-img img-responsive " src="{{ config('setting.image_folder') . $postProduct->thumbnail }}" ></td>
                                                             <td class="text-center show-middle" >{{ $postProduct->name }}</td>
                                                             <td class="text-center show-middle" >{{ $postProduct->brand }}</td>
                                                             <td class="text-center show-middle" >{{ $postProduct->category->name }}</td>
@@ -126,41 +130,6 @@
                     @else
                         <div class="show-div-3">
                             <div class="show-div-2" >{{ trans('admin.post_product_history_blank') }}</div>
-                        </div>
-                    @endif
-                </div>
-                <div class="tab-pane" id="order-timeline">
-                    @if ($comments->isNotEmpty())
-                        <ul class="timeline timeline-inverse">
-                            @foreach ($comments as $comment)
-                                <li class="time-label">
-                                    <span class="bg-red">
-                                        <i class="fa fa-clock-o"></i> {{ date_format($comment->created_at, config('config.day_format')) }}
-                                    </span>
-                                </li>
-                                <li>
-                                    <i class="fa fa-comments bg-blue" aria-hidden="true"></i>
-                                    <div class="timeline-item">
-                                        <h3 class="timeline-header"><a>{{ $supplier->name }}</a> {{ trans('admin.commented') }} {{ trans('admin.in_product') }} <a>{{ $comment->product->name }}</a></h3>
-                                        <div class="timeline-body">
-                                            <b>{{ trans('admin.content') }}:</b> {{ $comment->content }}
-                                        </div>
-                                        <div class="timeline-footer">
-                                            <span class="label label-warning">{{ trans('admin.view_detail') }}</span>
-                                        </div>
-                                    </div>
-                                </li>
-                            @endforeach
-                            <div class="paginate">
-                                {{ $comments->links() }}
-                            </div>
-                            <li>
-                                <i class="fa fa-clock-o bg-gray"></i>
-                            </li>
-                        </ul>
-                    @else
-                        <div class="show-div-1" >
-                            <div class="show-div-2" >{{ trans('admin.comment_history_blank') }}</div>
                         </div>
                     @endif
                 </div>

@@ -38,7 +38,7 @@
                             <div class="col-lg-9 col-md-8 col-sm-8 col-xs-8">
                                 <div class="user-info">
                                     <div class="info">
-                                        <div class="info-label">{{ trans('customer.mame') }}</div>
+                                        <div class="info-label">{{ trans('customer.name') }}</div>
                                         <div class="info-content">{{ Auth::user()->name }}</div>
                                     </div>
                                     <div class="info">
