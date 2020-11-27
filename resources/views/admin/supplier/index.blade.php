@@ -83,11 +83,6 @@
                                     <a href="{{ route('suppliers.show', $supplier->id) }}" class="btn btn-icon btn-sm btn-primary tip" >
                                         <i class="fa fa-eye"></i>
                                     </a>
-                                    @if ($supplier->status == config('config.status_active'))
-                                        <a href="javascript:void(0);" data-id="{{ $supplier->id }}" class="btn btn-icon btn-sm btn-danger deleteDialog tip"  data-url="">
-                                            <i class="fa fa-trash"></i>
-                                        </a>
-                                    @endif
                                 </td>
                             </tr>
                         @endforeach
