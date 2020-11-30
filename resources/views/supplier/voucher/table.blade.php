@@ -18,7 +18,7 @@
         @foreach ($vouchers as $key => $voucher)
             <tr>
                 <td class="text-center">
-                    {{ $key }}
+                    {{ $key + 1 }}
                 </td>
                 <td>
                     {{ $voucher->name }}
@@ -49,13 +49,28 @@
                 </td>
                 <td>
                     <a href="{{ route('voucher.edit', $voucher->id) }}" class="btn btn-icon btn-sm btn-info"><i class="fa fa-edit"></i></a>
-                    <a href="javascript:void(0);" data-id="{{ $voucher->id }}" class="btn btn-icon btn-sm btn-danger deleteDialog tip"  data-url="{{ route('vouchers.destroy')}}" data-noti="{{ trans('supplier.notification') }}" data-mess="{{ trans('supplier.mess') }}">
-                        <i class="fa fa-trash"></i>
-                    </a>
-                    <form class="remove_form" hidden="">
-                        @csrf
-                        <input type="text" name="id" hidden="" value="{{ $voucher->id }}">
-                    </form>
+                    <button type="button" class="btn btn-danger fa fa-trash" data-toggle="modal" data-target="#delete-{{ $voucher->id }}"></button>
+                    <div class="modal fade" id="delete-{{ $voucher->id }}" tabindex="-1" aria-labelledby="deleteModal" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    {{ trans('sentences.comfirm_delete') }}
+                                </div>
+                                <div class="modal-footer">
+                                    <form method="POST" action="{{ route('vouchers.destroy', [$voucher->id]) }}">
+                                        @csrf
+                                        <input type="submit" class="btn btn-danger" value="{{ trans('sentences.yes') }}">
+                                        <button type="button" class="btn btn-primary" data-dismiss="modal">{{ trans('sentences.no') }}</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </td>
             </tr>
         @endforeach
