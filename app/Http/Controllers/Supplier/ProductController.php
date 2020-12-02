@@ -4,10 +4,10 @@ namespace App\Http\Controllers\Supplier;
 
 use App\Http\Requests\EditProductFormRequest;
 use App\Http\Requests\ProductFormRequest;
-use App\Models\Category;
-use App\Models\Image;
-use App\Models\Product;
 use App\Http\Controllers\Controller;
+use App\Repositories\Category\CategoryRepositoryInterface;
+use App\Repositories\Image\ImageRepositoryInterface;
+use App\Repositories\Product\ProductRepositoryInterface;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Exception;
@@ -15,23 +15,37 @@ use RealRashid\SweetAlert\Facades\Alert;
 
 class ProductController extends Controller
 {
+    protected $productRepo;
+    protected $categoryRepo;
+    protected $imageRepo;
+
+    public function __construct(
+        ProductRepositoryInterface $productRepo,
+        CategoryRepositoryInterface $categoryRepo,
+        ImageRepositoryInterface $imageRepo
+    ) {
+        $this->productRepo = $productRepo;
+        $this->categoryRepo = $categoryRepo;
+        $this->imageRepo = $imageRepo;
+    }
+
     public function index()
     {
-        $products = Product::where('user_id', Auth::id())->with('category', 'productDetails')->get();
+        $products = $this->productRepo->getSupplierProducts(Auth::id());
 
         return view('supplier.product.index', compact('products'));
     }
 
     public function create()
     {
-        $rootCategories = Category::where('parent_id', null)->get();
+        $rootCategories = $this->categoryRepo->getRootCategories();
 
         return view('supplier.product.create', compact('rootCategories'));
     }
 
     public function getChildCategories($rootCategoryId)
     {
-        return Category::where('parent_id', $rootCategoryId)->get();
+        return $this->categoryRepo->getChildCategories($rootCategoryId);
     }
 
     public function store(ProductFormRequest $request)
@@ -58,7 +72,7 @@ class ProductController extends Controller
         $remaining = array_sum($data['remaining']);
         $priceRange = $this->priceRange($data['price']);
 
-        return Product::create([
+        $attributes = [
             'name' => $data['name'],
             'weight' => $data['weight'],
             'brand' => $data['brand'],
@@ -71,7 +85,9 @@ class ProductController extends Controller
             'status' => config('setting.pending_id'),
             'category_id' => $data['category_id'],
             'user_id' => Auth::user()->id,
-        ]);
+        ];
+
+        return $this->productRepo->create($attributes);
     }
 
     public function prepareProductDetailInfo($product, $data, $rowBegin = 0)
@@ -97,7 +113,7 @@ class ProductController extends Controller
             array_push($productDetails, $productDetail);
         }
 
-        $product->productDetails()->createMany($productDetails);
+        $this->productRepo->createManyProductDetail($product, $productDetails);
     }
 
     public function prepareImagesInfo($product, $data)
@@ -117,7 +133,7 @@ class ProductController extends Controller
             array_push($images, $imageItem);
         }
 
-        $product->images()->createMany($images);
+        $this->productRepo->createManyImage($product, $images);
     }
 
     public function thumbnailName($thumbnail)
@@ -137,21 +153,21 @@ class ProductController extends Controller
 
     public function show($id)
     {
-        $product = Product::findOrFail($id);
-        $product->load('user', 'category', 'images', 'productDetails');
+        $product = $this->productRepo->showProduct($id);
 
         return view('supplier.product.show', compact('product'));
     }
 
     public function destroy($id)
     {
-        $product = Product::findOrFail($id);
+        $product = $this->productRepo->find($id);
 
         DB::beginTransaction();
         try {
-            $product->productDetails()->delete();
-            $product->images()->delete();
-            $product->delete();
+            $this->productRepo->deleteProductDetails($product);
+            $this->productRepo->deleteProductImages($product);
+            $this->productRepo->deleteProductComments($product);
+            $this->productRepo->deleteProduct($product);
 
             DB::commit();
             Alert::success(trans('sentences.delete_successfully'));
@@ -172,14 +188,13 @@ class ProductController extends Controller
 
     public function edit($id)
     {
-        $product = Product::findOrFail($id);
-        $product->load('user', 'category', 'images', 'productDetails');
+        $product = $this->productRepo->showProduct($id);
 
         $attributeNames = $this->getAttributes($product->productDetails);
 
-        $parentCategoryId = Category::where('id', $product->category_id)->first()->parent_id;
-        $rootCategories = Category::where('parent_id', null)->get();
-        $childCategories = Category::where('parent_id', $parentCategoryId)->get();
+        $parentCategoryId = $this->categoryRepo->getParentCategory($product->category_id)->parent_id;
+        $rootCategories = $this->categoryRepo->getRootCategories();
+        $childCategories = $this->categoryRepo->getChildCategories($parentCategoryId);
 
         return view('supplier.product.edit', compact('product', 'attributeNames', 'parentCategoryId', 'rootCategories', 'childCategories'));
     }
@@ -197,7 +212,7 @@ class ProductController extends Controller
 
     public function prepareUpdateProduct($product, $data)
     {
-        $product->update([
+        $attributes = [
             'name' => $data['name'],
             'weight' => $data['weight'],
             'brand' => $data['brand'],
@@ -207,24 +222,9 @@ class ProductController extends Controller
             'remaining' => array_sum($data['remaining']),
             'price_range' => $this->priceRange($data['price']),
             'category_id' => $data['category_id'],
-        ]);
-    }
+        ];
 
-    public function updateOldProductDetails($ids, $remaining, $price)
-    {
-        $cases = [];
-        foreach ($ids as $id) {
-            $cases[] = "WHEN {$id} then ?";
-        }
-        $ids = implode(',', $ids);
-        $cases = implode(' ', $cases);
-        $params = array_merge($remaining, $price);
-
-        $updateQuery = "UPDATE product_details
-                        SET `remaining` = (CASE `id` {$cases} END), `price` = (CASE `id` {$cases} END)
-                        WHERE `id` in ({$ids})";
-
-        DB::update($updateQuery, $params);
+        $this->productRepo->updateProduct($product, $attributes);
     }
 
     public function prepareUpdateProductDetails($product, $data)
@@ -232,7 +232,7 @@ class ProductController extends Controller
         $existRemaining = array_slice($data['remaining'], 0, $data['currentNumberOfProductDetails']);
         $existPrice = array_slice($data['price'], 0, $data['currentNumberOfProductDetails']);
 
-        $this->updateOldProductDetails($data['product_details_ids'], $existRemaining, $existPrice);
+        $this->productRepo->updateOldProductDetails($data['product_details_ids'], $existRemaining, $existPrice);
         $this->prepareProductDetailInfo($product, $data, $data['currentNumberOfProductDetails']);
     }
 
@@ -241,7 +241,8 @@ class ProductController extends Controller
         if (!isset($data['old_image'])) {
             return null;
         }
-        Image::whereIn('id', $data['old_image'])->forceDelete();
+
+        return $this->imageRepo->bulkDeleteImages($data['old_image']);
     }
 
     public function prepareUpdateImages($product, $data)
@@ -254,7 +255,7 @@ class ProductController extends Controller
     {
         DB::beginTransaction();
         try {
-            $product = Product::findOrFail($id);
+            $product = $this->productRepo->find($id);
 
             $this->prepareUpdateProduct($product, $request->all());
             $this->prepareUpdateProductDetails($product, $request->all());

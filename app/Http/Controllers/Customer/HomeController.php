@@ -29,7 +29,8 @@ class HomeController extends Controller
     protected $productDetailRepo;
     protected $orderRepo;
 
-    public function __construct(ProductRepositoryInterface $productRepo,
+    public function __construct(
+        ProductRepositoryInterface $productRepo,
         CategoryRepositoryInterface $categoryRepo,
         VoucherRepositoryInterface $voucherRepo,
         SlideRepositoryInterface $slideRepo,
