@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Console\Commands\CommissionsCommand;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -13,7 +14,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //
+        CommissionsCommand::class,
     ];
 
     /**
@@ -24,7 +25,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
+        $schedule->command('email:commissions')
+            ->monthlyOn(config('setting.commissions_send_mail_day'), config('setting.commissions_send_mail_time'));
     }
 
     /**

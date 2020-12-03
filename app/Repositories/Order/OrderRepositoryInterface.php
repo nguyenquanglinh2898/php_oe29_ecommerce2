@@ -18,4 +18,6 @@ interface OrderRepositoryInterface extends RepositoryInterface
     public function increaseProductRemaining($order);
 
     public function updateOrder($order, $attributes = []);
+
+    public function getFinishedOrdersOfThisMonth($supplierId);
 }

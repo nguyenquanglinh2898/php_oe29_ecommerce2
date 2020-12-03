@@ -3,6 +3,7 @@ namespace App\Repositories\Order;
 
 use App\Models\Order;
 use App\Repositories\BaseRepository;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 
 class OrderRepository extends BaseRepository implements OrderRepositoryInterface
@@ -88,5 +89,22 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
     public function updateOrder($order, $attributes = [])
     {
         return $order->update($attributes);
+    }
+
+    public function getFinishedOrdersOfThisMonth($supplierId)
+    {
+        $lastMonth = Carbon::now()->subMonth()->month;
+        $thisMonth = Carbon::now()->month;
+        $year = Carbon::now()->year;
+        $startCommissionsDay = Carbon::parse($year . $lastMonth . config('setting.commissions_start_day'));
+        $endCommissionsDay = Carbon::parse($year . $thisMonth . config('setting.commissions_end_day'));
+
+        return Order::where([
+            ['status', config('config.order_status_finish')],
+            ['updated_at', '>=', $startCommissionsDay->toDateString()],
+            ['updated_at', '<=', $endCommissionsDay->toDateString()]
+        ])->whereHas('orderItems.productDeltail.product', function (Builder $query) use ($supplierId){
+            $query->where('user_id', $supplierId);
+        })->get();
     }
 }
