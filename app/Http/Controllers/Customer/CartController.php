@@ -9,6 +9,7 @@ use App\Models\PaymentMethod;
 use App\Models\Transporter;
 use App\Models\User;
 use App\Models\Voucher;
+use App\Notifications\CustomerOrderNotification;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\ProductDetail;
@@ -250,6 +251,7 @@ class CartController extends Controller
             $checkout = Session::get('checkout');
             $this->prepareOrders(count($checkout['suppliers']), $request->all());
             $this->prepareOrderItems($checkout['suppliers']);
+            $this->notifyToSuppliers($checkout['suppliers'], $request->address);
 
             DB::commit();
 
@@ -263,6 +265,20 @@ class CartController extends Controller
             Alert::error(trans('sentences.order_fail'));
 
             return redirect()->route('home.index');
+        }
+    }
+
+    public function notifyToSuppliers($suppliersBasicInfo, $address)
+    {
+        foreach ($suppliersBasicInfo as $supplierBasicInfo) {
+            $supplier = User::findOrFail($supplierBasicInfo['id']);
+            $notificationInfo = [
+                'message' => trans('sentences.you_have_a_new_order'),
+                'products' => $supplierBasicInfo['items'],
+                'address' => $address,
+            ];
+
+            $supplier->notify(new CustomerOrderNotification($notificationInfo));
         }
     }
 

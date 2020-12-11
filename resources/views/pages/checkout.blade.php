@@ -149,7 +149,7 @@
                                                         </a>
                                                     </td>
                                                     <td><a href="{{ route('home.show', $item['product']['id']) }}" class="product-link">{{ $item['product']['name'] }}</a></td>
-                                                    @if ($item['list_attributes'])
+                                                    @if (json_decode($item['list_attributes']))
                                                         <td>{{ str_replace(['{', '}', '"'], " ", $item['list_attributes']) }}</td>
                                                     @else
                                                         <td></td>

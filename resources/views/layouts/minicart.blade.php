@@ -39,9 +39,11 @@
                                     <p class="product-name">
                                         <a href="{{ route('home.show', $item['product']['id']) }}">{{ $item['product']['name']}}</a>
                                     </p>
-                                    <p class="product-name">
-                                        <a href="{{ route('home.show', $item['product']['id']) }}">{{ str_replace(['{', '}', '"'], " ", $item['list_attributes']) }}</a>
-                                    </p>
+                                    @if (json_decode($item['list_attributes']))
+                                        <p class="product-name">
+                                            <a href="{{ route('home.show', $item['product']['id']) }}">{{ str_replace(['{', '}', '"'], " ", $item['list_attributes']) }}</a>
+                                        </p>
+                                    @endif
                                 </div>
                                 <div class="product-details-bottom">
                                     <p class="price pricechange">{{ number_format($item['price'], config('config.default'), ',', '.') }} {{ config('config.vnd2') }}</p>

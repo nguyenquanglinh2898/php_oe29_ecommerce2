@@ -26,14 +26,12 @@
                 <li class="dropdown notifications-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <i class="fa fa-bell-o"></i>
-                        <span class="label label-warning num">{{ count($notifications) }}</span>
+                        <span class="label label-warning" id="unreadnoti-counting">{{ count(Auth::user()->unreadNotifications) }}</span>
                     </a>
-                    <ul class="dropdown-menu notification">
-                        <li class="header">{{ trans('supplier.you_have_notifications', ['notifications' => count($notifications)]) }}</li>
-                        <li>
-                            <ul class="menu">
-                            </ul>
-                        </li>
+                    <ul class="dropdown-menu" id="notifications">
+                        @foreach (Auth::user()->notifications as $notification)
+                            <li class="header">{{ $notification->data['message'] }}</li>
+                        @endforeach
                     </ul>
                 </li>
                 <li class="dropdown messages-menu">
