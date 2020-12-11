@@ -144,4 +144,5 @@ return [
     'cannot_refuse_order' => 'Không thể từ chối đơn hàng!',
     'cancel_order_successfully' => 'Hủy đơn hàng thành công',
     'cannot_cancel_order' => 'Không thể hủy đơn hàng này',
+    'you_have_a_new_order' => 'Bạn có một đơn hàng mới',
 ];

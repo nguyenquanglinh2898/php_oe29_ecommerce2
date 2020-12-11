@@ -144,4 +144,5 @@ return [
     'cannot_refuse_order' => 'Cannot refuse this order!',
     'cancel_order_successfully' => 'Successfully cancel this order',
     'cannot_cancel_order' => 'Cannot cancel this order',
+    'you_have_a_new_order' => 'You have a new order',
 ];
