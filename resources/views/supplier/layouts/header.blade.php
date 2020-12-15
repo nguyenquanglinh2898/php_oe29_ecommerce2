@@ -28,9 +28,33 @@
                         <i class="fa fa-bell-o"></i>
                         <span class="label label-warning" id="unreadnoti-counting">{{ count(Auth::user()->unreadNotifications) }}</span>
                     </a>
-                    <ul class="dropdown-menu" id="notifications">
+                    <ul class="dropdown-menu notification" id="notifications">
                         @foreach (Auth::user()->notifications as $notification)
-                            <li class="header">{{ $notification->data['message'] }}</li>
+                            @if ($notification->read_at)
+                                <a href="{{ route('supplier.notifications.show', [$notification->id]) }}"
+                                   class="header notification-items">
+                                    <span class="thumbnail">
+                                        <img src="{{ config('setting.image_folder') . $notification->data['products'][0]['product']['thumbnail'] }}" alt="">
+                                    </span>
+                                    <span class="info">
+                                        <h5 class="notification-message">{{ $notification->data['message'] }}</h5>
+                                        <h6 class="product-name">{{ $notification->data['products'][0]['product']['name'] }}</h6>
+                                        <p class="address">{{ trans('sentences.to') }}: <i>{{ $notification->data['address'] }}</i></p>
+                                    </span>
+                                </a>
+                            @else
+                                <a href="{{ route('supplier.notifications.show', [$notification->id]) }}"
+                                   class="header notification-items unread-notification">
+                                    <span class="thumbnail">
+                                        <img src="{{ config('setting.image_folder') . $notification->data['products'][0]['product']['thumbnail'] }}" alt="">
+                                    </span>
+                                        <span class="info">
+                                        <h5 class="notification-message">{{ $notification->data['message'] }}</h5>
+                                        <h6 class="product-name">{{ $notification->data['products'][0]['product']['name'] }}</h6>
+                                        <p class="address"><i>{{ $notification->data['address'] }}</i></p>
+                                    </span>
+                                </a>
+                            @endif
                         @endforeach
                     </ul>
                 </li>
