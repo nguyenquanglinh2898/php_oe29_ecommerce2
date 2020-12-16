@@ -28,6 +28,7 @@
     "bootstrap-theme-js": "https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.0.6/themes/explorer-fa/theme.js",
     "bootstrap-material-design": "https://unpkg.com/bootstrap-material-design@4.1.1/dist/js/bootstrap-material-design.js",
     "demo-bower": "https://github.com/Tran-Khac-Nam/font.git",
-    "bootstrap-material-design.min": "https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css"
+    "bootstrap-material-design.min": "https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css",
+    "chart.js": "^2.9.4"
   }
 }

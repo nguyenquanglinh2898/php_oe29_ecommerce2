@@ -49,6 +49,7 @@ Route::middleware(['auth', 'verified'])->group(function() {
             Route::get('products/get-child-categories/{rootCategory_id}', 'ProductController@getChildCategories')
                 ->name('products.get_child_categories');
             Route::get('notification/{notification}', 'NotificationController@show')->name('notifications.show');
+            Route::get('monthly-statistic', 'StatisticController@monthStatistic')->name('month.statistic');
         });
 
         Route::namespace('Supplier')->prefix('supplier')->group(function() {

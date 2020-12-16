@@ -145,4 +145,6 @@ return [
     'cancel_order_successfully' => 'Successfully cancel this order',
     'cannot_cancel_order' => 'Cannot cancel this order',
     'you_have_a_new_order' => 'You have a new order',
+    'monthly_revenue_statistics' => 'Monthly revenue statistics',
+    'months' => ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
 ];

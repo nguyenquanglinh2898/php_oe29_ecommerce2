@@ -23,6 +23,7 @@
             <li><a href="{{ route('supplier.products.index') }}"><i class="fa fa-product-hunt" aria-hidden="true"></i> <span>{{ trans('supplier.manage_product') }}</span></a></li>
             <li><a href="{{ route('voucher.index') }}"><i class="fa fa-newspaper-o" aria-hidden="true"></i> <span>{{ trans('supplier.manager_voucher') }}</span></a></li>
             <li><a href="{{ route('orders.index', config('config.order_status_pending')) }}"><i class="fa fa-list-alt" aria-hidden="true"></i> <span>{{ trans('supplier.manage_order') }}</span></a></li>
+            <li><a href="{{ route('supplier.month.statistic') }}"><i class="fa fa-bar-chart-o" aria-hidden="true"></i> <span>{{ trans('sentences.monthly_revenue_statistics') }}</span></a></li>
         </ul>
     </section>
 </aside>
