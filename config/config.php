@@ -83,4 +83,5 @@ return [
     'voucher_freeship_discount' => 2,
     'format_year' => 'Y-m-d',
     'delete_icon' => 'clear',
+    'full_currency_unit' => 'dong',
 ];

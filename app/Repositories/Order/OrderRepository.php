@@ -107,4 +107,15 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
             $query->where('user_id', $supplierId);
         })->get();
     }
+
+    public function getOrdersByMonth()
+    {
+        return $this->getAll()->groupBy(function($order) {
+            if (Carbon::parse($order->created_at)->format('Y') != Carbon::now()->year) {
+                return false;
+            }
+
+            return Carbon::parse($order->created_at)->format('m');
+        });
+    }
 }

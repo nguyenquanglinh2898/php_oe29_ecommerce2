@@ -20,4 +20,6 @@ interface OrderRepositoryInterface extends RepositoryInterface
     public function updateOrder($order, $attributes = []);
 
     public function getFinishedOrdersOfThisMonth($supplierId);
+
+    public function getOrdersByMonth();
 }
