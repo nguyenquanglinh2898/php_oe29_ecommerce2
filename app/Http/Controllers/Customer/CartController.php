@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Customer;
 
+use App\Events\CustomerOrderNotifyEvent;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PayRequest;
 use App\Models\Order;
@@ -276,9 +277,14 @@ class CartController extends Controller
                 'message' => trans('sentences.you_have_a_new_order'),
                 'products' => $supplierBasicInfo['items'],
                 'address' => $address,
+                'thumbnail' => config('setting.image_folder') . $supplierBasicInfo['items'][0]['product']['thumbnail'],
             ];
 
             $supplier->notify(new CustomerOrderNotification($notificationInfo));
+
+            $notificationInfo['route'] = route('supplier.notifications.show', [$supplier->unreadNotifications[0]->id]);
+
+            event(new CustomerOrderNotifyEvent($notificationInfo));
         }
     }
 

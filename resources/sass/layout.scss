@@ -20,3 +20,44 @@
 .user-panel {
     min-height: 55px;
 }
+
+.notification .notification-items {
+    padding: 7px;
+    cursor: pointer;
+    height: 80px;
+    display: flex;
+    border: 1px solid gray;
+    border-top: none;
+}
+
+.unread-notification {
+    background-color: #d3d6db !important;
+}
+
+.notification .notification-items .thumbnail {
+    height: 100%;
+}
+
+.notification .notification-items .info {
+    margin-left: 10px;
+}
+
+.notification .notification-items .thumbnail img {
+    height: 100%;
+}
+
+.notification .notification-items .info .notification-message {
+    margin: 0 0 14px 0;
+    font-size: 16px;
+}
+
+.notification .notification-items .info .product-name {
+    margin: 0;
+    font-size: 11px;
+    color: black;
+}
+
+.notification .notification-items .info .address {
+    margin: 0;
+    color: black;
+}

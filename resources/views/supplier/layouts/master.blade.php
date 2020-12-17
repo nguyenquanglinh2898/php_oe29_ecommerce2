@@ -45,6 +45,8 @@
         <script src="{{ asset('bower_components/common/js/sweetalert2.min.js') }}"></script>
         <script src="{{ asset('bower_components/AdminLTE/dist/js/adminlte.min.js') }}"></script>
         <script src="{{ asset('js/master-supplier.js') }}"></script>
+        <script src="{{ asset('js/app.js') }}"></script>
+        <script src="{{ asset('js/supplier/order/notification.js') }}"></script>
         @yield('embed-js')
         @yield('custom-js')
     </body>
