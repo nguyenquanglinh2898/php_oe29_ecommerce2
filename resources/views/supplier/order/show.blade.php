@@ -96,7 +96,11 @@
                                             <img src="{{asset(config('setting.image_folder') . $item->productDeltail->product->thumbnail) }}" class="show-td-img">
                                         </td>
                                         <td>{{ $item->productDeltail->product->name }}</td>
-                                        <td>{{ str_replace(['{', '}', '"'], " ", $item->productDeltail->list_attributes) }}</td>
+                                        @if (json_decode($item->productDeltail->list_attributes))
+                                            <td>{{ str_replace(['{', '}', '"'], " ", $item->productDeltail->list_attributes) }}</td>
+                                        @else
+                                            <td></td>
+                                        @endif
                                         <td class="show-th">{{ $item->quantity }}</td>
                                         <td class="text-right"><span class="show-color">{{ number_format($item->sale_price) }}</span></td>
                                         <td class="text-right"><span class="show-color">{{ number_format($item->sale_price * $item->quantity) }} {{ config('setting.currency_unit') }}</span></td>

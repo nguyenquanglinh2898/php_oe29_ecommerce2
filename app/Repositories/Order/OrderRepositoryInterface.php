@@ -22,4 +22,6 @@ interface OrderRepositoryInterface extends RepositoryInterface
     public function getFinishedOrdersOfThisMonth($supplierId);
 
     public function getOrdersByMonth();
+
+    public function getMaxIdOrder();
 }

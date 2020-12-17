@@ -42,4 +42,5 @@ return [
     'bank_account_owner' => 'NGUYEN QUANG LINH',
     'bank_account_number' => '123456789',
     'bank_branch' => 'Me Tri',
+    'notification_address_max_leng' => 20,
 ];
