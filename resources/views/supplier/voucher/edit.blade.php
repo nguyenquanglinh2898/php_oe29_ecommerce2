@@ -143,7 +143,7 @@
                 </div>
                 <div class="form-group">
                     <button type="button" class="btn btn-success btn-flat pull-right voucher-btn" data-url="{{ route('voucher.update') }}" data-url2="{{ route('voucher.index') }}"><i class="fa fa-floppy-o" aria-hidden="true"></i> {{ trans('supplier.save') }}</button>
-                    <a href="" class="btn btn-danger btn-flat pull-right" ><i class="fa fa-ban" aria-hidden="true"></i> {{ trans('supplier.cancel') }}</a>
+                    <a href="{{ route('voucher.index') }}" class="btn btn-danger btn-flat pull-right" ><i class="fa fa-ban" aria-hidden="true"></i> {{ trans('supplier.cancel') }}</a>
                 </div>
             </div>
         </div>

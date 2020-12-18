@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Jobs\VerifyEmailJob;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -60,5 +61,10 @@ class User extends Authenticatable implements MustVerifyEmail
         }
 
         return asset(config('setting.image_folder') . $value);
+    }
+
+    public function sendEmailVerificationNotification()
+    {
+        $this->notify(new VerifyEmailJob($this->email));
     }
 }
