@@ -48,8 +48,8 @@
                     @endif
                 </td>
                 <td>
-                    <a href="{{ route('voucher.edit', $voucher->id) }}" class="btn btn-icon btn-sm btn-info"><i class="fa fa-edit"></i></a>
-                    <button type="button" class="btn btn-danger fa fa-trash" data-toggle="modal" data-target="#delete-{{ $voucher->id }}"></button>
+                    <a href="{{ route('voucher.edit', $voucher->id) }}" class="btn btn-icon btn-sm btn-info action-edit"><i class="fa fa-edit"></i></a>
+                    <button type="button" class="btn btn-danger fa fa-trash action-delete" data-toggle="modal" data-target="#delete-{{ $voucher->id }}"></button>
                     <div class="modal fade" id="delete-{{ $voucher->id }}" tabindex="-1" aria-labelledby="deleteModal" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">

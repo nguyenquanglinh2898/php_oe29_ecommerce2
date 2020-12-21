@@ -21,6 +21,27 @@
     min-height: 55px;
 }
 
+.notification {
+    max-height: 350px;
+    overflow-y: scroll;
+}
+
+.notification::-webkit-scrollbar {
+    width: 10px;
+}
+
+.notification::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.notification::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+.notification::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
 .notification .notification-items {
     padding: 7px;
     cursor: pointer;

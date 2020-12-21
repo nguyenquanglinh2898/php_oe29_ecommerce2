@@ -56,3 +56,13 @@
 .freeship {
     display: none;
 }
+
+.action-edit,
+.action-delete {
+    display: inline-block;
+    padding: 5px 3px;
+}
+
+.action-delete {
+    padding: 3px;
+}
