@@ -11,6 +11,8 @@ use App\Models\Transporter;
 use App\Models\User;
 use App\Models\Voucher;
 use App\Notifications\CustomerOrderNotification;
+use App\Repositories\Order\OrderRepositoryInterface;
+use App\Repositories\User\UserRepositoryInterface;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\ProductDetail;
@@ -19,11 +21,21 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Str;
 use RealRashid\SweetAlert\Facades\Alert;
 use Exception;
 
 class CartController extends Controller
 {
+    protected $orderRepo;
+    protected $userRepo;
+
+    public function __construct(OrderRepositoryInterface $orderRepo, UserRepositoryInterface $userRepo)
+    {
+        $this->orderRepo = $orderRepo;
+        $this->userRepo = $userRepo;
+    }
+
     public function addItemToCart($item)
     {
         $cart = new Cart(Session::get('cart'));
@@ -271,18 +283,24 @@ class CartController extends Controller
 
     public function notifyToSuppliers($suppliersBasicInfo, $address)
     {
-        foreach ($suppliersBasicInfo as $supplierBasicInfo) {
-            $supplier = User::findOrFail($supplierBasicInfo['id']);
+        $lastInsertedOrderId = $this->orderRepo->getMaxIdOrder();
+        foreach (array_reverse($suppliersBasicInfo) as $supplierBasicInfo) {
+            $supplier = $this->userRepo->find($supplierBasicInfo['id']);
             $notificationInfo = [
                 'message' => trans('sentences.you_have_a_new_order'),
                 'products' => $supplierBasicInfo['items'],
-                'address' => $address,
+                'address' => Str::limit($address, config('setting.notification_address_max_leng')),
+                'orderId' => $lastInsertedOrderId,
+                'supplierId' => $supplierBasicInfo['id'],
                 'thumbnail' => config('setting.image_folder') . $supplierBasicInfo['items'][0]['product']['thumbnail'],
             ];
 
             $supplier->notify(new CustomerOrderNotification($notificationInfo));
 
-            $notificationInfo['route'] = route('supplier.notifications.show', [$supplier->unreadNotifications[0]->id]);
+            $notificationInfo['route'] = route('supplier.notifications.show', [
+                'notification' => $supplier->unreadNotifications[0]->id,
+                'order' => $lastInsertedOrderId--,
+            ]);
 
             event(new CustomerOrderNotifyEvent($notificationInfo));
         }

@@ -111,11 +111,12 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
     public function getOrdersByMonth()
     {
         return $this->getAll()->groupBy(function($order) {
-            if (Carbon::parse($order->created_at)->format('Y') != Carbon::now()->year) {
-                return false;
-            }
-
             return Carbon::parse($order->created_at)->format('m');
         });
+    }
+
+    public function getMaxIdOrder()
+    {
+        return $this->model->max('id');
     }
 }

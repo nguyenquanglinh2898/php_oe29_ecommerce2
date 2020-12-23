@@ -1,5 +1,7 @@
 $(document).ready(function() {
-    Echo.channel('customer-order')
+    let supplierId = $('#supplier-id').val();
+
+    Echo.private(`customer-order.${ supplierId }`)
         .listen('CustomerOrderNotifyEvent', (event) => {
             let unreadNotiNumber = parseInt($('#unreadnoti-counting').text());
 
