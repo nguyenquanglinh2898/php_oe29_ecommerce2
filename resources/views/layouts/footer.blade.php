@@ -39,22 +39,22 @@
                                 <li class="clearfix">
                                     <div class="col-md-3 col-sm-3 col-xs-3 padding-lr5" >
                                         <div class="payment visa">
-                                            <img src="{{ asset(config('config.visa')) }}">
+                                            <img src="{{ asset(config('setting.visa')) }}">
                                         </div>
                                     </div>
                                     <div class="col-md-3 col-sm-3 col-xs-3 padding-lr5" >
                                         <div class="payment">
-                                            <img src="{{ asset(config('config.mastercard')) }}">
+                                            <img src="{{ asset(config('setting.mastercard')) }}">
                                         </div>
                                     </div>
                                     <div class="col-md-3 col-sm-3 col-xs-3 padding-lr5" >
                                         <div class="payment">
-                                            <img src="{{ asset(config('config.jcb')) }}">
+                                            <img src="{{ asset(config('setting.jcb')) }}">
                                         </div>
                                     </div>
                                     <div class="col-md-3 col-sm-3 col-xs-3 padding-lr5" >
                                         <div class="payment">
-                                            <img src="{{ asset(config('config.cod')) }}">
+                                            <img src="{{ asset(config('setting.cod')) }}">
                                         </div>
                                     </div>
                                 </li>

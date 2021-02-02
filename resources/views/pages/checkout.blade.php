@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title> {{ trans('sentences.checkout') }} - {{ config('app.name') }} </title>
-    <link rel="icon" href="{{ asset('images/my_market_icon.png') }}" type="image/png">
+    <link rel="icon" href="{{ asset('images/my-market-icon.png') }}" type="image/png">
 
     <!-- Embed CSS -->
     <link rel="stylesheet" href="{{ asset('bower_components/common/css/normalize.min.css') }}">

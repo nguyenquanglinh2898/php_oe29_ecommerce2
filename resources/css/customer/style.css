@@ -467,6 +467,7 @@ body {
 .slide-advertise-inner {
     background-repeat: no-repeat;
     background-size: cover;
+    height: 310px;
 }
 #slide-favorite .owl-nav,
 #slide-advertise .owl-nav {
@@ -2213,4 +2214,8 @@ body {
 .product-thumbnail {
     height: 210px;
     background-size: contain !important;
+}
+
+.voucher-thumb {
+    height: 55px;
 }

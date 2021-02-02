@@ -8,7 +8,11 @@
                     <div class="content-advertise">
                         <div id="slide-advertise" class="owl-carousel">
                             @foreach ($slides as $slide)
-                                <img src=" {{ asset(config('config.images_folder') . $slide->image) }}"  height="310px" class="slide-advertise-inner"  data-dot="<button>{{ $slide->title }}</button>">
+                                @if (file_exists(asset(config('config.images_folder') . $slide->image)))
+                                    <img src=" {{ asset(config('config.images_folder') . $slide->image) }}" class="slide-advertise-inner" data-dot="<button>{{ $slide->title }}</button>">
+                                @else
+                                    <img src=" {{ asset(config('setting.default_product_thumbnail')) }}" class="slide-advertise-inner" data-dot="<button>{{ $slide->title }}</button>">
+                                @endif
                             @endforeach
                         </div>
                         <div class="custom-dots-slide-advertises"></div>
@@ -25,7 +29,11 @@
                                     <a href="" title="{{ $voucher->name }}">
                                         <div class="row">
                                             <div class="col-md-4 col-sm-3 col-xs-3 col-xs-responsive text-center">
-                                                <img src="{{ asset($voucher->user->avatar) }}" class="img-fluid" height="55px">
+                                                @if (file_exists(asset($voucher->user->avatar)))
+                                                    <img src="{{ asset($voucher->user->avatar) }}" class="img-fluid" height="55px">
+                                                @else
+                                                    <img src="{{ asset(config('setting.default_product_thumbnail')) }}" class="img-fluid" height="55px">
+                                                @endif
                                             </div>
                                             <div class="col-md-8 col-sm-9 col-xs-9 col-xs-responsive">
                                                 <div class="post-item-content">
@@ -58,7 +66,11 @@
                     @foreach ($favoriteProducts as $product)
                         <div class="item-product">
                             <a href="{{ route('home.show', $product->id) }}" title="{{ $product->name }}">
-                                <div class="image-product product-thumbnail" data-url="{{ asset(config('config.images_folder') . $product->thumbnail) }}"></div>
+                                @if (!file_exists(asset(config('config.images_folder') . $product->thumbnail)))
+                                    <div class="image-product product-thumbnail" data-url="{{ asset(config('setting.default_product_thumbnail')) }}"></div>
+                                @else
+                                    <div class="image-product product-thumbnail" data-url="{{ asset(config('config.images_folder') . $product->thumbnail) }}"></div>
+                                @endif
                                 <div class="content-product">
                                     <h3 class="title">{{ $product->name }}</h3>
                                     <div class="start-vote">
@@ -106,7 +118,11 @@
                                 <a href="{{ route('home.show', $product->id) }}" title="{{ $product->name }}">
                                     <div class="row">
                                         <div class="col-md-12 col-sm-12 col-xs-12">
-                                            <div class="image-product product-thumbnail" data-url="{{ asset(config('config.images_folder') . $product->thumbnail) }}"></div>
+                                            @if (file_exists(asset(config('config.images_folder') . $product->thumbnail)))
+                                                <div class="image-product product-thumbnail" data-url="{{ asset(config('config.images_folder') . $product->thumbnail) }}"></div>
+                                            @else
+                                                <div class="image-product product-thumbnail" data-url="{{ asset(config('setting.default_product_thumbnail')) }}"></div>
+                                            @endif
                                             <div class="content-product">
                                                 <h3 class="title">{{ $product->name }}</h3>
                                                 <div class="start-vote">
