@@ -12,24 +12,6 @@ class CategoryRepository extends BaseRepository implements CategoryRepositoryInt
         return Category::class;
     }
 
-    public function getProductFilteredByCategory()
-    {
-        return $this->model->join('products', 'categories.id', '=', 'products.category_id')
-            ->select('categories.*', DB::raw('COUNT(products.category_id) as sumcat'))
-            ->groupBy('category_id')
-            ->orderBy('sumcat', 'DESC')
-            ->take(config('config.take'))
-            ->get();
-    }
-
-    public function searchCategory($keyword)
-    {
-        return $this->model->with('products')
-            ->where('name', 'LIKE', "%$keyword%")
-            ->take(config('config.take'))
-            ->get();
-    }
-
     public function getRootCategories()
     {
         return $this->model->where('parent_id', null)->get();
@@ -40,8 +22,8 @@ class CategoryRepository extends BaseRepository implements CategoryRepositoryInt
         return $this->model->where('parent_id', $parentId)->get();
     }
 
-    public function getParentCategory($id)
+    public function getParentCategoryId($childCategoryId)
     {
-        return $this->model->where('id', $id)->first();
+        return $this->model->where('id', $childCategoryId)->first()->parent_id;
     }
 }

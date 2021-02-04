@@ -72,53 +72,6 @@
                 @endif
             </div>
         </section>
-        @foreach ($categories as $category)
-            @if ($category->products->isNotEmpty())
-                <section class="section-products">
-                    <div class="section-header">
-                        <h2 class="section-title">{{ trans('customer.by_category_name') }} <strong class="search-strong"> {{ $category->name }}</strong> <span>( {{ $category->products->count() }} {{ trans('customer.product') }} )</span></h2>
-                    </div>
-                    <div class="section-content">
-                        <div class="row">
-                            @foreach ($category->products as $product)
-                                <div class="col-md-2 col-md-20">
-                                    <div class="item-product">
-                                        <a href="{{ route('home.show', $product->id) }}" title="{{ $product->name }}">
-                                            <div class="row">
-                                                <div class="col-md-12 col-sm-12 col-xs-12">
-                                                    <div class="image-product product-thumbnail" data-url="{{ asset(config('config.images_folder') . $product->thumbnail) }}"></div>
-                                                    <div class="content-product">
-                                                        <h3 class="title">{{ $product->name }}</h3>
-                                                        <div class="start-vote">
-                                                            @for ($i = 1; $i <= config('config.star_vote'); $i++)
-                                                                @if ($product->rate > $i )
-                                                                    <i class="fas fa-star"></i>
-                                                                @elseif ($product->rate = $i + 1 && $product->rate - (int) $product->rate > 0)
-                                                                    <i class="fas fa-star-half-alt"></i>
-                                                                @else
-                                                                    <i class="far fa-star"></i>
-                                                                @endif
-                                                            @endfor
-                                                        </div>
-                                                        <div class="price">
-                                                            <strong>{{ $product->price_range }} {{ config('config.vnd2') }}</strong>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-12 col-sm-12 col-xs-12 animate">
-                                                    <div class="product-details">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
-                    </div>
-                </section>
-            @endif
-        @endforeach
     </div>
 @endsection
 @section('css')

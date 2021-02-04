@@ -90,13 +90,6 @@
                 <div class="section-header-left">
                     <h2 class="section-title">{{ trans('customer.product_news') }}</h2>
                 </div>
-                <div class="section-header-right">
-                    <ul>
-                        @foreach ($categories as $category)
-                            <li><a href="{{ route('home.category', $category->id) }}" title="{{ $category->name }}">{{ $category->name }}</a></li>
-                        @endforeach
-                    </ul>
-                </div>
             </div>
             <div class="section-content">
                 <div class="row">

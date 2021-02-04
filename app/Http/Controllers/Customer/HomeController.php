@@ -52,12 +52,11 @@ class HomeController extends Controller
     public function index()
     {
         $favoriteProducts = $this->productRepo->getFavoriteProducts();
-        $categories = $this->categoryRepo->getProductFilteredByCategory();
         $newProducts = $this->productRepo->getNewProducts();
         $newVouchers = $this->voucherRepo->getNewVouchers();
         $slides = $this->slideRepo->getAll();
 
-        return view('pages.home', compact('favoriteProducts', 'newProducts', 'newVouchers', 'categories' , 'slides'));
+        return view('pages.home', compact('favoriteProducts', 'newProducts', 'newVouchers', 'slides'));
     }
 
     public function show($id)
@@ -132,9 +131,8 @@ class HomeController extends Controller
     {
         if ($request->name) {
             $products = $this->productRepo->searchProduct($request->name);
-            $categories = $this->categoryRepo->searchCategory($request->name);
 
-            return view('pages.search', compact('products', 'categories'));
+            return view('pages.search', compact('products'));
         }
 
         return redirect()->route('home.index');

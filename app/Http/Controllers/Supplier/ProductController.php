@@ -192,7 +192,7 @@ class ProductController extends Controller
 
         $attributeNames = $this->getAttributes($product->productDetails);
 
-        $parentCategoryId = $this->categoryRepo->getParentCategory($product->category_id)->parent_id;
+        $parentCategoryId = $this->categoryRepo->getParentCategoryId($product->category_id);
         $rootCategories = $this->categoryRepo->getRootCategories();
         $childCategories = $this->categoryRepo->getChildCategories($parentCategoryId);
 
