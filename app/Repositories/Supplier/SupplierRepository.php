@@ -20,7 +20,7 @@ class SupplierRepository extends BaseRepository implements SupplierRepositoryInt
 
     public function getRegistedSupplier()
     {
-        return $this->model->where('role_id', config('config.role_id'))
+        return $this->model->where('role_id', config('setting.supplier_id'))
             ->where('status', config('config.status_not_active'))
             ->orderBy('created_at', 'DESC')
             ->get();

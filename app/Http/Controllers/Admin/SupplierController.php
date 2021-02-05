@@ -6,6 +6,7 @@ use App\Repositories\Supplier\SupplierRepositoryInterface;
 use App\Http\Controllers\Controller;
 use RealRashid\SweetAlert\Facades\Alert;
 use DB;
+use Exception;
 
 class SupplierController extends Controller
 {
@@ -54,11 +55,13 @@ class SupplierController extends Controller
 
             DB::commit();
             Alert::success(trans('supplier.change_status_success'));
+
+            return redirect()->back()->with('result', 'success');
         } catch (Exception $exception) {
             DB::rollBack();
             Alert::error(trans('supplier.change_status_false'));
         }
 
-        return redirect()->back();
+        return redirect()->back()->with('result', 'fail');
     }
 }
